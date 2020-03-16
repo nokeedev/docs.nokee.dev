@@ -1,0 +1,73 @@
+plugins {
+	id 'org.jbake.site' version '5.0.0'
+}
+
+import groovy.io.FileType
+
+configurations {
+	bakeElements {
+		canBeConsumed = true
+		canBeResolved = false
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake'))
+		}
+	}
+	assets {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'))
+		}
+	}
+
+	templates {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'))
+		}
+	}
+
+	jbakeProperties {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-properties'))
+		}
+	}
+}
+
+dependencies {
+	assets 'dev.nokee:docs:latest.integration'
+	templates 'dev.nokee:docs:latest.integration'
+	jbakeProperties 'dev.nokee:docs:latest.integration'
+}
+
+//def zips = []
+//file('src/docsZip/').eachFile(FileType.DIRECTORIES) {
+//	zips << tasks.register("zip${it.name}", Zip) {
+//		from(file)
+//		archiveFileName = it.name
+//	}
+//}
+
+def stageTask = tasks.register('stage', Sync) {
+	//dependsOn(zips)
+	into(layout.buildDirectory.dir('staging'))
+
+	//zips.each {
+	//	from(it) { into('assets/zips') }
+	//}
+	from('src/docsZip') { into('assets/zips') }
+	from('src/docs') { into("content/docs/${project.name}") }
+	from(configurations.templates) { into('templates') }
+	from(configurations.jbakeProperties)
+}
+
+jbake {
+	srcDirName = 'build/staging'
+}
+def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
+
+configurations.bakeElements.outgoing.artifact(file(jbake.destDirName)) { builtBy(bakeTask) }
+

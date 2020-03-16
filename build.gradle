@@ -1,0 +1,5 @@
+allprojects {
+	group = 'dev.nokee.docs'
+	version = 'dummy' // don't care about the version, we use included build
+}
+
