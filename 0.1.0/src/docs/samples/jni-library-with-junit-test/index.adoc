@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: jni-library-with-junit-test
 :jbake-archivebasename: JniLibraryWithJunitTest
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/jni-library-with-junit-test
+:includedir: .
 = JNI Library Testing with JUnit4
 :jbake-summary: Test a JNI library with JUnit 4.
 :jbake-type: sample_chapter

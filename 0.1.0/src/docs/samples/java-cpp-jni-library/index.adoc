@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: java-cpp-jni-library
 :jbake-archivebasename: JavaCppJniLibrary
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/java-cpp-jni-library
+:includedir: .
 = Java/{cpp} JNI Library
 :jbake-summary: JNI library implemented in Java and {cpp}.
 :jbake-type: sample_chapter

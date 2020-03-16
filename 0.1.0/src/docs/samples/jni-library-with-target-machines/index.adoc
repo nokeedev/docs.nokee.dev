@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: jni-library-with-target-machines
 :jbake-archivebasename: JniLibraryWithTargetMachines
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/jni-library-with-target-machines
+:includedir: .
 = JNI Library Target Machines Configuration
 :jbake-summary: Configure the target machines for a JNI library.
 :jbake-type: sample_chapter

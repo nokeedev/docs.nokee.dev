@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: jvm-application-with-jni-library
 :jbake-archivebasename: JvmApplicationWithJniLibrary
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/jvm-application-with-jni-library
+:includedir: .
 = Application with JNI Library
 :jbake-summary: Use a JNI Library in an application.
 :jbake-type: sample_chapter

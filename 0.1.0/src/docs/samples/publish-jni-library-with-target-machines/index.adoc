@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: publish-jni-library-with-target-machines
 :jbake-archivebasename: PublishJniLibraryWithTargetMachines
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/publish-jni-library-with-target-machines
+:includedir: .
 = Publish JNI Library with Target Machines
 :jbake-summary: Publish a JNI library with target machines to a binary repository.
 :jbake-type: sample_chapter

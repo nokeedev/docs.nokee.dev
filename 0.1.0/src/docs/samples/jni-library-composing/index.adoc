@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: jni-library-composing
 :jbake-archivebasename: JniLibraryComposing
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/jni-library-composing
+:includedir: .
 = Compose a JNI Library
 :jbake-summary: Compose JNI library from other projects.
 :jbake-type: sample_chapter

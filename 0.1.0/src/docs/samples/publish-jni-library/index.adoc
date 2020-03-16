@@ -16,7 +16,7 @@
 :gradle-guides: https://guides.gradle.org/
 :jbake-permalink: publish-jni-library
 :jbake-archivebasename: PublishJniLibrary
-:includedir: /Users/daniel/gradle/gradle-native/subprojects/docs/src/docs/samples/publish-jni-library
+:includedir: .
 = Publishing JNI Library
 :jbake-summary: Publish a JNI library to a binary repository.
 :jbake-type: sample_chapter
