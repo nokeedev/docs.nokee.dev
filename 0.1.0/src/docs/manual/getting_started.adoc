@@ -36,9 +36,8 @@ First, copy the following `pluginManagement` block to your settings script:
 pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven {
-         url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
-      }
+      maven { url = uri('https://dl.bintray.com/nokeedev/distributions') }
+      maven { url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')  }
    }
    def nokeeVersion = '{jbake-version}'
    resolutionStrategy {
@@ -59,9 +58,8 @@ pluginManagement {
 pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven {
-         url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
-      }
+      maven { url = uri("https://dl.bintray.com/nokeedev/distributions") }
+      maven { url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")  }
    }
    val nokeeVersion = "{jbake-version}"
    resolutionStrategy {
