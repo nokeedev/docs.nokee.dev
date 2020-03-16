@@ -69,5 +69,5 @@ jbake {
 }
 def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
 
-configurations.bakeElements.outgoing.artifact(file(jbake.destDirName)) { builtBy(bakeTask) }
+configurations.bakeElements.outgoing.artifact(layout.buildDirectory.dir(jbake.destDirName)) { builtBy(bakeTask) }
 
