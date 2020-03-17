@@ -23,4 +23,3 @@ includeExternalBuild('gradle-native', 'https://github.com/nokeedev/gradle-native
 includeExternalBuild('gradle-native', 'https://github.com/nokeedev/gradle-native.git')
 
 include '0.1.0'
-

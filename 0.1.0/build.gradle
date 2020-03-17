@@ -1,18 +1,19 @@
 plugins {
 	id 'org.jbake.site' version '5.0.0'
+	id 'maven-publish'
 }
 
-version = project.name
-
 import groovy.io.FileType
+import javax.inject.Inject
 
 configurations {
 	// outgoing
-	bakeElements {
+	bakedElements {
 		canBeConsumed = true
 		canBeResolved = false
 		attributes {
 			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake'))
+			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
 		}
 	}
 
@@ -47,6 +48,7 @@ dependencies {
 	jbakeProperties 'dev.nokee:docs:latest.integration'
 }
 
+// Recreate zip files
 enum Dsl {
 	GROOVY_DSL('groovy-dsl'), KOTLIN_DSL('kotlin-dsl')
 
@@ -59,7 +61,6 @@ enum Dsl {
 		return name
 	}
 }
-
 def zips = []
 file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 	Dsl.values().each { dsl ->
@@ -75,6 +76,7 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 	}
 }
 
+// Stage all files for baking
 def stageTask = tasks.register('stage', Sync) {
 	dependsOn(zips)
 	into(layout.buildDirectory.dir('staging'))
@@ -92,5 +94,46 @@ jbake {
 }
 def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
 
-configurations.bakeElements.outgoing.artifact(layout.buildDirectory.dir(jbake.destDirName)) { builtBy(bakeTask) }
+// Export outgoing artifact as directory
+configurations.bakedElements.outgoing.variants.create('directory').artifact(layout.buildDirectory.dir(jbake.destDirName)) {
+	it.type = ArtifactTypeDefinition.DIRECTORY_TYPE
+	builtBy(bakeTask)
+}
 
+// Export outgoing artifact as zip
+def zipTask = tasks.register('zipBakes', Zip) {
+	dependsOn(bakeTask)
+	from(layout.buildDirectory.dir(jbake.destDirName))
+}
+configurations.bakedElements.outgoing.artifact(zipTask)
+
+// Create adhoc component for baked elements
+abstract class CreateAdhocBakedComponent implements Plugin<Project> {
+	@Override
+	void apply(Project project) {
+		def jbake = getSoftwareComponentFactory().adhoc("jbake")
+		jbake.addVariantsFromConfiguration(project.configurations.bakedElements) {
+			def variant = it.configurationVariant;
+			for (PublishArtifact artifact : variant.getArtifacts()) {
+				if (artifact.type.equals(ArtifactTypeDefinition.DIRECTORY_TYPE)) {
+					it.skip()
+					break
+				}
+			}
+		}
+		project.components.add(jbake)
+	}
+
+	@Inject
+	abstract SoftwareComponentFactory getSoftwareComponentFactory()
+}
+apply plugin: CreateAdhocBakedComponent
+
+// Configure variant aware publications
+publishing {
+	publications {
+		baked(MavenPublication) {
+			from components.jbake
+		}
+	}
+}

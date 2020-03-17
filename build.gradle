@@ -3,3 +3,15 @@ allprojects {
 	version = 'dummy' // don't care about the version, we use included build
 }
 
+// Ensure the `bake` tasks aren't ran in parallel, there is a bug in the JBake site plugin that cause random crashes
+// TODO: Open issue with JBake site plugin to solve this issue, most likely they should use the worker API
+GroovyCollections.transpose(subprojects.drop(1).asList(), subprojects as List).each {
+	def downstream = it[0]
+	def upstream = it[1]
+	upstream.afterEvaluate { proj ->
+		proj.evaluationDependsOn(downstream.path)
+		proj.tasks.named('bake') {
+			it.dependsOn(downstream.tasks.named('bake'))
+		}
+	}
+}
