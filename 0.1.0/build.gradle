@@ -165,6 +165,7 @@ configurations.bakedElements.outgoing.variants.create('directory').artifact(layo
 def zipTask = tasks.register('zipBakes', Zip) {
 	dependsOn(bakeTask)
 	from(layout.buildDirectory.dir(jbake.destDirName))
+	archiveClassifier = 'baked'
 }
 configurations.bakedElements.outgoing.artifact(zipTask)
 
