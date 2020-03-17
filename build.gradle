@@ -1,6 +1,9 @@
+import java.text.SimpleDateFormat
+
+def v = new SimpleDateFormat("yyyyMMddHHmm").format(new Date())
 allprojects {
 	group = 'dev.nokee.docs'
-	version = 'dummy' // don't care about the version, we use included build
+	version = v
 }
 
 // Ensure the `bake` tasks aren't ran in parallel, there is a bug in the JBake site plugin that cause random crashes
