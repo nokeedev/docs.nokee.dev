@@ -13,6 +13,14 @@ import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.ZIP_TYPE
 
 def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
 
+import java.util.concurrent.TimeUnit
+
+configurations.all {
+	resolutionStrategy { ResolutionStrategy r ->
+		r.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
+	}
+}
+
 configurations {
 	// outgoing
 	bakedElements {
@@ -67,13 +75,18 @@ dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
 }
 
 dependencies {
-	templates 'dev.nokee:docs:latest.integration'
-	jbakeProperties 'dev.nokee:docs:latest.integration'
+	templates 'dev.nokee.docs:jbake:latest.integration'
+	jbakeProperties 'dev.nokee.docs:jbake:latest.integration'
 }
 
 repositories {
 	maven {
-		url = 'https://dl.bintray.com/nokeedev/documentations'
+		name = 'S3'
+		credentials(AwsCredentials) {
+			it.accessKey = resolveProperty(project, "AWS_ACCESS_KEY", "dev.nokee.aws.user")
+			it.secretKey = resolveProperty(project, "AWS_SECRET_KEY", "dev.nokee.aws.key")
+		}
+		url = 's3://docs.nokee.dev/'
 	}
 }
 
@@ -98,7 +111,7 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 			zips << tasks.register("zip${sampleDir.name}${dsl.name}", Zip) {
 				from(archiveDir) { exclude '.jbakeignore' }
 				archiveBaseName = sampleDir.name.split('-').collect { it.capitalize() }.join('')
-				archiveVersion = project.version
+				archiveVersion = project.name
 				archiveClassifier = dsl.name
 			}
 		}
@@ -181,18 +194,18 @@ apply plugin: CreateAdhocBakedComponent
 // Configure variant aware publications
 publishing {
 	publications {
-		jbake(MavenPublication) {
+		baked(MavenPublication) {
 			from components.baked
 		}
 	}
 	repositories {
 		maven {
-			name = 'Bintray'
-			credentials {
-				it.username = resolveProperty(project, "BINTRAY_USER", "dev.nokee.bintray.user")
-				it.password = resolveProperty(project, "BINTRAY_KEY", "dev.nokee.bintray.key")
+			name = 'S3'
+			credentials(AwsCredentials) {
+				it.accessKey = resolveProperty(project, "AWS_ACCESS_KEY", "dev.nokee.aws.user")
+				it.secretKey = resolveProperty(project, "AWS_SECRET_KEY", "dev.nokee.aws.key")
 			}
-			url = 'https://api.bintray.com/maven/nokeedev/documentations/artifacts/;publish=1'
+			url = 's3://docs.nokee.dev/'
 		}
 	}
 }
