@@ -4,7 +4,14 @@ plugins {
 }
 
 import groovy.io.FileType
+import org.gradle.api.internal.artifacts.transform.UnzipTransform
+
 import javax.inject.Inject
+
+import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.DIRECTORY_TYPE
+import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.ZIP_TYPE
+
+def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
 
 configurations {
 	// outgoing
@@ -23,6 +30,7 @@ configurations {
 		canBeResolved = true
 		attributes {
 			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'))
+			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
 		}
 	}
 
@@ -31,6 +39,7 @@ configurations {
 		canBeResolved = true
 		attributes {
 			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'))
+			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
 		}
 	}
 
@@ -43,9 +52,29 @@ configurations {
 	}
 }
 
+dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
+	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
+	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
+	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
+	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
+}
+
+dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
+	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
+	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
+	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
+	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
+}
+
 dependencies {
 	templates 'dev.nokee:docs:latest.integration'
 	jbakeProperties 'dev.nokee:docs:latest.integration'
+}
+
+repositories {
+	maven {
+		url = 'https://dl.bintray.com/nokeedev/documentations'
+	}
 }
 
 // Recreate zip files
@@ -76,6 +105,25 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 	}
 }
 
+// Construct jbake.properties
+def generateJBakeConfiguration = tasks.register('generateJBakeConfiguration') {
+	def outputFile = layout.buildDirectory.file('generated/jbake.properties')
+	inputs.files(configurations.jbakeProperties)
+	outputs.file(outputFile)
+	doLast {
+		def result = new Properties()
+		configurations.jbakeProperties.singleFile.withInputStream {
+			def p = new Properties()
+			p.load(it)
+			result.putAll(p)
+		}
+		outputFile.get().asFile.parentFile.mkdirs()
+		outputFile.get().asFile.withOutputStream {
+			result.store(it, "")
+		}
+	}
+}
+
 // Stage all files for baking
 def stageTask = tasks.register('stage', Sync) {
 	dependsOn(zips)
@@ -86,7 +134,7 @@ def stageTask = tasks.register('stage', Sync) {
 	}
 	from('src/docs') { into("content/docs/${project.name}") }
 	from(configurations.templates) { into('templates') }
-	from(configurations.jbakeProperties)
+	from(generateJBakeConfiguration)
 }
 
 jbake {
