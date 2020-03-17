@@ -1,13 +1,12 @@
 plugins {
 	id 'java'
-	id 'dev.nokee.jni-library'
-	id 'dev.nokee.cpp-language'
+	id 'application'
 }
 
-library {
-	targetMachines = [
-		machines.windows.x86_64,
-		machines.macOS.x86_64,
-		machines.linux.x86_64
-	]
+application {
+	mainClassName = 'com.example.app.Main'
+}
+
+dependencies {
+	implementation project(':jni-library')
 }

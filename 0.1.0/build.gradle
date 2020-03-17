@@ -2,9 +2,12 @@ plugins {
 	id 'org.jbake.site' version '5.0.0'
 }
 
+version = project.name
+
 import groovy.io.FileType
 
 configurations {
+	// outgoing
 	bakeElements {
 		canBeConsumed = true
 		canBeResolved = false
@@ -12,6 +15,8 @@ configurations {
 			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake'))
 		}
 	}
+
+	// incoming
 	assets {
 		canBeConsumed = false
 		canBeResolved = true
@@ -38,27 +43,45 @@ configurations {
 }
 
 dependencies {
-	assets 'dev.nokee:docs:latest.integration'
 	templates 'dev.nokee:docs:latest.integration'
 	jbakeProperties 'dev.nokee:docs:latest.integration'
 }
 
-//def zips = []
-//file('src/docsZip/').eachFile(FileType.DIRECTORIES) {
-//	zips << tasks.register("zip${it.name}", Zip) {
-//		from(file)
-//		archiveFileName = it.name
-//	}
-//}
+enum Dsl {
+	GROOVY_DSL('groovy-dsl'), KOTLIN_DSL('kotlin-dsl')
+
+	private final String name
+	Dsl(String name) {
+		this.name = name
+	}
+
+	String getName() {
+		return name
+	}
+}
+
+def zips = []
+file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
+	Dsl.values().each { dsl ->
+		File archiveDir = new File(sampleDir, dsl.name)
+		if (archiveDir.exists()) {
+			zips << tasks.register("zip${sampleDir.name}${dsl.name}", Zip) {
+				from(archiveDir) { exclude '.jbakeignore' }
+				archiveBaseName = sampleDir.name.split('-').collect { it.capitalize() }.join('')
+				archiveVersion = project.version
+				archiveClassifier = dsl.name
+			}
+		}
+	}
+}
 
 def stageTask = tasks.register('stage', Sync) {
-	//dependsOn(zips)
+	dependsOn(zips)
 	into(layout.buildDirectory.dir('staging'))
 
-	//zips.each {
-	//	from(it) { into('assets/zips') }
-	//}
-	from('src/docsZip') { into('assets/zips') }
+	zips.each {
+		from(it) { into('assets/zips') }
+	}
 	from('src/docs') { into("content/docs/${project.name}") }
 	from(configurations.templates) { into('templates') }
 	from(configurations.jbakeProperties)
