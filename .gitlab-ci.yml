@@ -1,0 +1,8 @@
+image: nokeedev/generic-builder
+
+publish:
+  stage: build
+  script: gradle publish
+  only:
+    refs:
+      - master

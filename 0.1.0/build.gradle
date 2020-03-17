@@ -156,6 +156,7 @@ def zipTask = tasks.register('zipBakes', Zip) {
 configurations.bakedElements.outgoing.artifact(zipTask)
 
 // Create adhoc component for baked elements
+// TODO: skip all non baked artifacts
 abstract class CreateAdhocBakedComponent implements Plugin<Project> {
 	@Override
 	void apply(Project project) {
@@ -180,8 +181,33 @@ apply plugin: CreateAdhocBakedComponent
 // Configure variant aware publications
 publishing {
 	publications {
-		baked(MavenPublication) {
+		jbake(MavenPublication) {
 			from components.jbake
 		}
 	}
+	repositories {
+		maven {
+			name = 'Bintray'
+			credentials {
+				it.username = resolveProperty(project, "BINTRAY_USER", "dev.nokee.bintray.user")
+				it.password = resolveProperty(project, "BINTRAY_KEY", "dev.nokee.bintray.key")
+			}
+			url = 'https://api.bintray.com/maven/nokeedev/documentations/artifacts/;publish=1'
+		}
+	}
+}
+
+private String resolveProperty(Project project, String envVarKey, String projectPropKey) {
+	Object propValue = System.getenv().get(envVarKey);
+
+	if (propValue != null) {
+		return propValue.toString();
+	}
+
+	propValue = project.findProperty(projectPropKey);
+	if (propValue != null) {
+		return propValue.toString();
+	}
+
+	return null;
 }
