@@ -19,7 +19,7 @@ configurations {
 		canBeConsumed = true
 		canBeResolved = false
 		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake'))
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-baked'))
 			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
 		}
 	}
@@ -160,8 +160,8 @@ configurations.bakedElements.outgoing.artifact(zipTask)
 abstract class CreateAdhocBakedComponent implements Plugin<Project> {
 	@Override
 	void apply(Project project) {
-		def jbake = getSoftwareComponentFactory().adhoc("jbake")
-		jbake.addVariantsFromConfiguration(project.configurations.bakedElements) {
+		def baked = getSoftwareComponentFactory().adhoc("baked")
+		baked.addVariantsFromConfiguration(project.configurations.bakedElements) {
 			def variant = it.configurationVariant;
 			for (PublishArtifact artifact : variant.getArtifacts()) {
 				if (artifact.type.equals(ArtifactTypeDefinition.DIRECTORY_TYPE)) {
@@ -170,7 +170,7 @@ abstract class CreateAdhocBakedComponent implements Plugin<Project> {
 				}
 			}
 		}
-		project.components.add(jbake)
+		project.components.add(baked)
 	}
 
 	@Inject
@@ -182,7 +182,7 @@ apply plugin: CreateAdhocBakedComponent
 publishing {
 	publications {
 		jbake(MavenPublication) {
-			from components.jbake
+			from components.baked
 		}
 	}
 	repositories {
