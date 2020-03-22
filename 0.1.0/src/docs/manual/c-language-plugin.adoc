@@ -48,7 +48,7 @@ plugins {
 ====
 
 // TODO: Describe runtime plugin and entry point plugin
-NOTE: This plugin provides the C implementation language capability to a project already providing a runtime and/or entry point, such as the <<jni_library_plugin.adoc#,JNI Library Plugin>>.
+NOTE: This plugin provides the C implementation language capability to a project already providing a runtime and/or entry point, such as the <<jni-library-plugin.adoc#,JNI Library Plugin>>.
 
 //[[sec:jni_library_conventions]]
 //== Conventions

@@ -68,4 +68,4 @@ $ ls ./build/libs/*.jar
 ./build/libs/jni-library-with-target-machines-macOS.jar
 ----
 
-For more information, see <<../../manual/jni_library_plugin.adoc#,JNI Library Plugin reference chapter>>.
+For more information, see <<../../manual/jni-library-plugin.adoc#,JNI Library Plugin reference chapter>>.

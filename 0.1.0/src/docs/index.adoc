@@ -15,4 +15,4 @@
 :gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
 :gradle-guides: https://guides.gradle.org/
 :jbake-type: redirection
-:jbake-redirecturl: manual/user_manual.html
+:jbake-redirecturl: manual/user-manual.html
