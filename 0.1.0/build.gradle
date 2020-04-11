@@ -103,12 +103,14 @@ enum Dsl {
 		return name
 	}
 }
-def zips = []
+def zips = [:]
 file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
+	def zipTasks = []
+	zips.put(sampleDir.name, zipTasks)
 	Dsl.values().each { dsl ->
 		File archiveDir = new File(sampleDir, dsl.name)
 		if (archiveDir.exists()) {
-			zips << tasks.register("zip${sampleDir.name}${dsl.name}", Zip) {
+			zipTasks << tasks.register("zip${sampleDir.name}${dsl.name}", Zip) {
 				from(archiveDir) { exclude '.jbakeignore' }
 				archiveBaseName = sampleDir.name.split('-').collect { it.capitalize() }.join('')
 				archiveVersion = project.name
@@ -139,12 +141,8 @@ def generateJBakeConfiguration = tasks.register('generateJBakeConfiguration') {
 
 // Stage all files for baking
 def stageTask = tasks.register('stage', Sync) {
-	dependsOn(zips)
 	into(layout.buildDirectory.dir('staging'))
 
-	zips.each {
-		from(it) { into('assets/zips') }
-	}
 	from('src/docs') { into("content/docs/${project.name}") }
 	from(configurations.templates) { into('templates') }
 	from(generateJBakeConfiguration)
@@ -164,6 +162,12 @@ configurations.bakedElements.outgoing.variants.create('directory').artifact(layo
 // Export outgoing artifact as zip
 def zipTask = tasks.register('zipBakes', Zip) {
 	dependsOn(bakeTask)
+	dependsOn(zips.values().flatten())
+	zips.each {k, v ->
+		v.each {
+			from(it) { into("docs/${project.name}/samples/$k") }
+		}
+	}
 	from(layout.buildDirectory.dir(jbake.destDirName))
 	archiveClassifier = 'baked'
 }
