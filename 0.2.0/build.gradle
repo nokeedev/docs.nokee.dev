@@ -144,7 +144,13 @@ def generateJBakeConfiguration = tasks.register('generateJBakeConfiguration') {
 def stageTask = tasks.register('stage', Sync) {
 	into(layout.buildDirectory.dir('staging'))
 
-	from('src/docs') { into("content/docs/${project.name}") }
+	from('src/docs') {
+		into("content/docs/${project.name}")
+		exclude('samples/*/*.html')
+		exclude('samples/*/*.gif')
+		exclude('samples/*/*.png')
+		exclude('samples/*/*.mp4')
+	}
 	from(configurations.templates) { into('templates') }
 	from(generateJBakeConfiguration)
 }
@@ -189,6 +195,13 @@ def stageDoc = tasks.register('stageDoc', Sync) {
 	dependsOn(bakeTask)
 	into(layout.buildDirectory.dir('generated/baked'))
 
+	from('src/docs/samples') {
+		into("docs/${project.name}/samples")
+		include('*/*.html')
+		include('*/*.git')
+		include('*/*.png')
+		include('*/*.mp4')
+	}
 	from(layout.buildDirectory.dir(jbake.destDirName))
 	from(javadoc) { into("docs/${project.name}/javadoc") }
 }
