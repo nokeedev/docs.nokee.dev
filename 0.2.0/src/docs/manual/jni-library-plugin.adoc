@@ -1,0 +1,220 @@
+:jbake-version: 0.2.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+= Java Native Interface Library
+:jbake-type: reference_chapter
+:jbake-tags: user manual, gradle plugin reference, jni, library, gradle, native, java, jvm
+:imagesdir: ./img
+:cpplower: c++
+:jbake-description: Learn what the Nokee's Java Native Interface (JNI) library plugin (i.e. dev.nokee.jni-library) has to offer to your Gradle build.
+
+The JNI Library Plugin provides the tasks, configurations and conventions for building libraries using the Java Native Interface runtime.
+It provides both an entry point (library) and runtime (JNI).
+An JVM (i.e. the link:{gradle-user-manual}/java_plugin.html[Java Plugin]) and native implementation (i.e. the <<cpp-language-plugin.adoc#,{cpp} Language Plugin>> or <<c-language-plugin.adoc#,C Language Plugin>>) language plugins are required to be applied to produce anything meaningful.
+
+[[sec:jni_library_usage]]
+== Usage
+
+.Applying the JNI Library Plugin
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+plugins {
+   id 'dev.nokee.jni-library'
+}
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+plugins {
+   id("dev.nokee.jni-library")
+}
+----
+=====
+====
+
+NOTE: This plugin produces a JNI library as JARs using the JNI runtime.
+It doesn't provide any implementation language capabilities and thus needs to be composed by applying other implementation language plugins, such as <<cpp-language-plugin.adoc#,{cpp} Language Plugin>>, <<c-language-plugin.adoc#,C Language Plugin>>, <<objective-c-language-plugin.adoc#,Objective-C Language Plugin>>, <<objective-cpp-language-plugin.adoc#,Objective-{cpp} Language Plugin>> and link:{gradle-user-manual}/java_plugin.html[Java Plugin].
+
+NOTE: This plugin is incompatible with the link:{gradle-user-manual}/java_library_plugin.html[Java Library Plugin] and link:{gradle-user-manual}/application_plugin.html[Java Application Plugin].
+Those two plugins provide an opinionated entry point (e.g. library and application, respectively).
+They cannot be applied within the same project.
+Instead, use the link:{gradle-user-manual}/java_plugin.html[Java Language Plugin].
+The plugin can consume JVM libraries produced by the link:{gradle-user-manual}/java_library_plugin.html[Java Library Plugin] without any issue.
+
+[[sec:jni_library_tasks]]
+== Tasks
+
+The following diagram shows the relationships between tasks added by this plugin.
+
+.JNI Library Plugin default task graph
+image::jni-library-task-graph.png[]
+
+`jar` — link:{gradle-language-reference}/org.gradle.api.tasks.bundling.Jar.html[Jar]::
+Depends on: All the task which contribute to the JAR library (e.g. `classes`)
+::
+Assembles the production JAR file, based on the classes and resources attached to the main source set.
+
+[[sec:jni_library_task_variants]]
+=== Variant-dependent Tasks
+
+The JNI Library Plugin creates tasks based on variants of the library component.
+Read the link:{gradle-user-manual}/building_cpp_projects.html#sec:introducing_build_variants-cpp[introduction to build variants] for more information.
+
+`link__Variant__` (e.g. `linkWindows` and `linkLinux`) - Task (lifecycle)::
+Depends on: All tasks which contribute to the link libraries, including `link__Variant__` and `create__Variant__` tasks from projects that are resolved via project dependencies
+::
+Links shared library from compiled object files using the selected linker.
+
+`sharedLibrary__Variant__` (e.g. `sharedLibraryWindows` and `sharedLibraryLinux`) - Task (lifecycle)::
+Depends on: `link__Variant__`
+This is an aggregate task that depends on tasks for creating the Shared Library binary.
+
+`jar__Variant__` (e.g. `jarWindows` and `jarLinux`) - link:{gradle-language-reference}/org.gradle.api.tasks.bundling.Jar.html[Jar]::
+Depends on: `sharedLibrary__Variant__`
+::
+Assembles the production JAR file, based on the classes and resources attached to the main source set.
+The task will contain the shared library for the JNI bridge as well as all the native runtime dependencies when a single target machine is configured.
+When multiple target machines are configured, a separate JAR task is created for each variant containing the respective shared library and native runtime dependencies.
+
+[[sec:jni_library_lifecycle_tasks]]
+=== Lifecycle Tasks
+
+The JNI Library Plugin attaches some of its tasks to the standard lifecycle tasks documented in the link:{gradle-user-manual}/base_plugin.html[Base Plugin chapter] — which the <<jni-library-plugin.adoc#,JNI Library Plugin] applies automatically:
+
+`assemble` - Task (lifecycle)::
+Aggregates task that assembles the debug variant of the shared library (if available) for the current host (if present) in the project as well as the JAR.
+This task is added by the link:{gradle-user-manual}/base_plugin.html[Base Plugin].
+
+`check` - Task (lifecycle)::
+Aggregates task that performs verification tasks, such as running the tests.
+Some plugins add their verification task to `check`.
+This task is added by the link:{gradle-user-manual}/base_plugin.html[Base Plugin].
+
+`build` - Task (lifecycle)::
+Depends on: `check`, `assemble`
+::
+Aggregate tasks that perform a full build of the project.
+This task is added by the link:{gradle-user-manual}/base_plugin.html[Base Plugin].
+
+`clean` - Delete::
+Deletes the build directory and everything in it, i.e. the path specified by the `Project.getBuildDir()` project property.
+This task is added by the link:{gradle-user-manual}/base_plugin.html[Base Plugin].
+
+
+== Dependency management
+
+The following graph describes the configurations added by the JNI Library Plugin:
+
+.JNI Library Plugin configurations
+image::jni-library-configurations.png[]
+
+* The configurations in white are the ones a user should use to declare dependencies
+* The configurations in pink, also known as consumable denoted by \(C), are the ones used when a component runs against the library
+* The configurations in blue, also known as resolvable denoted by \(R), are internal to the component, for its own use
+
+// TODO: Blog why it's preferred to use the `library` extension
+To declare dependencies, it is preferred to use the link:#library-extension[`library` extension]:
+
+.Adding JVM and native dependencies
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+library {
+   dependencies {
+      api 'org.apache.httpcomponents:httpclient:4.5.7'
+      jvmImplementation 'org.apache.commons:commons-lang3:3.5'
+      nativeImplementation 'io.qt:network:5.1'
+   }
+}
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+library {
+   dependencies {
+      api("org.apache.httpcomponents:httpclient:4.5.7")
+      jvmImplementation("org.apache.commons:commons-lang3:3.5")
+      nativeImplementation("io.qt:network:5.1")
+   }
+}
+----
+=====
+====
+
+The following configurations can be used to declare dependencies:
+
+`api`::
+Used for declaring API dependencies for JVM consumers (see link:{gradle-user-manual}/java_library_plugin.html#sec:java_library_separation[API vs implementation section of the Java Library Plugin chapter]).
+This is where you should declare dependencies that are transitively exported to consumers for compile.
+Note that only JVM dependencies are transitively exported to consumers.
+
+`jvmImplementation` extends `api`::
+Used for declaring implementation dependencies for the JVM component (see link:{gradle-user-manual}/java_library_plugin.html#sec:java_library_separation[API vs implementation section of the Java Library Plugin chapter]).
+This is where you should declare dependencies which are purely internal and not meant to be exposed to consumers.
+
+`nativeImplementation`::
+Used for declaring implementation dependencies for the native shared library component (see link:{gradle-user-manual}/cpp_library_plugin.html#sec:cpp_library_api_vs_implementation[API vs implementation section of the {cpp} Library Plugin chapter]).
+This is where you should declare dependencies which are purely internal and not meant to be exposed to consumers.
+
+The following configurations are used by consumers:
+
+`apiElements` extends `jvmImplementation`::
+Used for compiling the library.
+This configuration is meant to be used by consumers to retrieve all the elements necessary to compile against the library.
+
+`runtimeElements` extends `jvmImplementation`::
+Used for executing the library.
+This configuration is meant to be used by consumers to retrieve all the elements necessary to run against the library.
+
+The following configuration is used by the library itself:
+
+`nativeRuntime__Variant__` (e.g. `nativeRuntimeDebug`) extends `nativeImplementation`::
+Used for executing the library.
+This configuration contains the native runtime libraries of the shared library.
+
+== Library Extension
+
+The plugin expose a Gradle extension to use for customizing the library.
+The extension name is `library` and is of type link:../javadoc/dev/nokee/platform/jni/JniLibraryExtension.html[JniLibraryExtension].
+
+=== Properties
+
+`targetMachines`::
+Configure the target machines of the library.
+Each target machines is a link:../javadoc/dev/nokee/platform/nativebase/TargetMachine.html[TargetMachine].
+It can be created via link:../javadoc/dev/nokee/platform/nativebase/TargetMachineFactory.html[TargetMachineFactory].
+
+`variants`::
+A view of all the variants available for the library.
+Each variant is a link:../javadoc/dev/nokee/platform/jni/JniLibrary.html[JniLibrary].
+
+=== Methods
+
+`dependencies(action)`::
+Configure the dependencies of the JNI library component.

@@ -1,0 +1,68 @@
+:jbake-version: 0.2.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+= {cpp} Language
+:jbake-type: reference_chapter
+:jbake-tags: user manual, gradle plugin reference, c++, native, gradle
+:jbake-description: Learn what the Nokee's {cpp} language plugin (i.e. dev.nokee.cpp-language) has to offer for your Gradle build.
+
+The {cpp} Language Plugin provides the tasks, configurations and conventions for compiling {cpp} source files.
+It's an implementation language plugin and works in tandem with plugins providing a runtime and/or entry point.
+
+== Usage
+
+.Applying the {cpp} Language Plugin
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+plugins {
+   id 'dev.nokee.cpp-language'
+}
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+plugins {
+   id("dev.nokee.cpp-language")
+}
+----
+=====
+====
+
+// TODO: Describe runtime plugin and entry point plugin
+NOTE: This plugin provides the {cpp} implementation language capability to a project already providing a runtime and/or entry point, such as the <<jni-library-plugin.adoc#,JNI Library Plugin>>.
+
+== Conventions
+
+The {cpp} Language Plugin adds conventions for sources, shown below.
+
+=== Project layout
+
+The plugin assumes the project layout shown below.
+None of these directories needs to exist or have anything in them.
+The compile tasks will compile whatever it finds and ignore anything missing.
+
+`src/main/cpp`::
+{cpp} source with extension of `.cpp`, `.{cpplower}`, `.cc` or `.cxx`
+
+`src/main/headers`::
+Headers - headers needed to compile the library

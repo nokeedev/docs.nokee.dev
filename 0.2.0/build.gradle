@@ -1,0 +1,271 @@
+plugins {
+	id 'org.jbake.site' version '5.0.0'
+	id 'maven-publish'
+	id 'java-library'
+}
+
+import groovy.io.FileType
+import org.gradle.api.internal.artifacts.transform.UnzipTransform
+
+import javax.inject.Inject
+
+import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.DIRECTORY_TYPE
+import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.ZIP_TYPE
+
+def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
+
+import java.util.concurrent.TimeUnit
+
+configurations.all {
+	resolutionStrategy { ResolutionStrategy r ->
+		r.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
+	}
+}
+
+configurations {
+	// outgoing
+	bakedElements {
+		canBeConsumed = true
+		canBeResolved = false
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-baked'))
+			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+		}
+	}
+
+	// incoming
+	assets {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'))
+			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
+		}
+	}
+
+	templates {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'))
+			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
+		}
+	}
+
+	jbakeProperties {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-properties'))
+		}
+	}
+}
+
+dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
+	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
+	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
+	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
+	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
+}
+
+dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
+	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
+	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
+	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
+	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
+}
+
+dependencies {
+	templates 'dev.nokee.docs:jbake:latest.integration'
+	jbakeProperties 'dev.nokee.docs:jbake:latest.integration'
+}
+
+repositories {
+	maven {
+		name = 'S3'
+		credentials(AwsCredentials) {
+			it.accessKey = resolveProperty(project, "AWS_ACCESS_KEY", "dev.nokee.aws.user")
+			it.secretKey = resolveProperty(project, "AWS_SECRET_KEY", "dev.nokee.aws.key")
+		}
+		url = 's3://docs.nokee.dev/'
+	}
+}
+
+// Recreate zip files
+enum Dsl {
+	GROOVY_DSL('groovy-dsl'), KOTLIN_DSL('kotlin-dsl')
+
+	private final String name
+	Dsl(String name) {
+		this.name = name
+	}
+
+	String getName() {
+		return name
+	}
+}
+def zips = [:]
+file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
+	def zipTasks = []
+	zips.put(sampleDir.name, zipTasks)
+	Dsl.values().each { dsl ->
+		File archiveDir = new File(sampleDir, dsl.name)
+		if (archiveDir.exists()) {
+			zipTasks << tasks.register("zip${sampleDir.name}${dsl.name}", Zip) {
+				from(archiveDir) { exclude '.jbakeignore' }
+				archiveBaseName = sampleDir.name.split('-').collect { it.capitalize() }.join('')
+				archiveVersion = project.name
+				archiveClassifier = dsl.name
+			}
+		}
+	}
+}
+
+// Construct jbake.properties
+def generateJBakeConfiguration = tasks.register('generateJBakeConfiguration') {
+	def outputFile = layout.buildDirectory.file('generated/jbake.properties')
+	inputs.files(configurations.jbakeProperties)
+	outputs.file(outputFile)
+	doLast {
+		def result = new Properties()
+		configurations.jbakeProperties.singleFile.withInputStream {
+			def p = new Properties()
+			p.load(it)
+			result.putAll(p)
+		}
+		outputFile.get().asFile.parentFile.mkdirs()
+		outputFile.get().asFile.withOutputStream {
+			result.store(it, "")
+		}
+	}
+}
+
+// Stage all files for baking
+def stageTask = tasks.register('stage', Sync) {
+	into(layout.buildDirectory.dir('staging'))
+
+	from('src/docs') { into("content/docs/${project.name}") }
+	from(configurations.templates) { into('templates') }
+	from(generateJBakeConfiguration)
+}
+
+jbake {
+	srcDirName = 'build/staging'
+}
+def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
+
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+repositories {
+	maven { url = 'https://dl.bintray.com/gradle-plugins/distributions' }
+}
+def lombokVersion = '1.18.12'
+def minimumGradleVersion = '6.2.1'
+dependencies {
+	implementation 'org.apache.commons:commons-lang3:3.9'
+	implementation 'com.google.guava:guava:28.2-jre'
+	implementation 'org.eclipse.jetty:jetty-server:9.4.27.v20200227'
+	implementation 'com.google.code.gson:gson:2.8.6'
+	implementation 'commons-io:commons-io:2.6'
+	implementation 'org.apache.commons:commons-exec:1.3'
+	implementation "dev.gradleplugins:gradle-api:${minimumGradleVersion}"
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+def javadoc = tasks.named('javadoc', Javadoc) {
+	exclude('**/internal/**')
+
+	StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
+	options.setEncoding("utf-8")
+	options.setDocEncoding("utf-8")
+	options.setCharSet("utf-8")
+	options.links("https://docs.oracle.com/javase/8/docs/api", "https://docs.gradle.org/${minimumGradleVersion}/javadoc/")
+}
+
+def stageDoc = tasks.register('stageDoc', Sync) {
+	dependsOn(bakeTask)
+	into(layout.buildDirectory.dir('generated/baked'))
+
+	from(layout.buildDirectory.dir(jbake.destDirName))
+	from(javadoc) { into("docs/${project.name}/javadoc") }
+}
+
+// Export outgoing artifact as directory
+configurations.bakedElements.outgoing.variants.create('directory').artifact(layout.buildDirectory.dir('generated/baked')) {
+	it.type = ArtifactTypeDefinition.DIRECTORY_TYPE
+	builtBy(stageDoc)
+}
+
+// Export outgoing artifact as zip
+def zipTask = tasks.register('zipBakes', Zip) {
+	dependsOn(stageDoc)
+	dependsOn(zips.values().flatten())
+	zips.each {k, v ->
+		v.each {
+			from(it) { into("docs/${project.name}/samples/$k") }
+		}
+	}
+	from(layout.buildDirectory.dir('generated/baked'))
+	archiveClassifier = 'baked'
+}
+configurations.bakedElements.outgoing.artifact(zipTask)
+
+// Create adhoc component for baked elements
+// TODO: skip all non baked artifacts
+abstract class CreateAdhocBakedComponent implements Plugin<Project> {
+	@Override
+	void apply(Project project) {
+		def baked = getSoftwareComponentFactory().adhoc("baked")
+		baked.addVariantsFromConfiguration(project.configurations.bakedElements) {
+			def variant = it.configurationVariant;
+			for (PublishArtifact artifact : variant.getArtifacts()) {
+				if (artifact.type.equals(ArtifactTypeDefinition.DIRECTORY_TYPE)) {
+					it.skip()
+					break
+				}
+			}
+		}
+		project.components.add(baked)
+	}
+
+	@Inject
+	abstract SoftwareComponentFactory getSoftwareComponentFactory()
+}
+apply plugin: CreateAdhocBakedComponent
+
+// Configure variant aware publications
+publishing {
+	publications {
+		baked(MavenPublication) {
+			from components.baked
+		}
+	}
+	repositories {
+		maven {
+			name = 'S3'
+			credentials(AwsCredentials) {
+				it.accessKey = resolveProperty(project, "AWS_ACCESS_KEY", "dev.nokee.aws.user")
+				it.secretKey = resolveProperty(project, "AWS_SECRET_KEY", "dev.nokee.aws.key")
+			}
+			url = 's3://docs.nokee.dev/'
+		}
+	}
+}
+
+private String resolveProperty(Project project, String envVarKey, String projectPropKey) {
+	Object propValue = System.getenv().get(envVarKey);
+
+	if (propValue != null) {
+		return propValue.toString();
+	}
+
+	propValue = project.findProperty(projectPropKey);
+	if (propValue != null) {
+		return propValue.toString();
+	}
+
+	return null;
+}

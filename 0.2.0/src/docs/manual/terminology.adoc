@@ -1,0 +1,43 @@
+:jbake-version: 0.2.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+= Terminology
+:jbake-type: manual_chapter
+:jbake-tags: user manual, gradle
+:jbake-description: Learn about the Gradle project's entry point, implementation language and runtime.
+
+Gradle has a wealth of terminology. Here you can find the terms Nokee plugins align around.
+
+[[sec:terminology_entry_point]]
+== Entry point
+
+Represent the capability of how a component is used.
+A component can be used as a library, as an application, as a test suite, as a device driver, etc.
+For example, the <<jni-library-plugin.adoc#,JNI Library Plugin>> provides the library entry point capability to the project it is applied.
+
+[[sec:terminology_language]]
+== Language
+
+Represent the capability of how a component is implementated.
+A component can be implemented in {cpp}, C, Objective-C, Objective-{cpp}, Swift, etc. or as a mix of those languages.
+For example, the <<cpp-language-plugin.adoc#,{cpp} Language Plugin>> provide the {cpp} language implementation capability to the project it is applied.
+
+[[sec:terminology_runtime]]
+== Runtime
+
+Represent the capability of how a component is targetting an environment.
+A component can target Java Native Interface (JNI), Windows API, iOS, Android, etc.
+For example, the <<jni-library-plugin.adoc#,JNI Library Plugin>> provides the JNI runtime capability to the project it is applied.

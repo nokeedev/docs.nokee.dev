@@ -1,0 +1,20 @@
+:jbake-version: 0.2.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-type: redirection
+:jbake-tags: documentation native, gradle, c++, c, jni, nokee
+:jbake-redirecturl: manual/user-manual.html
+:jbake-description: The full documentation for Nokee Gradle plugins. Want to build your native code faster? Read how Nokee can enhance native support in Gradle.
