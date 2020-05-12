@@ -198,7 +198,7 @@ def stageDoc = tasks.register('stageDoc', Sync) {
 	from('src/docs/samples') {
 		into("docs/${project.name}/samples")
 		include('*/*.html')
-		include('*/*.git')
+		include('*/*.gif')
 		include('*/*.png')
 		include('*/*.mp4')
 	}
