@@ -98,7 +98,7 @@ When multiple target machines are configured, a separate JAR task is created for
 [[sec:jni_library_lifecycle_tasks]]
 === Lifecycle Tasks
 
-The JNI Library Plugin attaches some of its tasks to the standard lifecycle tasks documented in the link:{gradle-user-manual}/base_plugin.html[Base Plugin chapter] — which the <<jni-library-plugin.adoc#,JNI Library Plugin] applies automatically:
+The JNI Library Plugin attaches some of its tasks to the standard lifecycle tasks documented in the link:{gradle-user-manual}/base_plugin.html[Base Plugin chapter] — which the plugin applies automatically:
 
 `assemble` - Task (lifecycle)::
 Aggregates task that assembles the debug variant of the shared library (if available) for the current host (if present) in the project as well as the JAR.
