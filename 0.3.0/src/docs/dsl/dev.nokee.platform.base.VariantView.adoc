@@ -1,0 +1,96 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= VariantView
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, VariantView
+:jbake-description: Learn about the build language of the VariantView type.
+
+API Documentation: link:../javadoc/dev/nokee/platform/base/VariantView.html[VariantView]
+
+A view of the variants that are created and configured as they are required.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.base.VariantView:elements[elements]
+|The contents of this view as a Provider of <T> instances.
+
+
+
+|===
+
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.platform.base.VariantView:configureEach-org.gradle.api.Action-[configureEach](action)`
+|Registers an action to execute to configure each element in the view.
+The action is only executed for those elements that are required.
+Fails if any element has already been finalized.
+
+|===
+
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.base.VariantView:elements]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.oracle.com/javase/8/docs/api/java/util/Set.html[Set]<? extends T>> elements (read-only)
+
+The contents of this view as a link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider] of `<T>` instances.
+
+
+
+The returned link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider] is live, and tracks changes of the view.
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.platform.base.VariantView:configureEach-org.gradle.api.Action-]]
+=== void configureEach(link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super T> action)
+
+Registers an action to execute to configure each element in the view.
+The action is only executed for those elements that are required.
+Fails if any element has already been finalized.
+
+
+
+
+
+

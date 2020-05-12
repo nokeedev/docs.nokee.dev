@@ -1,0 +1,102 @@
+:jbake-version: 0.3.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-permalink: objective-c-ios-application
+:jbake-archivebasename: ObjectiveCIosApplication
+:includedir: .
+= Objective-C iOS Application
+:jbake-summary: iOS application implemented in Objective-C built by Gradle.
+:jbake-type: sample_chapter
+:jbake-tags: sample, objective c, native, gradle
+:jbake-category: iOS
+:jbake-description: See how to use the Nokee Gradle plugins for building an iOS application implemented in Objective-C.
+
+CAUTION: The following sample shows a plugin in very early development.
+Don't hesitate to try it out.
+If you encounter any problems, please link:https://github.com/nokeedev/gradle-native/issues[open an issue on GitHub].
+
+NOTE: You can open this sample inside the Xcode IDE using the link:../../manual/xcode-ide-plugin.html[Xcode IDE plugin].
+
+This sample shows how to build an iOS application implemented in Objective-C with Gradle.
+The application has no dependencies and targets only the iPhone Simulator with a minimum iOS version of 13.2.
+
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+include::groovy-dsl/build.gradle[]
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+include::kotlin-dsl/build.gradle.kts[]
+----
+=====
+====
+
+To build the application:
+
+[listing]
+----
+$ ./gradlew assemble
+
+BUILD SUCCESSFUL
+8 actionable tasks: 8 executed
+----
+
+The build produce the iOS application inside `./build/ios/products/main` directory:
+
+[listing]
+----
+$ ls ./build/ios/products/main/
+ObjectiveCIosApplication-unsigned.app
+ObjectiveCIosApplication.app
+----
+
+The application bundles produces represent the signed and unsigned bundles:
+
+[listing]
+----
+$ ls ./build/ios/products/main/ObjectiveCIosApplication.app/
+Base.lproj
+Info.plist
+ObjectiveCIosApplication
+PkgInfo
+_CodeSignature
+----
+
+To open the application in Xcode and launch them in a simulator:
+
+[listing]
+----
+$ ./gradlew openXcode
+
+> Task :xcode
+Generated Xcode workspace at file://objective-c-ios-application.xcworkspace/
+
+BUILD SUCCESSFUL
+4 actionable tasks: 4 executed
+----
+
+image::xcode-ide-ios-launch-action.gif[Launch iOS application inside simulator from Xcode IDE]
+
+For more information, see <<../../manual/objective-c-ios-application-plugin.adoc#,Objective-C iOS Application Plugin>> and <<../../manual/xcode-ide-plugin.adoc#,Xcode IDE Plugin>> reference chapters.
+We discuss the <<../../manual/developing-with-xcode-ide.adoc#,Xcode IDE integration in a separated chapter>>.

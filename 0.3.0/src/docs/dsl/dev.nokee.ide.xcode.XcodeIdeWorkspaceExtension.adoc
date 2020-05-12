@@ -1,0 +1,135 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= XcodeIdeWorkspaceExtension
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, XcodeIdeWorkspaceExtension
+:jbake-description: Learn about the build language of the XcodeIdeWorkspaceExtension type.
+
+API Documentation: link:../javadoc/dev/nokee/ide/xcode/XcodeIdeWorkspaceExtension.html[XcodeIdeWorkspaceExtension]
+
+The configuration for mapping a Gradle project to Xcode projects and workspace.
+
+The workspace extension is register to the link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Project.html[Project] instance only for the root project where the Xcode IDE plugin is applied.
+The project extension, that is link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProjectExtension.html[XcodeIdeProjectExtension], is register to sub-projects instead.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:productTypes[productTypes]
+|Returns a repository containing all the known product types by the plugin.
+This method is provided as a convenience when configuring the Xcode project via the DSL.
+
+It is equivalent to importing the  class and accessing the public field:
+
+
+|link:#dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:projects[projects]
+|The projects to generate for this Gradle project.
+
+|link:#dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:workspace[workspace]
+|The generated Xcode workspace for this Gradle build.
+
+|===
+
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.ide.xcode.XcodeIdeProjectExtension:projects-org.gradle.api.Action-[projects](action)`
+|Configures the project container with the specified action.
+
+|===
+
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:productTypes]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProductTypes.html[XcodeIdeProductTypes] productTypes (read-only)
+
+Returns a repository containing all the known product types by the plugin.
+This method is provided as a convenience when configuring the Xcode project via the DSL.
+
+It is equivalent to importing the link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProductTypes.html[XcodeIdeProductTypes] class and accessing the public field:
+
+
+[.listing]
+----
+
+plugins {
+    id 'dev.nokee.xcode-ide'
+}
+
+import dev.nokee.ide.xcode.XcodeIdeProductTypes
+
+xcode {
+    projects.register('foo') {
+        targets.register('Foo') {
+            productType = XcodeIdeProductTypes.APPLICATION
+        }
+    }
+}
+
+----
+
+
+[[dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:projects]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/NamedDomainObjectContainer.html[NamedDomainObjectContainer]<link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProject.html[XcodeIdeProject]> projects (read-only)
+
+The projects to generate for this Gradle project.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeWorkspaceExtension:workspace]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeWorkspace.html[XcodeIdeWorkspace] workspace (read-only)
+
+The generated Xcode workspace for this Gradle build.
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeProjectExtension:projects-org.gradle.api.Action-]]
+=== void projects(link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/NamedDomainObjectContainer.html[NamedDomainObjectContainer]<link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProject.html[XcodeIdeProject]>> action)
+
+Configures the project container with the specified action.
+
+
+
+
+
+

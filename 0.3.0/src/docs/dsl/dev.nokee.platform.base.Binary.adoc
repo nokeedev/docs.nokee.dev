@@ -1,0 +1,40 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= Binary
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, Binary
+:jbake-description: Learn about the build language of the Binary type.
+
+API Documentation: link:../javadoc/dev/nokee/platform/base/Binary.html[Binary]
+
+A physical binary artifact, which can run on a particular platform or runtime.
+
+
+
+== Properties
+
+
+No properties.
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+
+
+
+

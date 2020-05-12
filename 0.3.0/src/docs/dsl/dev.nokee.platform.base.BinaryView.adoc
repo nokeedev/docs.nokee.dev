@@ -1,0 +1,126 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= BinaryView
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, BinaryView
+:jbake-description: Learn about the build language of the BinaryView type.
+
+API Documentation: link:../javadoc/dev/nokee/platform/base/BinaryView.html[BinaryView]
+
+A view of the binaries that are created and configured as they are required.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.base.BinaryView:elements[elements]
+|The contents of this view as a Provider of <T> instances.
+
+
+
+|===
+
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.platform.base.BinaryView:configureEach-org.gradle.api.Action-[configureEach](action)`
+|Registers an action to execute to configure each binary in the view.
+The action is only executed for those binaries that are required.
+Fails if any binary has already been finalized.
+
+|`link:#dev.nokee.platform.base.BinaryView:configureEach-java.lang.Class-org.gradle.api.Action-[configureEach](type, action)`
+|Registers an action to execute to configure each binary in the view.
+The action is only executed for those elements that are required.
+Fails if any matching element has already been finalized.
+
+This method is equivalent to binaries.withType(Foo).configureEach { ... }.
+
+|`link:#dev.nokee.platform.base.BinaryView:withType-java.lang.Class-[withType](type)`
+|Returns a binary view containing the objects in this collection of the given type.
+The returned collection is live, so that when matching objects are later added to this collection, they are also visible in the filtered binary view.
+
+|===
+
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.base.BinaryView:elements]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.oracle.com/javase/8/docs/api/java/util/Set.html[Set]<? extends T>> elements (read-only)
+
+The contents of this view as a link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider] of `<T>` instances.
+
+
+
+The returned link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider] is live, and tracks changes of the view.
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.platform.base.BinaryView:configureEach-org.gradle.api.Action-]]
+=== void configureEach(link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super T> action)
+
+Registers an action to execute to configure each binary in the view.
+The action is only executed for those binaries that are required.
+Fails if any binary has already been finalized.
+
+
+
+[[dev.nokee.platform.base.BinaryView:configureEach-java.lang.Class-org.gradle.api.Action-]]
+=== void configureEach(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html[Class]<S> type, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super S> action)
+
+Registers an action to execute to configure each binary in the view.
+The action is only executed for those elements that are required.
+Fails if any matching element has already been finalized.
+
+This method is equivalent to `binaries.withType(Foo).configureEach { ... }`.
+
+
+
+[[dev.nokee.platform.base.BinaryView:withType-java.lang.Class-]]
+=== link:../javadoc/dev/nokee/platform/base/BinaryView.html[BinaryView]<S> withType(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html[Class]<S> type)
+
+Returns a binary view containing the objects in this collection of the given type.
+The returned collection is live, so that when matching objects are later added to this collection, they are also visible in the filtered binary view.
+
+
+
+
+
+

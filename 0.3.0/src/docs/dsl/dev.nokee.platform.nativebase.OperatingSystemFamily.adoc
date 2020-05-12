@@ -1,0 +1,98 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= OperatingSystemFamily
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, OperatingSystemFamily
+:jbake-description: Learn about the build language of the OperatingSystemFamily type.
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/OperatingSystemFamily.html[OperatingSystemFamily]
+
+Represents the operating system family of a configuration.
+Typical operating system family include Windows, Linux, and macOS.
+
+
+
+*Note:* This interface is not intended for implementation by build script or plugin authors.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.nativebase.OperatingSystemFamily:freeBSD[freeBSD]
+|Checks if the operating system family is FreeBSD.
+
+|link:#dev.nokee.platform.nativebase.OperatingSystemFamily:linux[linux]
+|Checks if the operating system family is Linux.
+
+|link:#dev.nokee.platform.nativebase.OperatingSystemFamily:macOS[macOS]
+|Check if the operating system family is macOS.
+
+|link:#dev.nokee.platform.nativebase.OperatingSystemFamily:windows[windows]
+|Checks if the operating system family is Windows.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.nativebase.OperatingSystemFamily:freeBSD]]
+=== boolean freeBSD (read-only)
+
+Checks if the operating system family is FreeBSD.
+
+
+
+[[dev.nokee.platform.nativebase.OperatingSystemFamily:linux]]
+=== boolean linux (read-only)
+
+Checks if the operating system family is Linux.
+
+
+
+[[dev.nokee.platform.nativebase.OperatingSystemFamily:macOS]]
+=== boolean macOS (read-only)
+
+Check if the operating system family is macOS.
+
+
+
+[[dev.nokee.platform.nativebase.OperatingSystemFamily:windows]]
+=== boolean windows (read-only)
+
+Checks if the operating system family is Windows.
+
+
+
+
+
+
+
+
+

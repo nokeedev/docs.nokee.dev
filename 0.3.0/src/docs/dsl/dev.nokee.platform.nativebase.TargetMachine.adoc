@@ -1,0 +1,79 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= TargetMachine
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, TargetMachine
+:jbake-description: Learn about the build language of the TargetMachine type.
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/TargetMachine.html[TargetMachine]
+
+Represents a combination of operating system and cpu architecture that a variant might be built for.
+
+
+
+*Note:* This interface is not intended for implementation by build script or plugin authors.
+Use link:../javadoc/dev/nokee/platform/nativebase/TargetMachineFactory.html[TargetMachineFactory] to create an instance.
+
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.nativebase.TargetMachine:architecture[architecture]
+|The target architecture.
+
+|link:#dev.nokee.platform.nativebase.TargetMachine:operatingSystemFamily[operatingSystemFamily]
+|The target operating system family.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.nativebase.TargetMachine:architecture]]
+=== link:../javadoc/dev/nokee/platform/nativebase/MachineArchitecture.html[MachineArchitecture] architecture (read-only)
+
+The target architecture.
+
+
+
+[[dev.nokee.platform.nativebase.TargetMachine:operatingSystemFamily]]
+=== link:../javadoc/dev/nokee/platform/nativebase/OperatingSystemFamily.html[OperatingSystemFamily] operatingSystemFamily (read-only)
+
+The target operating system family.
+
+
+
+
+
+
+
+
+

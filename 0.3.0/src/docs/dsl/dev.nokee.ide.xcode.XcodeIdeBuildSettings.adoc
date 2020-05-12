@@ -1,0 +1,140 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= XcodeIdeBuildSettings
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, XcodeIdeBuildSettings
+:jbake-description: Learn about the build language of the XcodeIdeBuildSettings type.
+
+API Documentation: link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings]
+
+Represent the build settings of a build configuration for a target.
+
+
+
+> A build setting is a variable that contains information about how a particular aspect of a product’s build process should be performed.
+>         For example, the information in a build setting can specify which options Xcode passes to the compiler.
+>     
+> 
+> 
+>     —Xcode Build Settings Concept
+> 
+
+
+
+It is assumed that Xcode will be delegating to Gradle for most of the build requirements.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.ide.xcode.XcodeIdeBuildSettings:elements[elements]
+|The elements of the build settings.
+Each element is a key/value pair representing the build setting entries.
+
+|===
+
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-java.lang.Object-[put](name, value)`
+|Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+|`link:#dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-org.gradle.api.provider.Provider-[put](name, value)`
+|Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+|`link:#dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-java.lang.Object-[put](name, value)`
+|Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+|`link:#dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-org.gradle.api.provider.Provider-[put](name, value)`
+|Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+|===
+
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildSettings:elements]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.oracle.com/javase/8/docs/api/java/util/Map.html[Map]<link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String], link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object]>> elements (read-only)
+
+The elements of the build settings.
+Each element is a key/value pair representing the build setting entries.
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-java.lang.Object-]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings] put(link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String] name, link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] value)
+
+Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-org.gradle.api.provider.Provider-]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings] put(link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String] name, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object]> value)
+
+Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-java.lang.Object-]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings] put(link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String] name, link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] value)
+
+Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildSettings:put-java.lang.String-org.gradle.api.provider.Provider-]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings] put(link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String] name, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object]> value)
+
+Puts a new build setting entry for the specified name and value.
+Number values, that is integer, long and double, are treated as number, any other value type will be converted to String using Object#toString() when resolved.
+
+
+
+
+
+
