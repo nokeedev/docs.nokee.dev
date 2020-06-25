@@ -54,6 +54,14 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 		}
 	}
 }
+tasks.named('zipBaked', Zip) {
+	dependsOn(zips.values().flatten())
+	zips.each {k, v ->
+		v.each {
+			from(it) { into("docs/${project.name}/samples/$k") }
+		}
+	}
+}
 
 // Stage all files for baking
 tasks.named('stage', Sync) {
