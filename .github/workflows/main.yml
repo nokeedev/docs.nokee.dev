@@ -8,9 +8,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Deploy to GitHub Pages
+    - name: Publish to GitHub Pages
       env:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      run: ./gradlew deploy --stacktrace
+      run: ./gradlew publish --stacktrace
 
