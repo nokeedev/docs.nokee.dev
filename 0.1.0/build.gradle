@@ -67,12 +67,3 @@ tasks.named('stage', Sync) {
 
 	from('src/docs') { into("content/docs/${project.name}") }
 }
-
-// Configure variant aware publications
-publishing {
-	publications {
-		baked(MavenPublication) {
-			from components.baked
-		}
-	}
-}

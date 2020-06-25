@@ -83,12 +83,3 @@ tasks.named('site', Sync) {
 	}
 	from(tasks.named('javadoc')) { into("docs/${project.name}/javadoc") }
 }
-
-// Configure variant aware publications
-publishing {
-	publications {
-		baked(MavenPublication) {
-			from components.baked
-		}
-	}
-}
