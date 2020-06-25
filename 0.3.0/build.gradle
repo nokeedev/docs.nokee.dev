@@ -10,14 +10,6 @@ ext.minimumJavaVersion = '8'
 
 import groovy.io.FileType
 
-import java.util.concurrent.TimeUnit
-
-configurations.all {
-	resolutionStrategy { ResolutionStrategy r ->
-		r.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
-	}
-}
-
 dependencies {
 	templates 'dev.nokee.docs:jbake:latest.integration'
 	configuration 'dev.nokee.docs:jbake:latest.integration'
