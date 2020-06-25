@@ -24,7 +24,7 @@ allprojects {
 }
 
 // Ensure the `bake` tasks aren't ran in parallel, there is a bug in the JBake site plugin that cause random crashes
-// TODO: Open issue with JBake site plugin to solve this issue, most likely they should use the worker API
+// See https://github.com/jbake-org/jbake-gradle-plugin/issues/53
 GroovyCollections.transpose(subprojects.drop(1).asList(), subprojects as List).each {
 	def downstream = it[0]
 	def upstream = it[1]
@@ -49,6 +49,7 @@ subprojects {
 	}
 }
 
+// Generate documentation site
 def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
 	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
 }
