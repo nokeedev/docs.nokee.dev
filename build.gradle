@@ -1,9 +1,11 @@
-import dev.nokee.docs.Sitemap
+import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
-import static dev.nokee.docs.Filters.*
+import dev.nokee.docs.tasks.PublishToGitHubPages
 
 import java.text.SimpleDateFormat
+
+import static dev.nokee.docs.Filters.*
 
 def v = new SimpleDateFormat("yyyyMMddHHmm").format(new Date())
 allprojects {
@@ -68,8 +70,6 @@ tasks.register('deploy') {
 	dependsOn(syncTask)
 }
 
-import dev.nokee.docs.tasks.PublishToGitHubPages
-import dev.nokee.docs.SecretValue
 tasks.register('publish', PublishToGitHubPages) {
 	publishDirectory = layout.buildDirectory.dir('site')
 	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
