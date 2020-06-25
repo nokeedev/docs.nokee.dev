@@ -10,18 +10,29 @@ public abstract class SecretValue implements ValueSource<String, SecretValue.Pro
 	@Nullable
 	@Override
 	public String obtain() {
-		Object propValue = System.getenv().get(getParameters().getEnvironmentVariableName().get());
+		Object propValue = obtainSecret(getParameters().getEnvironmentVariableName().get(), getParameters().getPropertyName().getOrNull());
 
-		if (propValue != null) {
-			return propValue.toString();
-		}
-
-		propValue = System.getProperty(getParameters().getPropertyName().get());
 		if (propValue != null) {
 			return propValue.toString();
 		}
 
 		return getParameters().getDefaultValue().getOrNull();
+	}
+
+	@Nullable
+	public static String obtainSecret(String environmentVariableName, String systemPropertyName) {
+		Object propValue = System.getenv().get(environmentVariableName);
+
+		if (propValue != null) {
+			return propValue.toString();
+		}
+
+		propValue = System.getProperty(systemPropertyName);
+		if (propValue != null) {
+			return propValue.toString();
+		}
+
+		return null;
 	}
 
 	public interface OrDefaultConfiguration {

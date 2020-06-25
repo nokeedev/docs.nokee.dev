@@ -8,7 +8,6 @@ plugins {
 ext.minimumGradleVersion = '6.2.1'
 ext.minimumJavaVersion = '8'
 
-import dev.nokee.docs.SecretValue
 import groovy.io.FileType
 
 import javax.inject.Inject
@@ -24,17 +23,6 @@ configurations.all {
 dependencies {
 	templates 'dev.nokee.docs:jbake:latest.integration'
 	configuration 'dev.nokee.docs:jbake:latest.integration'
-}
-
-repositories {
-	maven {
-		name = 'S3'
-		credentials(AwsCredentials) {
-			it.accessKey = providers.of(SecretValue) { it.parameters.from('AWS_ACCESS_KEY').or('dev.nokee.aws.user') }.getOrNull()
-			it.secretKey = providers.of(SecretValue) { it.parameters.from('AWS_SECRET_KEY').or('dev.nokee.aws.key') }.getOrNull()
-		}
-		url = 's3://docs.nokee.dev/'
-	}
 }
 
 // Recreate zip files
@@ -119,16 +107,6 @@ publishing {
 	publications {
 		baked(MavenPublication) {
 			from components.baked
-		}
-	}
-	repositories {
-		maven {
-			name = 'S3'
-			credentials(AwsCredentials) {
-				it.accessKey = providers.of(SecretValue) { it.parameters.from('AWS_ACCESS_KEY').or('dev.nokee.aws.user') }.getOrNull()
-				it.secretKey = providers.of(SecretValue) { it.parameters.from('AWS_SECRET_KEY').or('dev.nokee.aws.key') }.getOrNull()
-			}
-			url = 's3://docs.nokee.dev/'
 		}
 	}
 }

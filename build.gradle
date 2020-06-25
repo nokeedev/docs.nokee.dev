@@ -19,6 +19,7 @@ import dev.nokee.docs.tasks.PublishToGitHubPages
 import java.text.SimpleDateFormat
 
 import static dev.nokee.docs.Filters.*
+import static dev.nokee.docs.RepositoryUtils.nokeeDocumentation
 
 def v = new SimpleDateFormat("yyyyMMddHHmm").format(new Date())
 allprojects {
@@ -52,18 +53,21 @@ subprojects {
 	}
 }
 
-// Generate documentation site
-repositories {
-	maven {
-		name = 'S3'
-		credentials(AwsCredentials) {
-			it.accessKey = providers.of(SecretValue) { it.parameters.from('AWS_ACCESS_KEY').or('dev.nokee.aws.user') }.getOrNull()
-			it.secretKey = providers.of(SecretValue) { it.parameters.from('AWS_SECRET_KEY').or('dev.nokee.aws.key') }.getOrNull()
+// Configure AWS repository containing all documentation artifacts
+allprojects {
+	repositories {
+		maven(nokeeDocumentation())
+	}
+	pluginManager.withPlugin('maven-publish') {
+		publishing {
+			repositories {
+				maven(nokeeDocumentation())
+			}
 		}
-		url = 's3://docs.nokee.dev/'
 	}
 }
 
+// Generate documentation site
 dependencies {
 	baked('dev.nokee.docs:nightly:latest.integration') { changing = true }
 	assets 'dev.nokee.docs:jbake:latest.integration' // nothing is deployed here :-( everything is in nightly

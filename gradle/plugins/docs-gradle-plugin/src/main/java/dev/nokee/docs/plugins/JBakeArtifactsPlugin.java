@@ -76,7 +76,6 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 
 	@Override
 	public void apply(Project project) {
-		System.out.println(project.getName());
 		extensions = project.getExtensions();
 
 		// Incoming
