@@ -86,22 +86,9 @@ def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
 	from(robotsTask.flatMap { it.generatedRobotsFile })
 }
-def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
 subprojects.each { Project proj ->
-	def config = configurations.create("release${proj.name}") {
-		canBeConsumed = false
-		canBeResolved = true
-		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-baked'))
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
-			attribute(ARTIFACT_FORMAT, ArtifactTypeDefinition.DIRECTORY_TYPE)
-		}
-	}
 	dependencies {
-		add(config.name, proj)
-	}
-	siteTask.configure {
-		from(config)
+		baked proj
 	}
 	sitemapTask.configure {
 		sitemapUrls.addAll(
