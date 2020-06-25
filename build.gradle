@@ -1,3 +1,7 @@
+import dev.nokee.docs.Sitemap
+import dev.nokee.docs.tasks.GenerateSitemap
+import static dev.nokee.docs.Filters.*
+
 import java.text.SimpleDateFormat
 
 def v = new SimpleDateFormat("yyyyMMddHHmm").format(new Date())
@@ -19,8 +23,13 @@ GroovyCollections.transpose(subprojects.drop(1).asList(), subprojects as List).e
 	}
 }
 
+def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
+	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
+}
+
 def syncTask = tasks.register('sync', Sync) {
 	into(layout.buildDirectory.dir('site'))
+	from(sitemapTask.flatMap { it.generatedSitemapFile })
 }
 def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
 subprojects.each { Project proj ->
@@ -40,6 +49,15 @@ subprojects.each { Project proj ->
 		from(config) {
 			from('docs')
 		}
+	}
+	sitemapTask.configure {
+		sitemapUrls.addAll(
+			config.incoming.files.elements
+				.map { findAllHtmlFiles(it) }
+				.map { withoutRedirectionPages(it) }
+				.map { asCanonicalPaths(it) }
+				.map(withHost('docs.nokee.dev'))
+				.map { toSitemapUrl(it) })
 	}
 }
 

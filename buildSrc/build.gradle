@@ -10,6 +10,12 @@ repositories {
 }
 
 dependencies {
+	compileOnly "org.projectlombok:lombok:latest.release"
+	annotationProcessor "org.projectlombok:lombok:latest.release"
+
 	// PublishToGitHubPages
 	implementation 'org.eclipse.jgit:org.eclipse.jgit:latest.release'
+
+	// GenerateSitemap
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:latest.release'
 }
