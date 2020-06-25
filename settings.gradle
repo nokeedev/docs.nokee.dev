@@ -1,5 +1,7 @@
 rootProject.name = 'docs.nokee.dev'
 
+includeBuild 'gradle/plugins/docs-gradle-plugin'
+
 include '0.1.0'
 include '0.2.0'
 include '0.3.0'

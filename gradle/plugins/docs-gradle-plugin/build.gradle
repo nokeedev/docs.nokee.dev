@@ -2,10 +2,11 @@ plugins {
 	id 'dev.gradleplugins.java-gradle-plugin'
 }
 
+group = 'dev.nokee'
+version = '1.0'
+
 repositories {
-	maven {
-		url = 'https://repo.eclipse.org/content/groups/releases/'
-	}
+	maven { url = 'https://repo.eclipse.org/content/groups/releases/' }
 	mavenCentral()
 }
 

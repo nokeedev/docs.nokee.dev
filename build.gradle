@@ -1,3 +1,13 @@
+buildscript {
+	repositories {
+		maven { url = 'https://repo.eclipse.org/content/groups/releases/' }
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'dev.nokee:docs-gradle-plugin:latest.integration'
+	}
+}
+
 import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
