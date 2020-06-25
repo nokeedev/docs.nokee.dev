@@ -7,6 +7,9 @@ buildscript {
 		classpath 'dev.nokee:docs-gradle-plugin:latest.integration'
 	}
 }
+plugins {
+	id 'dev.nokee.documentation.jbake-ingredients'
+}
 
 import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRobots
@@ -50,6 +53,22 @@ subprojects {
 }
 
 // Generate documentation site
+repositories {
+	maven {
+		name = 'S3'
+		credentials(AwsCredentials) {
+			it.accessKey = providers.of(SecretValue) { it.parameters.from('AWS_ACCESS_KEY').or('dev.nokee.aws.user') }.getOrNull()
+			it.secretKey = providers.of(SecretValue) { it.parameters.from('AWS_SECRET_KEY').or('dev.nokee.aws.key') }.getOrNull()
+		}
+		url = 's3://docs.nokee.dev/'
+	}
+}
+
+dependencies {
+	baked('dev.nokee.docs:nightly:latest.integration') { changing = true }
+	assets 'dev.nokee.docs:jbake:latest.integration' // nothing is deployed here :-( everything is in nightly
+}
+
 def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
 	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
 }
@@ -59,8 +78,7 @@ def robotsTask = tasks.register('robots', GenerateRobots) {
 	generatedRobotsFile = file('build/tmp/robots/robots.txt')
 }
 
-def syncTask = tasks.register('sync', Sync) {
-	into(layout.buildDirectory.dir('site'))
+def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
 	from(robotsTask.flatMap { it.generatedRobotsFile })
 }
@@ -78,10 +96,8 @@ subprojects.each { Project proj ->
 	dependencies {
 		add(config.name, proj)
 	}
-	syncTask.configure {
-		from(config) {
-			from('docs')
-		}
+	siteTask.configure {
+		from(config)
 	}
 	sitemapTask.configure {
 		sitemapUrls.addAll(
@@ -91,7 +107,7 @@ subprojects.each { Project proj ->
 }
 
 tasks.register('deploy') {
-	dependsOn(syncTask)
+	dependsOn(siteTask)
 }
 
 tasks.register('publish', PublishToGitHubPages) {

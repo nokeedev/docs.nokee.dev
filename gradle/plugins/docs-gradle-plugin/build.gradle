@@ -20,8 +20,12 @@ dependencies {
 	// PublishToGitHubPages
 	implementation 'org.eclipse.jgit:org.eclipse.jgit:latest.release'
 
-	// GenerateSitemap
+	// GenerateSitemap &  Javadoc
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:latest.release'
+
+	// JBake
+	// TODO: Should just be compileOnly
+	implementation 'org.jbake:jbake-gradle-plugin:latest.release'
 }
 
 gradlePlugin {
@@ -29,6 +33,10 @@ gradlePlugin {
 		javadocDocumentation {
 			id = 'dev.nokee.documentation.javadoc'
 			implementationClass = 'dev.nokee.docs.plugins.JavadocDocumentationPlugin'
+		}
+		bakingArtifacts {
+			id = 'dev.nokee.documentation.jbake-ingredients'
+			implementationClass = 'dev.nokee.docs.plugins.JBakeArtifactsPlugin'
 		}
 	}
 }

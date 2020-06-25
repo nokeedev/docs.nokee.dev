@@ -1,7 +1,8 @@
 plugins {
-	id 'org.jbake.site' version '5.0.0'
+	id 'org.jbake.site'
 	id 'maven-publish'
 	id 'dev.nokee.documentation.javadoc'
+	id 'dev.nokee.documentation.jbake-ingredients'
 }
 
 ext.minimumGradleVersion = '6.2.1'
@@ -9,14 +10,8 @@ ext.minimumJavaVersion = '8'
 
 import dev.nokee.docs.SecretValue
 import groovy.io.FileType
-import org.gradle.api.internal.artifacts.transform.UnzipTransform
 
 import javax.inject.Inject
-
-import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.DIRECTORY_TYPE
-import static org.gradle.api.artifacts.type.ArtifactTypeDefinition.ZIP_TYPE
-
-def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
 
 import java.util.concurrent.TimeUnit
 
@@ -26,62 +21,9 @@ configurations.all {
 	}
 }
 
-configurations {
-	// outgoing
-	bakedElements {
-		canBeConsumed = true
-		canBeResolved = false
-		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-baked'))
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
-		}
-	}
-
-	// incoming
-	assets {
-		canBeConsumed = false
-		canBeResolved = true
-		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'))
-			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
-		}
-	}
-
-	templates {
-		canBeConsumed = false
-		canBeResolved = true
-		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'))
-			attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE)
-		}
-	}
-
-	jbakeProperties {
-		canBeConsumed = false
-		canBeResolved = true
-		attributes {
-			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-properties'))
-		}
-	}
-}
-
-dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
-	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
-	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
-	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
-	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-templates'));
-}
-
-dependencies.registerTransform(UnzipTransform.class) { variantTransform ->
-	variantTransform.getFrom().attribute(ARTIFACT_FORMAT, ZIP_TYPE);
-	variantTransform.getFrom().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
-	variantTransform.getTo().attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
-	variantTransform.getTo().attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-assets'));
-}
-
 dependencies {
 	templates 'dev.nokee.docs:jbake:latest.integration'
-	jbakeProperties 'dev.nokee.docs:jbake:latest.integration'
+	configuration 'dev.nokee.docs:jbake:latest.integration'
 }
 
 repositories {
@@ -125,29 +67,9 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 	}
 }
 
-// Construct jbake.properties
-def generateJBakeConfiguration = tasks.register('generateJBakeConfiguration') {
-	def outputFile = layout.buildDirectory.file('generated/jbake.properties')
-	inputs.files(configurations.jbakeProperties)
-	outputs.file(outputFile)
-	doLast {
-		def result = new Properties()
-		configurations.jbakeProperties.singleFile.withInputStream {
-			def p = new Properties()
-			p.load(it)
-			result.putAll(p)
-		}
-		outputFile.get().asFile.parentFile.mkdirs()
-		outputFile.get().asFile.withOutputStream {
-			result.store(it, "")
-		}
-	}
-}
-
 // Stage all files for baking
-def stageTask = tasks.register('stage', Sync) {
+tasks.named('stage', Sync) {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	into(layout.buildDirectory.dir('staging'))
 
 	from('src/docs') {
 		into("content/docs/${project.name}")
@@ -156,25 +78,14 @@ def stageTask = tasks.register('stage', Sync) {
 		exclude('samples/*/*.png')
 		exclude('samples/*/*.mp4')
 	}
-	from('src/jbake/templates') { into('templates') }
-	from(configurations.templates) { into('templates') }
-	from(generateJBakeConfiguration)
 }
-
-jbake {
-	srcDirName = 'build/staging'
-}
-def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
-
 
 dependencies {
 	javadocClasspathLock files('javadoc-classpath-lock.xml')
 	javadocSource(fileTree('src/main/java') { include('**/*.java').exclude('**/internal/**') })
 }
 
-def stageDoc = tasks.register('stageDoc', Sync) {
-	dependsOn(bakeTask)
-	into(layout.buildDirectory.dir('generated/baked'))
+tasks.named('site', Sync) {
 
 	from('src/docs/samples') {
 		into("docs/${project.name}/samples")
@@ -183,29 +94,8 @@ def stageDoc = tasks.register('stageDoc', Sync) {
 		include('*/*.png')
 		include('*/*.mp4')
 	}
-	from(layout.buildDirectory.dir(jbake.destDirName))
 	from(tasks.named('javadoc')) { into("docs/${project.name}/javadoc") }
 }
-
-// Export outgoing artifact as directory
-configurations.bakedElements.outgoing.variants.create('directory').artifact(layout.buildDirectory.dir('generated/baked')) {
-	it.type = ArtifactTypeDefinition.DIRECTORY_TYPE
-	builtBy(stageDoc)
-}
-
-// Export outgoing artifact as zip
-def zipTask = tasks.register('zipBakes', Zip) {
-	dependsOn(stageDoc)
-	dependsOn(zips.values().flatten())
-	zips.each {k, v ->
-		v.each {
-			from(it) { into("docs/${project.name}/samples/$k") }
-		}
-	}
-	from(layout.buildDirectory.dir('generated/baked'))
-	archiveClassifier = 'baked'
-}
-configurations.bakedElements.outgoing.artifact(zipTask)
 
 // Create adhoc component for baked elements
 // TODO: skip all non baked artifacts
