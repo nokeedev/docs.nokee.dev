@@ -4,6 +4,8 @@ plugins {
 	id 'dev.nokee.documentation.javadoc'
 }
 
+ext.minimumGradleVersion = '6.2.1'
+ext.minimumJavaVersion = '8'
 
 import dev.nokee.docs.SecretValue
 import groovy.io.FileType

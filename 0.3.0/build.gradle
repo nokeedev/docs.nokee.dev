@@ -4,6 +4,8 @@ plugins {
 	id 'dev.nokee.documentation.javadoc'
 }
 
+ext.minimumGradleVersion = '6.2.1'
+ext.minimumJavaVersion = '8'
 
 import dev.nokee.docs.SecretValue
 import groovy.io.FileType
@@ -165,17 +167,9 @@ jbake {
 def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
 
 
-def minimumGradleVersion = '6.2.1'
 dependencies {
 	javadocClasspathLock files('javadoc-classpath-lock.xml')
 	javadocSource(fileTree('src/main/java') { include('**/*.java').exclude('**/internal/**') })
-}
-def javadoc = tasks.named('javadoc', Javadoc) {
-	StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
-	options.setEncoding("utf-8")
-	options.setDocEncoding("utf-8")
-	options.setCharSet("utf-8")
-	options.links("https://docs.oracle.com/javase/8/docs/api", "https://docs.gradle.org/${minimumGradleVersion}/javadoc/")
 }
 
 def stageDoc = tasks.register('stageDoc', Sync) {
@@ -190,7 +184,7 @@ def stageDoc = tasks.register('stageDoc', Sync) {
 		include('*/*.mp4')
 	}
 	from(layout.buildDirectory.dir(jbake.destDirName))
-	from(javadoc) { into("docs/${project.name}/javadoc") }
+	from(tasks.named('javadoc')) { into("docs/${project.name}/javadoc") }
 }
 
 // Export outgoing artifact as directory
