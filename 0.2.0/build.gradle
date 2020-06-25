@@ -73,10 +73,7 @@ tasks.named('stage', Sync) {
 
 	from('src/docs') {
 		into("content/docs/${project.name}")
-		exclude('samples/*/*.html')
-		exclude('samples/*/*.gif')
-		exclude('samples/*/*.png')
-		exclude('samples/*/*.mp4')
+		exclude('samples/*/*.html') // Already baked
 	}
 }
 
@@ -89,9 +86,6 @@ tasks.named('site', Sync) {
 	from('src/docs/samples') {
 		into("docs/${project.name}/samples")
 		include('*/*.html')
-		include('*/*.gif')
-		include('*/*.png')
-		include('*/*.mp4')
 	}
 	from(tasks.named('javadoc')) { into("docs/${project.name}/javadoc") }
 }
