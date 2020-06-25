@@ -1,5 +1,7 @@
 plugins {
 	id 'dev.gradleplugins.java-gradle-plugin'
+	id 'dev.gradleplugins.gradle-plugin-unit-test'
+	id 'dev.gradleplugins.gradle-plugin-functional-test'
 }
 
 group = 'dev.nokee'
@@ -8,6 +10,7 @@ version = '1.0'
 repositories {
 	maven { url = 'https://repo.eclipse.org/content/groups/releases/' }
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
@@ -19,4 +22,27 @@ dependencies {
 
 	// GenerateSitemap
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:latest.release'
+}
+
+gradlePlugin {
+	plugins {
+		javadocDocumentation {
+			id = 'dev.nokee.documentation.javadoc'
+			implementationClass = 'dev.nokee.docs.plugins.JavadocDocumentationPlugin'
+		}
+	}
+}
+
+test {
+	dependencies {
+		implementation spockFramework()
+		implementation groovy()
+	}
+}
+
+functionalTest {
+	dependencies {
+		implementation spockFramework()
+		implementation gradleFixtures()
+	}
 }
