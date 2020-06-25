@@ -139,13 +139,15 @@ class JavadocDocumentationPluginFunctionalTest extends AbstractGradleSpecificati
 
 		and:
 		file('javadoc-lock.xml') << '''<?xml version='1.0' encoding='UTF-8'?>
-			|<dependencies>
+			|<javadoc-locking>
+			|  <dependencies>
 			|    <dependency>
-			|        <groupId>org.apache.commons</groupId>
-			|        <artifactId>commons-lang3</artifactId>
-			|        <version>3.9</version>
-			|	</dependency>
-			|</dependencies>
+			|      <groupId>org.apache.commons</groupId>
+			|      <artifactId>commons-lang3</artifactId>
+			|      <version>3.9</version>
+			|  	 </dependency>
+			|  </dependencies>
+			|</javadoc-locking>
 			|'''.stripMargin()
 
 		and:
@@ -184,13 +186,16 @@ class JavadocDocumentationPluginFunctionalTest extends AbstractGradleSpecificati
 		then:
 		result.assertTasksExecutedAndNotSkipped(':generateJavadocClasspathLock')
 		file('build/tmp/generateJavadocClasspathLock/javadoc-classpath-lock.xml').text == '''<?xml version='1.0' encoding='UTF-8'?>
-			|<dependencies>
-			|  <dependency>
-			|    <groupId>org.apache.commons</groupId>
-			|    <artifactId>commons-lang3</artifactId>
-			|    <version>3.9</version>
-			|  </dependency>
-			|</dependencies>
+			|<javadoc-locking>
+			|  <dependencies>
+			|    <dependency>
+			|      <groupId>org.apache.commons</groupId>
+			|      <artifactId>commons-lang3</artifactId>
+			|      <version>3.9</version>
+			|    </dependency>
+			|  </dependencies>
+			|  <repositories/>
+			|</javadoc-locking>
 			|'''.stripMargin()
 	}
 }

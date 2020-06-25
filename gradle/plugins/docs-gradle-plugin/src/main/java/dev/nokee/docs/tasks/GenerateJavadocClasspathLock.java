@@ -18,6 +18,9 @@ public abstract class GenerateJavadocClasspathLock extends DefaultTask {
 	@Nested
 	public abstract SetProperty<JavadocDependencyLock.Dependency> getDependencies();
 
+	@Nested
+	public abstract SetProperty<JavadocDependencyLock.Repository> getRepositories();
+
 	@OutputFile
 	public abstract RegularFileProperty getGeneratedJavadocClasspathLock();
 
@@ -26,6 +29,6 @@ public abstract class GenerateJavadocClasspathLock extends DefaultTask {
 		val xmlMapper = new XmlMapper();
 		xmlMapper.enable(ToXmlGenerator.Feature.WRITE_XML_DECLARATION);
 		xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-		xmlMapper.writeValue(getGeneratedJavadocClasspathLock().get().getAsFile(), new JavadocDependencyLock(getDependencies().get()));
+		xmlMapper.writeValue(getGeneratedJavadocClasspathLock().get().getAsFile(), new JavadocDependencyLock(getDependencies().get(), getRepositories().get()));
 	}
 }

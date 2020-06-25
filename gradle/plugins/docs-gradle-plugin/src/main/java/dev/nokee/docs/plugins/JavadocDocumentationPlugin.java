@@ -1,13 +1,11 @@
 package dev.nokee.docs.plugins;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import dev.nokee.docs.JavadocDependencyLock;
 import dev.nokee.docs.tasks.GenerateJavadocClasspathLock;
-import lombok.*;
+import lombok.SneakyThrows;
+import lombok.val;
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Transformer;
@@ -16,6 +14,8 @@ import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.ExternalDependency;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.file.FileSystemLocation;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.model.ObjectFactory;
@@ -27,10 +27,8 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.javadoc.Javadoc;
 
 import javax.inject.Inject;
-import java.io.FileInputStream;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class JavadocDocumentationPlugin implements Plugin<Project> {
@@ -63,6 +61,7 @@ public abstract class JavadocDocumentationPlugin implements Plugin<Project> {
 			asIncoming(configuration);
 			configuration.getDependencies().addAllLater(toJavadocClasspath(javadocClasspathLock));
 		});
+		project.afterEvaluate(toRepositories(javadocClasspathLock));
 
 		val javadocTask = getOrRegisterJavadocTask();
 		javadocTask.configure(task -> {
@@ -87,6 +86,12 @@ public abstract class JavadocDocumentationPlugin implements Plugin<Project> {
 		}).collect(Collectors.toList()));
 	}
 
+	private Provider<? extends Iterable<JavadocDependencyLock.Repository>> lock(RepositoryHandler repositories) {
+		return getProviders().provider(() -> repositories.stream().filter(it -> it instanceof MavenArtifactRepository).map(it -> {
+			return new JavadocDependencyLock.Repository(((MavenArtifactRepository) it).getUrl());
+		}).collect(Collectors.toList()));
+	}
+
 	private void asIncoming(Configuration configuration) {
 		configuration.setCanBeConsumed(false);
 		configuration.setCanBeResolved(true);
@@ -99,6 +104,22 @@ public abstract class JavadocDocumentationPlugin implements Plugin<Project> {
 		return getTasks().register("javadoc", Javadoc.class, task -> {
 			task.setGroup("documentation");
 		});
+	}
+
+	private Action<Project> toRepositories(Configuration configuration) {
+		return new Action<Project>() {
+			@SneakyThrows
+			@Override
+			public void execute(Project project) {
+				XmlMapper xmlMapper = new XmlMapper();
+				for (File dependencyLockFile : configuration) {
+					val dependencyLock = xmlMapper.readValue(dependencyLockFile, JavadocDependencyLock.class);
+					for (val repository : dependencyLock.getRepositories()) {
+						project.getRepositories().maven(it -> it.setUrl(repository.getUrl()));
+					}
+				}
+			}
+		};
 	}
 
 	private Provider<? extends Iterable<Dependency>> toJavadocClasspath(Configuration configuration) {

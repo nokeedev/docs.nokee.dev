@@ -1,7 +1,7 @@
 plugins {
 	id 'org.jbake.site' version '5.0.0'
 	id 'maven-publish'
-	id 'java-library'
+	id 'dev.nokee.documentation.javadoc'
 }
 
 
@@ -165,36 +165,12 @@ jbake {
 def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
 
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-}
-repositories {
-	maven { url = 'https://dl.bintray.com/gradle-plugins/distributions' }
-}
-def lombokVersion = '1.18.12'
 def minimumGradleVersion = '6.2.1'
-def guavaVersion = '28.2-jre'
-def commonsLangVersion = '3.9'
-def commonsIoVersion = '2.6'
-def groovyVersion = '2.5.8'
 dependencies {
-	compileOnly "dev.gradleplugins:gradle-api:${minimumGradleVersion}"
-	compileOnly "org.codehaus.groovy:groovy-templates:${groovyVersion}"
-	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.8'
-	implementation 'com.googlecode.plist:dd-plist:1.23'
-	implementation "com.google.guava:guava:${guavaVersion}"
-	implementation "commons-io:commons-io:${commonsIoVersion}"
-	implementation "org.apache.commons:commons-lang3:${commonsLangVersion}"
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-	implementation 'com.google.code.gson:gson:2.8.6'
-	implementation 'org.eclipse.jetty:jetty-server:9.4.27.v20200227'
-	implementation 'org.apache.commons:commons-exec:1.3'
+	javadocClasspathLock files('javadoc-classpath-lock.xml')
+	javadocSource(fileTree('src/main/java') { include('**/*.java').exclude('**/internal/**') })
 }
 def javadoc = tasks.named('javadoc', Javadoc) {
-	exclude('**/internal/**')
-
 	StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
 	options.setEncoding("utf-8")
 	options.setDocEncoding("utf-8")

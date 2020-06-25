@@ -1,7 +1,7 @@
 plugins {
 	id 'org.jbake.site' version '5.0.0'
 	id 'maven-publish'
-	id 'java-library'
+	id 'dev.nokee.documentation.javadoc'
 }
 
 
@@ -165,29 +165,12 @@ jbake {
 def bakeTask = tasks.named('bake') { dependsOn(stageTask) }
 
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-}
-repositories {
-	maven { url = 'https://dl.bintray.com/gradle-plugins/distributions' }
-}
-def lombokVersion = '1.18.12'
 def minimumGradleVersion = '6.2.1'
 dependencies {
-	implementation 'org.apache.commons:commons-lang3:3.9'
-	implementation 'com.google.guava:guava:28.2-jre'
-	implementation 'org.eclipse.jetty:jetty-server:9.4.27.v20200227'
-	implementation 'com.google.code.gson:gson:2.8.6'
-	implementation 'commons-io:commons-io:2.6'
-	implementation 'org.apache.commons:commons-exec:1.3'
-	implementation "dev.gradleplugins:gradle-api:${minimumGradleVersion}"
-	compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	javadocClasspathLock files('javadoc-classpath-lock.xml')
+	javadocSource(fileTree('src/main/java') { include('**/*.java').exclude('**/internal/**') })
 }
 def javadoc = tasks.named('javadoc', Javadoc) {
-	exclude('**/internal/**')
-
 	StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
 	options.setEncoding("utf-8")
 	options.setDocEncoding("utf-8")
