@@ -27,6 +27,7 @@ import org.gradle.api.internal.artifacts.transform.UnzipTransform;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.AppliedPlugin;
 import org.gradle.api.plugins.ExtensionContainer;
+import org.gradle.api.plugins.JavaBasePlugin;
 import org.gradle.api.plugins.PluginManager;
 import org.gradle.api.tasks.Sync;
 import org.gradle.api.tasks.TaskContainer;
@@ -101,6 +102,7 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 		getDependencies().registerTransform(UnzipTransform.class, this::transformIncomingAssets);
 
 		val siteTask = getTasks().register("site", Sync.class, task -> {
+			task.setGroup(JavaBasePlugin.DOCUMENTATION_GROUP);
 			task.setDestinationDir(getLayout().getBuildDirectory().dir("site").get().getAsFile());
 			task.from(baked);
 
@@ -232,6 +234,7 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 			});
 
 			val stageTask = getTasks().register("stage", Sync.class, task -> {
+				task.setGroup(JavaBasePlugin.DOCUMENTATION_GROUP);
 				task.setDestinationDir(getLayout().getBuildDirectory().dir("stage").get().getAsFile());
 				// Copy everything from the original location except for jbake.properties as it's processed separately
 				task.from((Callable<String>) jbake::getSrcDirName, spec -> spec.exclude("jbake.properties"));
