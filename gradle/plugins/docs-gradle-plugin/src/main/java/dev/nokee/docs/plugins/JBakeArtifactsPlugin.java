@@ -9,11 +9,18 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
+import org.gradle.api.artifacts.ConfigurationVariant;
+import org.gradle.api.artifacts.PublishArtifact;
 import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.transform.TransformParameters;
 import org.gradle.api.artifacts.transform.TransformSpec;
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition;
 import org.gradle.api.attributes.Attribute;
 import org.gradle.api.attributes.DocsType;
+import org.gradle.api.component.AdhocComponentWithVariants;
+import org.gradle.api.component.ConfigurationVariantDetails;
+import org.gradle.api.component.SoftwareComponentContainer;
+import org.gradle.api.component.SoftwareComponentFactory;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.file.ProjectLayout;
 import org.gradle.api.internal.artifacts.transform.UnzipTransform;
@@ -59,6 +66,9 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 	@Getter
 	private ExtensionContainer extensions;
 
+	@Getter
+	private SoftwareComponentContainer components;
+
 	@Inject
 	protected abstract ConfigurationContainer getConfigurations();
 
@@ -74,9 +84,13 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 	@Inject
 	protected abstract DependencyHandler getDependencies();
 
+	@Inject
+	protected abstract SoftwareComponentFactory getComponentFactory();
+
 	@Override
 	public void apply(Project project) {
 		extensions = project.getExtensions();
+		components = project.getComponents();
 
 		// Incoming
 		val baked = getConfigurations().create(BAKED_CONFIGURATION_NAME, this::configureIncomingBaked);
@@ -234,14 +248,22 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 			});
 
 			// Outgoing
-			createOutgoingAssets(jbake);
-			createOutgoingTemplates(jbake);
-			createOutgoingContent(jbake);
-			createOutgoingConfiguration(jbake);
+			val assetsElements = createOutgoingAssets(jbake);
+			val templatesElements = createOutgoingTemplates(jbake);
+			val contentElements = createOutgoingContent(jbake);
+			val configurationElements = createOutgoingConfiguration(jbake);
+
+			val jbakeComponent = getComponentFactory().adhoc("jbake");
+			jbakeComponent.addVariantsFromConfiguration(assetsElements, this::configureVariant);
+			jbakeComponent.addVariantsFromConfiguration(templatesElements, this::configureVariant);
+			jbakeComponent.addVariantsFromConfiguration(contentElements, this::configureVariant);
+			jbakeComponent.addVariantsFromConfiguration(configurationElements, this::configureVariant);
+			getComponents().add(jbakeComponent);
+
 			createOutgoingBaked(jbake, siteTask);
 		}
 
-		void createOutgoingAssets(JBakeExtension jbake) {
+		private Configuration createOutgoingAssets(JBakeExtension jbake) {
 			val configuration = getConfigurations().create(ASSETS_ELEMENTS_CONFIGURATION_NAME);
 			configuration.setCanBeConsumed(true);
 			configuration.setCanBeResolved(false);
@@ -254,9 +276,11 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 				task.getArchiveClassifier().set("assets");
 			});
 			configuration.getOutgoing().artifact(zipTask);
+
+			return configuration;
 		}
 
-		void createOutgoingConfiguration(JBakeExtension jbake) {
+		private Configuration createOutgoingConfiguration(JBakeExtension jbake) {
 			val configuration = getConfigurations().create(CONFIGURATION_ELEMENTS_CONFIGURATION_NAME);
 			configuration.setCanBeConsumed(true);
 			configuration.setCanBeResolved(false);
@@ -268,9 +292,11 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 			if (jbakeProperties.exists()) {
 				configuration.getOutgoing().artifact(jbakeProperties);
 			}
+
+			return configuration;
 		}
 
-		void createOutgoingContent(JBakeExtension jbake) {
+		private Configuration createOutgoingContent(JBakeExtension jbake) {
 			val configuration = getConfigurations().create(CONTENT_ELEMENTS_CONFIGURATION_NAME);
 			configuration.setCanBeConsumed(true);
 			configuration.setCanBeResolved(false);
@@ -283,9 +309,11 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 				task.getArchiveClassifier().set("content");
 			});
 			configuration.getOutgoing().artifact(zipTask);
+
+			return configuration;
 		}
 
-		void createOutgoingTemplates(JBakeExtension jbake) {
+		private Configuration createOutgoingTemplates(JBakeExtension jbake) {
 			val configuration = getConfigurations().create(TEMPLATES_ELEMENTS_CONFIGURATION_NAME);
 			configuration.setCanBeConsumed(true);
 			configuration.setCanBeResolved(false);
@@ -298,6 +326,8 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 				task.getArchiveClassifier().set("templates");
 			});
 			configuration.getOutgoing().artifact(zipTask);
+
+			return configuration;
 		}
 
 		private void createOutgoingBaked(JBakeExtension jbake, TaskProvider<Sync> siteTask) {
@@ -315,11 +345,30 @@ public abstract class JBakeArtifactsPlugin implements Plugin<Project> {
 			configuration.getOutgoing().artifact(zipTask);
 
 			configuration.getOutgoing().getVariants().create("directory", variant -> {
-				variant.attributes(attributes -> {
-					attributes.attribute(ARTIFACT_FORMAT, DIRECTORY_TYPE);
+				variant.artifact(siteTask.map(Sync::getDestinationDir), it -> {
+					it.setType(DIRECTORY_TYPE);
+					it.builtBy(siteTask);
 				});
-				variant.artifact(siteTask.map(Sync::getDestinationDir));
 			});
+
+			val component = getComponentFactory().adhoc("baked");
+			component.addVariantsFromConfiguration(configuration, this::configureVariant);
+			getComponents().add(component);
+		}
+
+		private void configureVariant(ConfigurationVariantDetails variantDetails) {
+			if (hasUnpublishableArtifactType(variantDetails.getConfigurationVariant())) {
+				variantDetails.skip();
+			}
+		}
+
+		public boolean hasUnpublishableArtifactType(ConfigurationVariant element) {
+			for (PublishArtifact artifact : element.getArtifacts()) {
+				if (ArtifactTypeDefinition.DIRECTORY_TYPE.equals(artifact.getType())) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

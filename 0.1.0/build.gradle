@@ -10,7 +10,6 @@ ext.minimumJavaVersion = '8'
 
 import groovy.io.FileType
 
-import javax.inject.Inject
 import java.util.concurrent.TimeUnit
 
 configurations.all {
@@ -68,29 +67,6 @@ tasks.named('stage', Sync) {
 
 	from('src/docs') { into("content/docs/${project.name}") }
 }
-
-// Create adhoc component for baked elements
-// TODO: skip all non baked artifacts
-abstract class CreateAdhocBakedComponent implements Plugin<Project> {
-	@Override
-	void apply(Project project) {
-		def baked = getSoftwareComponentFactory().adhoc("baked")
-		baked.addVariantsFromConfiguration(project.configurations.bakedElements) {
-			def variant = it.configurationVariant;
-			for (PublishArtifact artifact : variant.getArtifacts()) {
-				if (artifact.type.equals(ArtifactTypeDefinition.DIRECTORY_TYPE)) {
-					it.skip()
-					break
-				}
-			}
-		}
-		project.components.add(baked)
-	}
-
-	@Inject
-	abstract SoftwareComponentFactory getSoftwareComponentFactory()
-}
-apply plugin: CreateAdhocBakedComponent
 
 // Configure variant aware publications
 publishing {
