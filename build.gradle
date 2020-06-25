@@ -19,4 +19,38 @@ GroovyCollections.transpose(subprojects.drop(1).asList(), subprojects as List).e
 	}
 }
 
-tasks.register('deploy')
+def syncTask = tasks.register('sync', Sync) {
+	into(layout.buildDirectory.dir('site'))
+}
+def ARTIFACT_FORMAT = Attribute.of("artifactType", String)
+subprojects.each { Project proj ->
+	def config = configurations.create("release${proj.name}") {
+		canBeConsumed = false
+		canBeResolved = true
+		attributes {
+			attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jbake-baked'))
+			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+			attribute(ARTIFACT_FORMAT, ArtifactTypeDefinition.DIRECTORY_TYPE)
+		}
+	}
+	dependencies {
+		add(config.name, proj)
+	}
+	syncTask.configure {
+		from(config) {
+			from('docs')
+		}
+	}
+}
+
+tasks.register('deploy') {
+	dependsOn(syncTask)
+}
+
+import dev.nokee.docs.tasks.PublishToGitHubPages
+import dev.nokee.docs.SecretValue
+tasks.register('publish', PublishToGitHubPages) {
+	publishDirectory = layout.buildDirectory.dir('site')
+	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key') }
+	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_SECRET').or('dev.nokee.github.secret') }
+}

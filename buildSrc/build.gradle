@@ -1,0 +1,14 @@
+plugins {
+	id 'dev.gradleplugins.java-gradle-plugin'
+}
+
+repositories {
+	maven {
+		url = 'https://repo.eclipse.org/content/groups/releases/'
+	}
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.eclipse.jgit:org.eclipse.jgit:latest.release'
+}
