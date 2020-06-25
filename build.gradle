@@ -76,6 +76,6 @@ import dev.nokee.docs.tasks.PublishToGitHubPages
 import dev.nokee.docs.SecretValue
 tasks.register('publish', PublishToGitHubPages) {
 	publishDirectory = layout.buildDirectory.dir('site')
-	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key') }
-	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_SECRET').or('dev.nokee.github.secret') }
+	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
+	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_TOKEN').or('dev.nokee.github.secret') }
 }

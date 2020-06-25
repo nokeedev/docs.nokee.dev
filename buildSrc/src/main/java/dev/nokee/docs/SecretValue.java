@@ -21,21 +21,34 @@ public abstract class SecretValue implements ValueSource<String, SecretValue.Pro
 			return propValue.toString();
 		}
 
-		return null;
+		return getParameters().getDefaultValue().getOrNull();
 	}
 
-	public interface PropertySource extends ValueSourceParameters {
+	public interface OrDefaultConfiguration {
+		void orDefault(String defaultValue);
+	}
+
+	public interface PropertyOrDefaultConfiguration extends OrDefaultConfiguration {
+		OrDefaultConfiguration or(String propertyName);
+	}
+
+	public interface PropertySource extends ValueSourceParameters, PropertyOrDefaultConfiguration {
 		Property<String> getPropertyName();
 		Property<String> getEnvironmentVariableName();
+		Property<String> getDefaultValue();
 
-		default PropertySource or(String propertyName) {
+		default OrDefaultConfiguration or(String propertyName) {
 			getPropertyName().set(propertyName);
 			return this;
 		}
 
-		default PropertySource from(String environmentVariableName) {
+		default PropertyOrDefaultConfiguration from(String environmentVariableName) {
 			getEnvironmentVariableName().set(environmentVariableName);
 			return this;
+		}
+
+		default void orDefault(String defaultValue) {
+			getDefaultValue().set(defaultValue);
 		}
 	}
 }
