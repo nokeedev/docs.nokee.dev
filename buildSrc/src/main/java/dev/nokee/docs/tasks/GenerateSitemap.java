@@ -18,6 +18,7 @@ import org.gradle.api.tasks.Nested;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
+import javax.inject.Inject;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,6 +34,11 @@ public abstract class GenerateSitemap extends DefaultTask {
 
 	@OutputFile
 	public abstract RegularFileProperty getGeneratedSitemapFile();
+
+	@Inject
+	public GenerateSitemap() {
+		dependsOn(getSitemapUrls());
+	}
 
 	@TaskAction
 	private void doGenerate() throws IOException {

@@ -60,11 +60,7 @@ subprojects.each { Project proj ->
 	sitemapTask.configure {
 		sitemapUrls.addAll(
 			config.incoming.files.elements
-				.map { findAllHtmlFiles(it) }
-				.map { withoutRedirectionPages(it) }
-				.map { asCanonicalPaths(it) }
-				.map(withHost('docs.nokee.dev'))
-				.map { toSitemapUrl(it) })
+				.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(it))))) })
 	}
 }
 
