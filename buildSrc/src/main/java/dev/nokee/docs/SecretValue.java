@@ -1,17 +1,12 @@
 package dev.nokee.docs;
 
 import org.gradle.api.provider.Property;
-import org.gradle.api.provider.ProviderFactory;
 import org.gradle.api.provider.ValueSource;
 import org.gradle.api.provider.ValueSourceParameters;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 
 public abstract class SecretValue implements ValueSource<String, SecretValue.PropertySource> {
-	@Inject
-	protected abstract ProviderFactory getProviders();
-
 	@Nullable
 	@Override
 	public String obtain() {
@@ -21,12 +16,7 @@ public abstract class SecretValue implements ValueSource<String, SecretValue.Pro
 			return propValue.toString();
 		}
 
-		propValue = getProviders().gradleProperty(getParameters().getPropertyName()).getOrNull();
-		if (propValue != null) {
-			return propValue.toString();
-		}
-
-		propValue = getProviders().systemProperty(getParameters().getPropertyName()).getOrNull();
+		propValue = System.getProperty(getParameters().getPropertyName().get());
 		if (propValue != null) {
 			return propValue.toString();
 		}
