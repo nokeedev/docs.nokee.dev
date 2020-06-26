@@ -157,6 +157,8 @@ def siteTask = tasks.named('site', Sync) {
 		Files.createSymbolicLink(new File(destinationDir, 'current').toPath(), Paths.get('0.3.0'))
 		Files.createSymbolicLink(new File(destinationDir, 'main').toPath(), Paths.get('docs/nightly'))
 		Files.createSymbolicLink(new File(destinationDir, 'nightly').toPath(), Paths.get('docs/nightly'))
+		new File(destinationDir, '.nojekyll').createNewFile()
+		new File(destinationDir, 'CNAME').text = 'docs.nokee.dev\n'
 	}
 }
 subprojects.each { Project proj ->
