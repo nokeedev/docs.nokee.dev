@@ -19,6 +19,8 @@ import dev.nokee.docs.tasks.GenerateSitemap
 import dev.nokee.docs.tasks.PublishToGitHubPages
 import org.jbake.gradle.JBakeTask
 
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 
@@ -143,6 +145,12 @@ tasks.named('stage', Sync) { from(redirectionTask.flatMap { it.destinationDirect
 def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
 	from(robotsTask.flatMap { it.generatedRobotsFile })
+
+	doLast {
+		Files.createSymbolicLink(new File(destinationDir, 'current').toPath(), Paths.get('0.3.0'))
+		Files.createSymbolicLink(new File(destinationDir, 'main').toPath(), Paths.get('docs/nightly'))
+		Files.createSymbolicLink(new File(destinationDir, 'nightly').toPath(), Paths.get('docs/nightly'))
+	}
 }
 subprojects.each { Project proj ->
 	dependencies {
