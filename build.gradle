@@ -15,6 +15,7 @@ import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
 import dev.nokee.docs.tasks.PublishToGitHubPages
+import org.jbake.gradle.JBakeTask
 
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
@@ -84,6 +85,19 @@ allprojects {
 	configurations.all {
 		resolutionStrategy { ResolutionStrategy r ->
 			r.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
+		}
+	}
+}
+
+// Delete baked output before baking
+// See https://github.com/jbake-org/jbake-gradle-plugin/issues/55
+allprojects {
+	pluginManager.withPlugin('org.jbake.site') {
+		tasks.named('bake', JBakeTask) {
+			doFirst {
+				output.deleteDir()
+				output.mkdirs()
+			}
 		}
 	}
 }
