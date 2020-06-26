@@ -120,7 +120,7 @@ tasks.register('deploy') {
 }
 
 tasks.register('publish', PublishToGitHubPages) {
-	publishDirectory = siteTask.map { it.destinationDir }
+	publishDirectory.fileProvider(siteTask.map { it.destinationDir })
 	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
 	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_TOKEN').or('dev.nokee.github.secret') }
 }
