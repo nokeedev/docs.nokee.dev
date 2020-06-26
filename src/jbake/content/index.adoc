@@ -1,6 +1,8 @@
-= Documentation
-:jbake-type: manual_chapter
 :jbake-status: published
+= Documentation
+:jbake-type: documentation_index
+:jbake-tags: user manual, nokee, gradle, gradle plugin
+:jbake-description: Learn the concept behind Nokee plugins for Gradle.
 
 == Latest Release
 
