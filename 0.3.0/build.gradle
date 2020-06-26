@@ -45,12 +45,6 @@ file('src/docs/samples').eachFile(FileType.DIRECTORIES) { sampleDir ->
 	}
 }
 tasks.named('zipBaked', Zip) {
-	dependsOn(zips.values().flatten())
-	zips.each {k, v ->
-		v.each {
-			from(it) { into("${project.name}/samples/$k") }
-		}
-	}
 	into("docs") // Make sure we don't break downstream
 }
 
@@ -73,6 +67,12 @@ tasks.named('site', Sync) {
 	from('src/docs/samples') {
 		into("${project.name}/samples")
 		include('*/*.html')
+	}
+	dependsOn(zips.values().flatten())
+	zips.each {k, v ->
+		v.each {
+			from(it) { into("${project.name}/samples/$k") }
+		}
 	}
 	from(tasks.named('javadoc')) { into("${project.name}/javadoc") }
 }
