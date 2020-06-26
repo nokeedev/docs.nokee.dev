@@ -63,14 +63,17 @@ allprojects {
 
 // Publish baked elements to Nokee documentation
 subprojects {
-	apply plugin: 'maven-publish'
-	publishing {
-		repositories {
-			maven(nokeeDocumentation())
-		}
-		publications {
-			baked(MavenPublication) {
-				from components.baked
+	pluginManager.withPlugin('maven-publish') {
+		publishing {
+			repositories {
+				maven(nokeeDocumentation())
+			}
+			publications {
+				baked(MavenPublication) {
+					components.matching({ it.name == 'baked' }).all {
+						from it
+					}
+				}
 			}
 		}
 	}
