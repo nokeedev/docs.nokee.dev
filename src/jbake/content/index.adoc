@@ -1,0 +1,20 @@
+= Documentation
+:jbake-type: manual_chapter
+:jbake-status: published
+
+== Latest Release
+
+include::versions/latest.adoc[]
+
+== Current
+
+|===
+| Version | Format
+
+| main
+| link:main/manual/user-manual.html[HTML]
+|===
+
+== Archived
+
+include::versions/archived.adoc[]

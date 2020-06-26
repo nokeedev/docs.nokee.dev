@@ -16,6 +16,7 @@ import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRedirection
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
+import dev.nokee.docs.tasks.GenerateVersionIndex
 import dev.nokee.docs.tasks.PublishToGitHubPages
 import org.jbake.gradle.JBakeTask
 
@@ -138,9 +139,15 @@ def redirectionTask = tasks.register('redirection', GenerateRedirection) {
 	redirect('objective-cpp-language-plugin', 'current/manual/objective-cpp-language-plugin.html')
 	redirect('project-entry-points', 'current/manual/plugin-anatomy.html#sec:plugin-anatomy-triplet-entry-point')
 	redirect('toolbox', 'nightly/manual/gradle-plugin-development.html')
-	destinationDirectory = layout.buildDirectory.dir("tmp/${name}");
+	destinationDirectory = layout.buildDirectory.dir("tmp/${name}")
 }
 tasks.named('stage', Sync) { from(redirectionTask.flatMap { it.destinationDirectory }) }
+
+def versionTask = tasks.register('versions', GenerateVersionIndex) {
+	versions = subprojects*.name
+	destinationDirectory = layout.buildDirectory.dir("tmp/${name}")
+}
+tasks.named('stage', Sync) { from(versionTask.flatMap { it.destinationDirectory }) { into('content/versions')} }
 
 def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
