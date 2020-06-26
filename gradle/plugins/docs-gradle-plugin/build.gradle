@@ -26,6 +26,9 @@ dependencies {
 	// JBake
 	// TODO: Should just be compileOnly
 	implementation 'org.jbake:jbake-gradle-plugin:latest.release'
+
+	// Redirection
+	implementation 'commons-io:commons-io:latest.release'
 }
 
 gradlePlugin {

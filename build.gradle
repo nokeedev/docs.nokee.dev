@@ -8,10 +8,12 @@ buildscript {
 	}
 }
 plugins {
+	id 'org.jbake.site' version '5.2.0'
 	id 'dev.nokee.documentation.jbake-ingredients'
 }
 
 import dev.nokee.docs.SecretValue
+import dev.nokee.docs.tasks.GenerateRedirection
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
 import dev.nokee.docs.tasks.PublishToGitHubPages
@@ -31,7 +33,7 @@ allprojects {
 
 // Ensure the `bake` tasks aren't ran in parallel, there is a bug in the JBake site plugin that cause random crashes
 // See https://github.com/jbake-org/jbake-gradle-plugin/issues/53
-GroovyCollections.transpose(subprojects.drop(1).asList(), subprojects as List).each {
+GroovyCollections.transpose(allprojects.drop(1).asList(), allprojects as List).each {
 	def downstream = it[0]
 	def upstream = it[1]
 	upstream.afterEvaluate { proj ->
@@ -106,6 +108,9 @@ allprojects {
 dependencies {
 	baked('dev.nokee.docs:nightly:latest.integration') { changing = true }
 	assets 'dev.nokee.docs:jbake:latest.integration' // nothing is deployed here :-( everything is in nightly
+
+	templates 'dev.nokee.docs:jbake:latest.integration'
+	configuration 'dev.nokee.docs:jbake:latest.integration'
 }
 
 def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
@@ -118,6 +123,22 @@ def robotsTask = tasks.register('robots', GenerateRobots) {
 	host = 'docs.nokee.dev'
 	generatedRobotsFile = file('build/tmp/robots/robots.txt')
 }
+
+def redirectionTask = tasks.register('redirection', GenerateRedirection) {
+	redirect('building-jni-application', 'current/manual/building-jni-projects.html#sec:building-jni-application')
+	redirect('c-language-plugin', 'current/manual/c-language-plugin.html')
+	redirect('cpp-language-plugin', 'current/manual/cpp-language-plugin.html')
+	redirect('incompatible-plugins', 'current/manual/incompatible-plugins.html')
+	redirect('jni-library-plugin', 'current/manual/jni-library-plugin.html')
+	redirect('migration-from-core-plugins', 'current/manual/migrating-from-core-plugins.html')
+	redirect('migrating-from-software-model', 'current/manual/migrating-from-software-model.html')
+	redirect('objective-c-language-plugin', 'current/manual/objective-c-language-plugin.html')
+	redirect('objective-cpp-language-plugin', 'current/manual/objective-cpp-language-plugin.html')
+	redirect('project-entry-points', 'current/manual/plugin-anatomy.html#sec:plugin-anatomy-triplet-entry-point')
+	redirect('toolbox', 'nightly/manual/gradle-plugin-development.html')
+	destinationDirectory = layout.buildDirectory.dir("tmp/${name}");
+}
+tasks.named('stage', Sync) { from(redirectionTask.flatMap { it.destinationDirectory }) }
 
 def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
