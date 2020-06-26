@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<title>Developing with Xcode IDE</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Learn the concept for integrating Xcode IDE with the Nokee plugins in Gradle.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="user manual, xcode, ide, gradle">
+
+<link rel="canonical" href="https://nokee.dev/0.3.0/manual/developing-with-xcode-ide.html">
+<meta property="og:url" content="https://nokee.dev/0.3.0/manual/developing-with-xcode-ide.html">
+
+
+
+
+
+<script type="application/ld+json">
+    [{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+  "@type": "ListItem",
+  "position": 1,
+  "name": "User Manual",
+  "item": "https://nokee.dev/docs/current/manual/user-manual.html"
+},{
+  "@type": "ListItem",
+  "position": 2,
+  "name": "Developing with Xcode IDE",
+  "item": "https://nokee.dev/0.3.0/manual/developing-with-xcode-ide.html"
+}]
+    }]
+</script>
+
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Developing with Xcode IDE">
+<meta name="og:description" content="Learn the concept for integrating Xcode IDE with the Nokee plugins in Gradle.">
+
+
+
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@nokeedev">
+<meta name="twitter:title" content="Developing with Xcode IDE">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Learn the concept for integrating Xcode IDE with the Nokee plugins in Gradle.">
+
+
+
+<!-- Le styles -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="../../css/normalize-8.0.1.css" rel="stylesheet">
+<link href="../../css/prettify.css" rel="stylesheet">
+<link href="../../css/menu.css" rel="stylesheet">
+
+<link href="../../css/colorscheme-light.css" rel="stylesheet">
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="../../js/html5shiv.min.js"></script>
+<![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157599764-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-157599764-1');
+</script>
+
+
+<!-- Le styles -->
+<link href="../../css/docs-asciidoctor.css" rel="stylesheet">
+<link href="../../css/docs-asciidoctor-docs-layout.css" rel="stylesheet">
+<link href="../../css/docs-asciidoctor-override.css" rel="stylesheet">
+<link href="../../css/docs-asciidoctor-color-override.css" rel="stylesheet">
+<link href="../../css/docs-base.css" rel="stylesheet">
+<link href="../../css/multi-language-sample.css" rel="stylesheet">
+
+</head>
+<body onload="prettyPrint()">
+
+	
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="/" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
+		<li><a href="/blog">Blog</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<main class="main-content">
+		
+<nav class="docs-navigation">
+	<div class="breadcrumbs"><ul><li><a href="../manual/user-manual.html">User Manual</a></li><li><a href="/0.3.0/manual/developing-with-xcode-ide.html">Developing with Xcode IDE</a></li></ul></div>
+	<input class="docs-navigation-hamburger" type="checkbox" id="docs-navigation-hamburger" />
+	<label class="menu-icon" for="docs-navigation-hamburger"><span class="fa navicon"></span></label>
+	<div class="navigation-items">
+		<ul>
+			<li><a href="../manual/user-manual.html">Docs Home</a></li>
+			<li><a href="../samples/">Samples</a></li>
+			<li><a href="../release-notes.html">Release Notes</a></li>
+			<li><a href="../javadoc/index.html">Nokee Javadoc API</a></li>
+			<li><a href="../dsl/index.html">Nokee DSL Reference</a></li>
+		</ul>
+		<h3 id="user-manual">User Manual </h3>
+		<ul>
+			<li><a href="../manual/getting-started.html">Getting Started</a></li>
+			<li><a href="../manual/plugin-anatomy.html">Anatomy of a Nokee Plugin</a></li>
+			<li><a href="../manual/building-jni-projects.html">Building JNI Projects</a></li>
+			
+			<li><a href="../manual/developing-with-xcode-ide.html" class="active">Developing with Xcode IDE</a></li>
+			
+			<li><a href="../manual/terminology.html">Terminology</a></li>
+		</ul>
+		<h3 id="reference">Reference</h3>
+		<ul>
+			<li><a href="../manual/plugin-references.html">Nokee Plugins</a></li>
+			<ul>
+				<li><a href="../manual/jni-library-plugin.html">JNI Library</a></li>
+				<li><a href="../manual/cpp-language-plugin.html">C++ Language</a></li>
+				<li><a href="../manual/c-language-plugin.html">C Language</a></li>
+				<li><a href="../manual/objective-c-language-plugin.html">Objective-C Language</a></li>
+				<li><a href="../manual/objective-cpp-language-plugin.html">Objective-C++ Language</a></li>
+				<li><a href="../manual/objective-c-ios-application-plugin.html">Objective-C iOS Application</a></li>
+				<li><a href="../manual/xcode-ide-plugin.html">Xcode IDE</a></li>
+			</ul>
+		</ul>
+	</div>
+</nav>
+
+
+		<div class="chapter">
+			<div id="header">
+				<h1>Developing with Xcode IDE</h1>
+			</div>
+
+			<div id="content">
+				<div id="toc" class="toc">
+<div id="toctitle">Contents</div>
+<ul class="sectlevel1">
+<li><a href="#sec:xcode-dev-introduction">Introduction</a></li>
+<li><a href="#sec:xcode-dev-assumption">Assumption made by the plugin</a></li>
+<li><a href="#sec:xcode-dev-projects">Xcode projects</a></li>
+<li><a href="#sec:xcode-dev-build-files">Editing Gradle build files from the IDE</a></li>
+<li><a href="#sec:xcode-dev-targets">Xcode targets</a></li>
+<li><a href="#sec:xcode-dev-indexer">Implicit Xcode indexer targets</a></li>
+<li><a href="#sec:xcode-dev-build-configurations">Xcode build configurations</a></li>
+<li><a href="#sec:xcode-dev-build-settings">Xcode build settings</a></li>
+<li><a href="#sec:xcode-dev-whats-next">What&#8217;s next?</a></li>
+<li><a href="#sec:xcode-dev-help-improve-chapter">Help improve this chapter</a></li>
+<li><a href="#sec:xcode-dev-appendix">Appendix</a></li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Apple does not provide seamless integration with the Gradle build tool for its Xcode IDE.
+The Nokee plugins provide the <a href="xcode-ide-plugin.html">Xcode IDE Plugin</a> for this purpose.
+This chapter will discuss how Nokee integrates with the Xcode IDE.
+See the <a href="xcode-ide-plugin.html">plugin reference chapter</a> for a more technical reference.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-introduction"><a class="anchor" href="#sec:xcode-dev-introduction"></a><a class="link" href="#sec:xcode-dev-introduction">Introduction</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We will refer to Xcode as the Integrated Development Environment (IDE) for developing source code.
+Every other aspect of Xcode is outside the scope of this chapter.
+The plugin focuses heavily on keeping the developer experience within the IDE as close as possible to the <em>vanilla experience</em> to ensure happiness among developers.
+For example, executing tests from the sidebar, cmd+click navigation, searching symbols are all considered and work as expected.
+We will discuss the background of the choices made by the plugin.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-assumption"><a class="anchor" href="#sec:xcode-dev-assumption"></a><a class="link" href="#sec:xcode-dev-assumption">Assumption made by the plugin</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Xcode IDE plugin assumes a unidirectional transfer of the build knowledge, from Gradle to Xcode.
+In this case, Gradle is the single source of truth, and it convert only the required information into an Xcode-compatible model.
+Whenever possible, the generated Xcode IDE will delegate to Gradle.
+Gradle being the most flexible it allows for complex wiring of tasks and dependencies.</p>
+</div>
+<div class="paragraph">
+<p>The developer must generate Xcode IDE files.
+The files shouldn&#8217;t be committed to source control.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If your team or organization needs to submit the generated Xcode IDE files to source control, please <a href="https://github.com/nokeedev/gradle-native/issues/30">comment on this poll issue</a> with your use cases.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The plugin also assumes a single workspace per Gradle multi-project build.
+Each Gradle project can contribute more than one Xcode project to the workspace if required.
+For this reason, the plugin registers an extended extension on the root Gradle project to provide the additional capability for generating a workspace.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-projects"><a class="anchor" href="#sec:xcode-dev-projects"></a><a class="link" href="#sec:xcode-dev-projects">Xcode projects</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>By default, the Xcode IDE plugin considers a one-to-one mapping of the Gradle project to the Xcode project.
+Despite this mapping, it is possible to register additional Xcode project via the <a href="../dsl/dev.nokee.ide.xcode.XcodeIdeProjectExtension.html#dev.nokee.ide.xcode.XcodeIdeProjectExtension:projects">container available on the extension</a>.
+The plugin includes the source code to the project matching a group named after the target it&#8217;s associated.
+The plugin disregards the on-disk layout of the sources when adding them to the project groups.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/xcode-ide-source-layout.png" alt="Xcode target and source group layout">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-build-files"><a class="anchor" href="#sec:xcode-dev-build-files"></a><a class="link" href="#sec:xcode-dev-build-files">Editing Gradle build files from the IDE</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Gradle build configuration is easily accessible from the IDE.
+Despite Xcode having no support for Gradle file type, the Xcode IDE plugin includes them in the main group of the generated Xcode project as shown in the picture below.
+The plugin also includes the <code>gradle.properties</code> files, if available, as well as any explicit initialization scripts passed on the command line.
+It also considers changes to the setting and build file locations.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/xcode-ide-build-files.png" alt="Xcode project with Gradle build files">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-targets"><a class="anchor" href="#sec:xcode-dev-targets"></a><a class="link" href="#sec:xcode-dev-targets">Xcode targets</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The plugins consider a one-to-one mapping between the Gradle project components to Xcode targets.
+Each target registered to an Xcode project will delegate to Gradle.
+By default, the plugin infers the product type from the Gradle component type.
+For ad-hoc Xcode projects, it is possible to choose product types that can be unknown to Xcode.
+The external build target offers less constraint than native Xcode targets allowing better integration with Gradle.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/xcode-ide-delegate-target.png" alt="Xcode target delegating to Gradle">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Head over to the <a href="#sec:xcode-dev-appendix-how-xcode-delegate-to-gradle">appendix of this chapter to learn more how the plugin delegate to Gradle</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-indexer"><a class="anchor" href="#sec:xcode-dev-indexer"></a><a class="link" href="#sec:xcode-dev-indexer">Implicit Xcode indexer targets</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Xcode IDE has a process to understand the sources to provide code assistance features such as syntax highlighting, code completion, and search for definitions and references.
+The plugin will create an additional indexer target identified by the <code>__indexer_</code> prefix for each product type it known as indexable.
+Those targets are configured by the plugin to ensure the code is appropriately indexed.
+In general, the plugin will source the indexer&#8217;s build settings from the original target.
+Some indexable product type requires special attention to play well with Xcode.
+The plugin may have specialized logic to ensure the generated indexer target works with Xcode&#8217;s indexer.
+You should never use any of those targets while developing inside the Xcode IDE.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/xcode-ide-indexer-target.png" alt="Implicit indexer target for Xcode code-completion">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-build-configurations"><a class="anchor" href="#sec:xcode-dev-build-configurations"></a><a class="link" href="#sec:xcode-dev-build-configurations">Xcode build configurations</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A build configuration is analogous to a build type in Gradle, typically known as Debug and Release variant.
+When no build type is configured for a native component, the plugin creates a default build configuration named <code>Default</code>.
+When a component does not build on the host machine due to missing toolchain, for example, the plugin creates a default build configuration named <code>Unbuildable</code> instead.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-build-settings"><a class="anchor" href="#sec:xcode-dev-build-settings"></a><a class="link" href="#sec:xcode-dev-build-settings">Xcode build settings</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a <em>vanilla Xcode experience</em>, developers would use the build settings to configure a particular aspect of a product&#8217;s build process.
+With the Xcode IDE plugin, developers configure the product&#8217;s build process using the Gradle build language.
+Modifying the build settings inside Xcode is discourage and is unlikely to have the desired effect.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/xcode-ide-build-settings.png" alt="Xcode build settings configuration">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-whats-next"><a class="anchor" href="#sec:xcode-dev-whats-next"></a><a class="link" href="#sec:xcode-dev-whats-next">What&#8217;s next?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You should now have a grasp on the concept used by <a href="xcode-ide-plugin.html">Xcode IDE Plugin</a>.
+Head over the <a href="../samples/index.html#sec:samples-ide">IDE samples</a> to see a demonstration of the plugins for common scenarios.
+Bookmark the relevant <a href="plugin-references.html">plugin chapters</a> for future reference.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-help-improve-chapter"><a class="anchor" href="#sec:xcode-dev-help-improve-chapter"></a><a class="link" href="#sec:xcode-dev-help-improve-chapter">Help improve this chapter</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Have feedback or a question?
+Found a typo?
+Is something unclear?
+Help is just a GitHub issue away.
+Please <a href="https://github.com/nokeedev/gradle-native/issues">open an issue</a> or <a href="https://github.com/nokeedev/gradle-native">create a pull request</a>, and we&#8217;ll get back to you.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:xcode-dev-appendix"><a class="anchor" href="#sec:xcode-dev-appendix"></a><a class="link" href="#sec:xcode-dev-appendix">Appendix</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="sec:xcode-dev-appendix-how-xcode-delegate-to-gradle"><a class="anchor" href="#sec:xcode-dev-appendix-how-xcode-delegate-to-gradle"></a><a class="link" href="#sec:xcode-dev-appendix-how-xcode-delegate-to-gradle">How Nokee configure Xcode IDE to delegate to Gradle</a></h3>
+<div class="paragraph">
+<p>The Xcode IDE plugin registers a bridging task rule that matches any tasks that starts with <code>__xcode_</code>.
+Only Xcode targets should be invoking those tasks directly.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/xcode-ide-bridge-tasks.png" alt="Gradle tasks showing the registered Xcode bridging task rule">
+</div>
+</div>
+<div class="paragraph">
+<p>The bridging task works in tandem with a set of properties used to transfer the requested Xcode IDE action to Gradle.
+The plugin uses the project properties to search the Xcode project registry for the matching build configuration.
+Once identified, the bridging task will copy the configured product location to the Xcode built product directory.
+Thanks to the implicit task dependencies on the Provider API, the bridging task will automatically depend on the necessary tasks and execute the build as a typical command-line invocation would.
+The command-line used when delegating to Gradle is also modified to include all explicitly defined initialization script.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/xcode-ide-bridging-task.png" alt="Xcode build log showing the bridging tasks">
+</div>
+</div>
+<div class="paragraph">
+<p>When Xcode IDE requests a clean action, the bridging task will depend on the clean lifecycle task for the project.</p>
+</div>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+		<aside class="secondary-navigation"></aside>
+	</main>
+
+	<div id="push"></div>
+	<div id="footer">
+		<div class="container">
+			<p class="muted credit">&copy; 2020</p>
+		</div>
+	</div>
+
+	<gdpr-banner></gdpr-banner>
+<script src="../../js/gdpr-banner.js" type="module"></script>
+
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../../js/prettify.js"></script>
+	<script src="../../js/multi-language-sample.js"></script>
+	<script src="../../js/active-link.js"></script>
+
+</body>
+</html>
