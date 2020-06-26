@@ -96,6 +96,8 @@ dependencies {
 
 def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
 	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
+	sitemapUrls.addAll(configurations.baked.incoming.files.elements
+			.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(it))))) })
 }
 
 def robotsTask = tasks.register('robots', GenerateRobots) {
@@ -110,11 +112,6 @@ def siteTask = tasks.named('site', Sync) {
 subprojects.each { Project proj ->
 	dependencies {
 		baked proj
-	}
-	sitemapTask.configure {
-		sitemapUrls.addAll(
-			config.incoming.files.elements
-				.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(it))))) })
 	}
 }
 
