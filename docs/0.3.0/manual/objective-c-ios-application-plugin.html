@@ -208,7 +208,7 @@ It provides an entry point (application), runtime (iOS) and implementation langu
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
    id 'dev.nokee.objective-c-ios-application'
 }</code></pre>
 </div>
@@ -220,7 +220,7 @@ It provides an entry point (application), runtime (iOS) and implementation langu
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
    id("dev.nokee.objective-c-ios-application")
 }</code></pre>
 </div>
@@ -254,11 +254,9 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 </dd>
 <dt class="hdlist1"><code>build</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>check</code>, <code>assemble</code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregate tasks that perform a full build of the project.
+<p>Depends on: <code>check</code>, <code>assemble</code>
+::
+Aggregate tasks that perform a full build of the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>clean</code> - Delete</dt>

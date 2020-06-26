@@ -195,7 +195,7 @@ An JVM (i.e. the <a href="https://docs.gradle.org/6.2.1/userguide/java_plugin.ht
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
    id 'dev.nokee.jni-library'
 }</code></pre>
 </div>
@@ -207,7 +207,7 @@ An JVM (i.e. the <a href="https://docs.gradle.org/6.2.1/userguide/java_plugin.ht
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
    id("dev.nokee.jni-library")
 }</code></pre>
 </div>
@@ -263,11 +263,9 @@ The plugin can consume JVM libraries produced by the <a href="https://docs.gradl
 <dl>
 <dt class="hdlist1"><code>jar</code> — <a href="https://docs.gradle.org/6.2.1/dsl/org.gradle.api.tasks.bundling.Jar.html">Jar</a></dt>
 <dd>
-<p>Depends on: All the task which contribute to the JAR library (e.g. <code>classes</code>)</p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Assembles the production JAR file, based on the classes and resources attached to the main source set.</p>
+<p>Depends on: All the task which contribute to the JAR library (e.g. <code>classes</code>)
+::
+Assembles the production JAR file, based on the classes and resources attached to the main source set.</p>
 </dd>
 </dl>
 </div>
@@ -281,11 +279,9 @@ Read the <a href="https://docs.gradle.org/6.2.1/userguide/building_cpp_projects.
 <dl>
 <dt class="hdlist1"><code>link<em>Variant</em></code> (e.g. <code>linkWindows</code> and <code>linkLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: All tasks which contribute to the link libraries, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies</p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Links shared library from compiled object files using the selected linker.</p>
+<p>Depends on: All tasks which contribute to the link libraries, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies
+::
+Links shared library from compiled object files using the selected linker.</p>
 </dd>
 <dt class="hdlist1"><code>sharedLibrary<em>Variant</em></code> (e.g. <code>sharedLibraryWindows</code> and <code>sharedLibraryLinux</code>) - Task (lifecycle)</dt>
 <dd>
@@ -294,11 +290,9 @@ This is an aggregate task that depends on tasks for creating the Shared Library 
 </dd>
 <dt class="hdlist1"><code>jar<em>Variant</em></code> (e.g. <code>jarWindows</code> and <code>jarLinux</code>) - <a href="https://docs.gradle.org/6.2.1/dsl/org.gradle.api.tasks.bundling.Jar.html">Jar</a></dt>
 <dd>
-<p>Depends on: <code>sharedLibrary<em>Variant</em></code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Assembles the production JAR file, based on the classes and resources attached to the main source set.
+<p>Depends on: <code>sharedLibrary<em>Variant</em></code>
+::
+Assembles the production JAR file, based on the classes and resources attached to the main source set.
 The task will contain the shared library for the JNI bridge as well as all the native runtime dependencies when a single target machine is configured.
 When multiple target machines are configured, a separate JAR task is created for each variant containing the respective shared library and native runtime dependencies.</p>
 </dd>
@@ -325,11 +319,9 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 </dd>
 <dt class="hdlist1"><code>build</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>check</code>, <code>assemble</code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregate tasks that perform a full build of the project.
+<p>Depends on: <code>check</code>, <code>assemble</code>
+::
+Aggregate tasks that perform a full build of the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>clean</code> - Delete</dt>
@@ -378,7 +370,7 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
    dependencies {
       api 'org.apache.httpcomponents:httpclient:4.5.7'
       jvmImplementation 'org.apache.commons:commons-lang3:3.5'
@@ -394,7 +386,7 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
    dependencies {
       api("org.apache.httpcomponents:httpclient:4.5.7")
       jvmImplementation("org.apache.commons:commons-lang3:3.5")
