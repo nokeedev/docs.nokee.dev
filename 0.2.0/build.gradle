@@ -71,7 +71,7 @@ tasks.named('site', Sync) {
 	dependsOn(zips.values().flatten())
 	zips.each {k, v ->
 		v.each {
-			from(it) { into("docs/${project.name}/samples/$k") }
+			from(it) { into("${project.name}/samples/$k") }
 		}
 	}
 	from(tasks.named('javadoc')) { into("${project.name}/javadoc") }
