@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<title>Building Java Native Interface (JNI) Projects</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Learn the concept of building a JNI project with Gradle.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="user manual, jni, gradle">
+
+<link rel="canonical" href="https://nokee.dev/docs/nightly/manual/building-jni-projects.html">
+<meta property="og:url" content="https://nokee.dev/docs/nightly/manual/building-jni-projects.html">
+
+
+
+
+
+<script type="application/ld+json">
+    [{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+  "@type": "ListItem",
+  "position": 1,
+  "name": "User Manual",
+  "item": "https://nokee.dev/docs/nightly/manual/user-manual.html"
+},{
+  "@type": "ListItem",
+  "position": 2,
+  "name": "Building Java Native Interface (JNI) Projects",
+  "item": "https://nokee.dev/docs/nightly/manual/building-jni-projects.html"
+}]
+    }]
+</script>
+
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Building Java Native Interface (JNI) Projects">
+<meta name="og:description" content="Learn the concept of building a JNI project with Gradle.">
+
+
+
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@nokeedev">
+<meta name="twitter:title" content="Building Java Native Interface (JNI) Projects">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Learn the concept of building a JNI project with Gradle.">
+
+
+
+<!-- Le styles -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+<link href="/css/prettify.css" rel="stylesheet">
+<link href="/css/menu.css" rel="stylesheet">
+
+<link href="/css/colorscheme-light.css" rel="stylesheet">
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="/js/html5shiv.min.js"></script>
+<![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157599764-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-157599764-1');
+</script>
+
+
+<!-- Le styles -->
+<link href="/css/docs-asciidoctor.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-docs-layout.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-override.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-color-override.css" rel="stylesheet">
+<link href="/css/docs-base.css" rel="stylesheet">
+<link href="/css/multi-language-sample.css" rel="stylesheet">
+
+</head>
+<body onload="prettyPrint()">
+
+	
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="/" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
+		<li><a href="/blog">Blog</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<main class="main-content">
+		
+<nav class="docs-navigation">
+	<div class="breadcrumbs"><ul><li><a href="../manual/user-manual.html">User Manual</a></li><li><a href="/docs/nightly/manual/building-jni-projects.html">Building Java Native Interface (JNI) Projects</a></li></ul></div>
+	<input class="docs-navigation-hamburger" type="checkbox" id="docs-navigation-hamburger" />
+	<label class="menu-icon" for="docs-navigation-hamburger"><span class="fa navicon"></span></label>
+	<div class="navigation-items">
+		<ul>
+			<li><a href="../manual/user-manual.html">Docs Home</a></li>
+			<li><a href="../samples/">Samples</a></li>
+			<li><a href="../release-notes.html">Release Notes</a></li>
+			<li><a href="../javadoc/index.html">Nokee Javadoc API</a></li>
+			<li><a href="../dsl/index.html">Nokee DSL Reference</a></li>
+		</ul>
+		<h3 id="user-manual">User Manual </h3>
+		<ul>
+			<li><a href="../manual/getting-started.html">Getting Started</a></li>
+			<li><a href="../manual/plugin-anatomy.html">Anatomy of a Nokee Plugin</a></li>
+			<li><a href="../manual/building-jni-projects.html" class="active">Building JNI Projects</a></li>
+			<li><a href="../manual/building-native-projects.html">Building Native Projects</a></li>
+			<li><a href="../manual/developing-with-xcode-ide.html">Developing with Xcode IDE</a></li>
+			<li><a href="../manual/gradle-plugin-development.html">Gradle Plugin Development</a></li>
+			<li><a href="../manual/terminology.html">Terminology</a></li>
+		</ul>
+		<h3 id="reference">Reference</h3>
+		<ul>
+			<li><a href="../manual/plugin-references.html">Nokee Plugins</a></li>
+			<ul>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-native-development">Native Development</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-ios">iOS Development</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-jvm">JNI Development</a></li>
+				<li><a href="../manual/xcode-ide-plugin.html">Xcode IDE</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-gradledev">Gradle Plugin Development</a></li>
+			</ul>
+		</ul>
+	</div>
+</nav>
+
+
+		<div class="chapter">
+			<div id="header">
+				<h1>Building Java Native Interface (JNI) Projects</h1>
+			</div>
+
+			<div id="content">
+				<div id="toc" class="toc">
+<div id="toctitle">Contents</div>
+<ul class="sectlevel1">
+<li><a href="#sec:building-jni-introduction">What&#8217;s a Java Native Interface (JNI) project?</a></li>
+<li><a href="#sec:building-jni-choosing-plugins">Choosing the right plugins</a></li>
+<li><a href="#sec:building-jni-model-overview">Model overview</a></li>
+<li><a href="#sec:building-jni-extension">JNI library extension</a></li>
+<li><a href="#sec:building-jni-variants">JNI library variants</a></li>
+<li><a href="#sec:building-jni-binaries">JNI variant binaries</a></li>
+<li><a href="#sec:building-jni-application">Building a JNI application</a></li>
+<li><a href="#sec:building-jni-whats-next">What&#8217;s next?</a></li>
+<li><a href="#sec:building-jni-help-improve-chapter">Help improve this chapter</a></li>
+<li><a href="#sec:building-jni-appendix">Appendix</a></li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Nokee plugins use a convention-over-configuration approach to building JNI projects.
+If you are familiar with the other Gradle plugins, you should feel right at home.
+If you are coming from another native build system, these concepts may be unfamiliar at first.
+Still, they serve a purpose to simplify build script authoring.</p>
+</div>
+<div class="paragraph">
+<p>In this chapter, we will look at JNI projects in detail.
+The chapter covers the core concept behind the configuration of JNI projects.
+If you are only looking for a solution to a particular use case, have a <a href="../samples">look at the samples</a>.
+If you are simply looking for a quick reference for a particular plugin, have a <a href="plugin-references.html">look at the plugin reference chapters</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-introduction"><a class="anchor" href="#sec:building-jni-introduction"></a><a class="link" href="#sec:building-jni-introduction">What&#8217;s a Java Native Interface (JNI) project?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A JNI project stands for a JVM-based project (typically written in Java) calling foreign methods (typically written in C or C&#43;&#43;) over the Java Native Interface (a programming interface).
+The foreign methods written in native language are linked into a shared library specific to the target machine and loaded at runtime inside the JVM.
+As shown in the following diagram, the build process is much more complicated than a normal JVM project.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/building-jni-projects-build-overview.png" alt="Build overview of JNI projects">
+</div>
+</div>
+<div class="paragraph">
+<p>The complexity lies in the multiple build variant such projects need to handle gracefully.
+Despite being more complicated, the basic building blocks are simple to understand.
+This chapter is about explaining each of the model elements and their effect on the project&#8217;s configuration.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-choosing-plugins"><a class="anchor" href="#sec:building-jni-choosing-plugins"></a><a class="link" href="#sec:building-jni-choosing-plugins">Choosing the right plugins</a></h2>
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+All Nokee plugins follows the <a href="terminology.html#sec:terminology-plugin-id-triplet">plugin identification triplet</a> convention.
+Read the <a href="plugin-anatomy.html">Anatomy of a Nokee Plugin</a> chapter to learn more.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <a href="jni-library-plugin.html">JNI Library Plugin</a> is the only plugin available for targeting the JNI runtime.
+First, let&#8217;s understand the plugin identification:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/jni-library-plugin-triplet.png" alt="Anatomy of the JNI Library plugin identifier">
+</div>
+</div>
+<div class="paragraph">
+<p>As shown, the plugin only provide the library <a href="terminology.html#sec:terminology-entry-point">entry point</a> and JNI <a href="terminology.html#sec:terminology-runtime">runtime</a> capability to the project.
+It has no opinion on the <a href="terminology.html#sec:terminology-language">implementation language</a> of the project&#8217;s component.
+The implementation language refers to what language will be complied to form our project&#8217;s artifacts.
+We will need to choose the corresponding <a href="plugin-references.html#sec:plugin-reference-native-languages">language plugins</a> to apply as well.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Applying language plugins is not required when <a href="../samples/jni-library-composing-from-source">composing a JNI library from various sources</a>.
+The JNI components could be coming from different build systems that are orchestrated by Gradle.
+Please <a href="https://github.com/nokeedev/gradle-native/issues/35">suggest and vote for the external build system wrapper</a> that would be the most beneficial for you.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here is a list of all the language plugins available:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="c-language-plugin.html"><code>dev.nokee.c-language</code></a></dt>
+<dd>
+<p>Provides support for compiling C language.</p>
+</dd>
+<dt class="hdlist1"><a href="cpp-language-plugin.html"><code>dev.nokee.cpp-language</code></a></dt>
+<dd>
+<p>Provides support for compiling C&#43;&#43; language.</p>
+</dd>
+<dt class="hdlist1"><a href="objective-c-language-plugin.html"><code>dev.nokee.objective-c-language</code></a></dt>
+<dd>
+<p>Provides support for compiling Objective-C language.</p>
+</dd>
+<dt class="hdlist1"><a href="objective-cpp-language-plugin.html"><code>dev.nokee.objective-cpp-language</code></a></dt>
+<dd>
+<p>Provides support for compiling Objective-C&#43;&#43; language.</p>
+</dd>
+<dt class="hdlist1"><a href="https://docs.gradle.org/6.2.1/userguide/java_plugin.html"><code>java</code> (maintained by Gradle)</a></dt>
+<dd>
+<p>Provides support for compiling Java language.
+Gradle distributes the plugin inside the Gradle distribution.</p>
+</dd>
+<dt class="hdlist1"><a href="https://docs.gradle.org/6.2.1/userguide/groovy_plugin.html"><code>groovy</code> (maintained by Gradle)</a></dt>
+<dd>
+<p>Provides support for compiling Groovy language.
+Gradle distributes the plugin inside the Gradle distribution.</p>
+</dd>
+<dt class="hdlist1"><a href="https://kotlinlang.org/docs/reference/using-gradle.html#targeting-the-jvm"><code>org.jetbrains.kotlin.jvm</code></a> (maintained by Jetbrains)</dt>
+<dd>
+<p>Provides support for compiling Kotlin language.
+Jetbrains distributes the plugin on the <a href="https://plugins.gradle.org/">plugins portal</a>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If we would like to build a JNI library implemented in Java and C&#43;&#43;, we would apply the <code>dev.nokee.jni-library</code>, <code>dev.nokee.cpp-language</code> and <code>java</code> plugins as shown below:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 1. Applying plugins for a JNI library implemented in Java and C&#43;&#43;</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+    id 'dev.nokee.jni-library'
+    id 'dev.nokee.cpp-language'
+    id 'java'
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+    id("dev.nokee.jni-library")
+    id("dev.nokee.cpp-language")
+    id("java")
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-model-overview"><a class="anchor" href="#sec:building-jni-model-overview"></a><a class="link" href="#sec:building-jni-model-overview">Model overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we choose the right plugins to apply to our project, let&#8217;s look at an overview of the model.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/building-jni-projects-overview.png" alt="Overview of JNI projects">
+</div>
+</div>
+<div class="paragraph">
+<p>We divide the model into three main elements:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>JNI Library Extension</strong>: The extension is our configuration entry point.
+From there, we can configure every detail as well as access to the other model elements.</p>
+</li>
+<li>
+<p><strong>JNI Library Variants</strong>: The variants are each instance of the JNI library that we can build.
+For example, each target operating system family will result in a separate variant.</p>
+</li>
+<li>
+<p><strong>JNI Library Binaries</strong>: The binaries are the artifacts built for each variant.
+We will find the JAR(s) and shared library built for a particular variant.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>We will detail each part of the model over the next few sections.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-extension"><a class="anchor" href="#sec:building-jni-extension"></a><a class="link" href="#sec:building-jni-extension">JNI library extension</a></h2>
+<div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/building-jni-projects-overview-highlight-extension.png" alt="Overview of JNI projects with an emphasis on extension">
+</div>
+</div>
+<div class="paragraph">
+<p>We use the extension for configuring the dimension values participating in the variant creation.
+We also use the extension to query the created variants and binaries through the views provided.
+The extension is our first stop for configuring everything from target machines to dependencies on each variant and binaries.</p>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-extension-source-set"><a class="anchor" href="#sec:building-jni-extension-source-set"></a><a class="link" href="#sec:building-jni-extension-source-set">Source set</a></h3>
+<div class="paragraph">
+<p>Source sets are not configurable at the moment.
+The plugin will use the default source layout for each language.
+It will become configurable in future releases.
+Here is the default source layout for each language relative to the project directory:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">C language</dt>
+<dd>
+<p><code>src/main/c</code></p>
+</dd>
+<dt class="hdlist1">C&#43;&#43; language</dt>
+<dd>
+<p><code>src/main/cpp</code></p>
+</dd>
+<dt class="hdlist1">Objective-C language</dt>
+<dd>
+<p><code>src/main/objc</code></p>
+</dd>
+<dt class="hdlist1">Objective-C&#43;&#43; language</dt>
+<dd>
+<p><code>src/main/objcpp</code></p>
+</dd>
+<dt class="hdlist1">C headers</dt>
+<dd>
+<p><code>src/main/headers</code></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-extension-target-machines"><a class="anchor" href="#sec:building-jni-extension-target-machines"></a><a class="link" href="#sec:building-jni-extension-target-machines">Target machines</a></h3>
+<div class="paragraph">
+<p>The target machines represent machines the JNI shared library should build.
+There are two important aspects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <a href="../dsl/dev.nokee.runtime.nativebase.TargetMachine.html">target machine</a>, which combine the <a href="../dsl/dev.nokee.runtime.nativebase.OperatingSystemFamily.html">operating system family</a> and <a href="../dsl/dev.nokee.runtime.nativebase.MachineArchitecture.html">machine architecture</a>; and</p>
+</li>
+<li>
+<p>The <a href="../dsl/dev.nokee.platform.nativebase.TargetMachineFactory.html">target machine factory</a> provides a fluent API for building target machines.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The factory is accessible as an extension of the library component named <code>machines</code> to allow easy configuration:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Configuring JNI target machines</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+    targetMachines = [machines.windows.x86, machines.macOS, machines.linux.x86_64]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+    targetMachines.set(listOf(machines.windows.x86, machines.macOS, machines.linux.x86_64))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-extension-dependencies"><a class="anchor" href="#sec:building-jni-extension-dependencies"></a><a class="link" href="#sec:building-jni-extension-dependencies">Dependencies</a></h3>
+<div class="paragraph">
+<p>The extension provides a configuration block named <code>dependencies</code> to configure dependencies for all variants.
+There are three buckets of dependencies to choose from:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. Configuring dependencies</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+    dependencies {
+        api project(':jni-bindings')                            <i class="conum" data-value="1"></i><b>(1)</b>
+        jvmImplementation project(':native-loader')             <i class="conum" data-value="2"></i><b>(2)</b>
+        nativeImplementation project(':native-greeter')         <i class="conum" data-value="3"></i><b>(3)</b>
+        nativeImplementation 'dev.nokee.framework:JavaVM:10.15' <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+    dependencies {
+        api(project(":jni-bindings"))                            <i class="conum" data-value="1"></i><b>(1)</b>
+        jvmImplementation(project(":native-loader"))             <i class="conum" data-value="2"></i><b>(2)</b>
+        nativeImplementation(project(":native-greeter"))         <i class="conum" data-value="3"></i><b>(3)</b>
+        nativeImplementation("dev.nokee.framework:JavaVM:10.15") <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>API dependencies, transitively exposed to consumers of the library.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>JVM implementation dependencies, compile dependencies for the JVM component of the library and runtime dependencies for the consumer of the library.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Native implementation dependencies, compile and link dependencies of the native component of the library.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Dependencies on macOS system framework uses external dependency notation with the <code>dev.nokee.framework</code> special group.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The JNI library assumes the native component to be an implementation detail of a JVM library.
+For this reason, there aren&#8217;t any native dependencies transitively exposed to the consumers of the library.
+The plugin package all executable native artifacts from the dependencies inside a JAR file.
+It exposes the resulting JAR file to the consumers as runtime dependencies.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The JVM <code>compileOnly</code> and <code>runtimeOnly</code> dependency buckets are available via <code>jvmCompileOnly</code> and <code>jvmRuntimeOnly</code> respectively.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>nativeCompileOnly</code>, <code>nativeLinkOnly</code>, and <code>nativeRuntimeOnly</code> dependency buckets are available for declaring native dependencies for each step of the native build process.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Head over to <a href="#sec:building-jni-appendix-project-dependencies-vs-extension-dependencies">the appendix</a> to learn about the difference between the extension and project dependency configuration block.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-extension-variant-view"><a class="anchor" href="#sec:building-jni-extension-variant-view"></a><a class="link" href="#sec:building-jni-extension-variant-view">Variant view</a></h3>
+<div class="paragraph">
+<p>The variant view aggregates all the variant your host machine could build.
+Some of those variants can be unbuildable, which would result in a build failure if included in the workload.
+The plugin creates the variants as required.
+The view doesn&#8217;t provide any APIs to resolve or manipulate the variants eagerly.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-extension-binary-view"><a class="anchor" href="#sec:building-jni-extension-binary-view"></a><a class="link" href="#sec:building-jni-extension-binary-view">Binary view</a></h3>
+<div class="paragraph">
+<p>Each variant contains binaries built as part of the library.
+The binary view of the extension represents an aggregation of the binaries for all variants.
+Just like the <a href="#sec:building-jni-extension-variant-view">variant view</a>, the plugin creates the binaries as required.
+The view doesn&#8217;t provide any APIs to resolve or manipulate the binaries eagerly.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-variants"><a class="anchor" href="#sec:building-jni-variants"></a><a class="link" href="#sec:building-jni-variants">JNI library variants</a></h2>
+<div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/building-jni-projects-overview-highlight-variants.png" alt="Overview of JNI projects with an emphasis on variants">
+</div>
+</div>
+<div class="paragraph">
+<p>The library variant is the intermediate model for configuring each JNI library to build.
+The variant represents a single result of the cross-product between all the dimension values, which are the operating system family and the machine architecture.
+For example, the following build script would produce three variants, one for each operating system family:</p>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. Creating JNI library variants</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+    targetMachines = [machines.windows, machines.macOS, machines.linux]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+    targetMachines.set(listOf(machines.windows, machines.macOS, machines.linux))
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Prefer querying tasks, and binaries of the variant through the model as opposed to by name from the various containers.
+The same goes for file system locations.
+Read more about the reason in the <a href="#sec:building-jni-appendix-prefer-the-model">appendix</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Each library creates three binaries: a JVM JAR, a JNI JAR and a shared library.
+Read more about the binaries inside the <a href="#sec:building-jni-binaries">next section</a>.</p>
+</div>
+<div class="paragraph">
+<p>Each variant has two important configuration elements: the resource path and a binary view.</p>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-variant-resource-path"><a class="anchor" href="#sec:building-jni-variant-resource-path"></a><a class="link" href="#sec:building-jni-variant-resource-path">Resource path</a></h3>
+<div class="paragraph">
+<p>The resource path configures the location of the shared library inside the JAR.
+The default resource path is derived from the project group and the ambiguous dimension values (see the <a href="#sec:building-jni-appendix-avoid-named-dependencies">appendix for in-dept explanation</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-variant-binary-view"><a class="anchor" href="#sec:building-jni-variant-binary-view"></a><a class="link" href="#sec:building-jni-variant-binary-view">Binary view</a></h3>
+<div class="paragraph">
+<p>The binary view includes all the binaries participating in that particular variant.
+It includes the JVM JAR, JNI JAR and shared library.
+We share the JVM JAR across all variants for convenience.
+It is possible to target each binary by type to narrow the configuration scope.
+The following shows the class hierarchy of the JNI variant binary types:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="img/building-jni-projects-binary-class-diagram.png" alt="Class diagram for JNI binaries">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-variant-native-runtime-files"><a class="anchor" href="#sec:building-jni-variant-native-runtime-files"></a><a class="link" href="#sec:building-jni-variant-native-runtime-files">Native runtime files</a></h3>
+<div class="paragraph">
+<p>The native runtime file collection contains all the files required for the runtime of a specific variant.
+The plugin adds the files to the JNI JAR at the <a href="#sec:building-jni-variant-resource-path">resource path location</a>.
+Typically, it contains the shared library built for the variant and its runtime dependencies.
+It is possible to add files to the collection.
+Those files can be any file required at runtime that is ad-hoc runtime binaries or configuration data files.</p>
+</div>
+<div class="paragraph">
+<p>For more complex use cases, removing the default values disconnects the native compilation from the generation of the JNI JAR file.
+A particular useful application is the <a href="../samples/jni-library-with-pre-built-binaries">inclusion of pre-built binaries on host system not configured for native compilation</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The native runtime file collection is task dependency aware.
+When we add the output of a task to the collection through a provider, Gradle will automatically wire the task producing the output to the task consuming it.
+The producer would typically be the task generating the JNI JAR. However, any consuming task of the native runtime file collection would benefit from such automatic wiring.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-binaries"><a class="anchor" href="#sec:building-jni-binaries"></a><a class="link" href="#sec:building-jni-binaries">JNI variant binaries</a></h2>
+<div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="img/building-jni-projects-overview-highlight-binaries.png" alt="Overview of JNI projects with an emphasis on binaries">
+</div>
+</div>
+<div class="paragraph">
+<p>There are three types of JNI binaries: <a href="../dsl/dev.nokee.platform.jni.JvmJarBinary.html">JVM JAR</a>, <a href="../dsl/dev.nokee.platform.jni.JniJarBinary.html">JNI JAR</a> and <a href="../dsl/dev.nokee.platform.nativebase.SharedLibraryBinary.html">shared library</a>.
+The JVM JAR contains the compiled JVM code as opposed to the JNI JAR, which includes the linked shared library.
+The JNI JAR acts only as a wrapper to the shared library for the JVM classpath.
+The plugins produce only a single JVM JAR while the number of JNI JAR produced depends on the number of variants.
+In the particular case where we produce a single variant, the plugin will include the shared library inside the JVM JAR, and it will not create any JNI JAR.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-application"><a class="anchor" href="#sec:building-jni-application"></a><a class="link" href="#sec:building-jni-application">Building a JNI application</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We don&#8217;t provide a mirrored plugin to the JNI library plugin for the application entry point.
+The recommendation is to split the application into two projects: the application and the JNI library.
+See <a href="../samples/jvm-application-with-jni-library">this sample</a> for more information on solving this use case.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-whats-next"><a class="anchor" href="#sec:building-jni-whats-next"></a><a class="link" href="#sec:building-jni-whats-next">What&#8217;s next?</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You should now have a grasp on the concept used by <a href="jni-library-plugin.html">JNI Library Plugin</a>.
+Head over the <a href="../samples/index.html#sec:samples-jni">JNI samples</a> to see a demonstration of the plugins for common scenarios.
+Bookmark the relevant <a href="plugin-references.html">plugin chapters</a> for future reference.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-help-improve-chapter"><a class="anchor" href="#sec:building-jni-help-improve-chapter"></a><a class="link" href="#sec:building-jni-help-improve-chapter">Help improve this chapter</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Have feedback or a question?
+Found a typo?
+Is something unclear?
+Help is just a GitHub issue away.
+Please <a href="https://github.com/nokeedev/gradle-native/issues">open an issue</a> or <a href="https://github.com/nokeedev/gradle-native">create a pull request</a>, and we&#8217;ll get back to you.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sec:building-jni-appendix"><a class="anchor" href="#sec:building-jni-appendix"></a><a class="link" href="#sec:building-jni-appendix">Appendix</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="sec:building-jni-appendix-project-dependencies-vs-extension-dependencies"><a class="anchor" href="#sec:building-jni-appendix-project-dependencies-vs-extension-dependencies"></a><a class="link" href="#sec:building-jni-appendix-project-dependencies-vs-extension-dependencies">Project dependencies vs JNI extension dependencies</a></h3>
+<div class="paragraph">
+<p>If you are familiar with the dependency configuration block on the project instance (<code>project.dependencies</code>), you may be wondering how does differ from the dependency configuration block on the JNI extension?
+The short answer is the extension dependencies delegates to dependency container on the project.
+The longer answer is it differ for convenience.
+It allows us to provide conveniences methods, similar to <code>gradleApi()</code>, and remove boilerplate code required when depending on macOS system frameworks, for example.
+We also want to avoid depending on the names of the configuration.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-appendix-prefer-the-model"><a class="anchor" href="#sec:building-jni-appendix-prefer-the-model"></a><a class="link" href="#sec:building-jni-appendix-prefer-the-model">Always prefer the model</a></h3>
+<div class="paragraph">
+<p>If you already have experience with Gradle, it may be tempting to use the task container or dependency handler to configure the JNI library tasks and dependencies, respectively.
+You must always prefer the model, that is the extension, the variants and binaries.
+Each element that you would usually access from the project object is accessible via the model.
+If it&#8217;s not the case, please <a href="https://github.com/nokeedev/gradle-native/issues">open an issue</a>.</p>
+</div>
+<div class="paragraph">
+<p>The plugin configures the JNI library model only when required using all the configuration avoidance provided by Gradle.
+Some tasks may only get created occasionally.
+It is, therefore, terrible practice to access them outside the model.
+It will couple your build logic to the implementation details of the model as well as leave you vulnerable to the configuration ordering problems.</p>
+</div>
+<div class="paragraph">
+<p>You should also use the model to access important file system locations such as the location of the linked shared binary.
+It may be tempting to use observation to infer the location of certain generated files.
+Doing so will lead to fragile build logic and can even lead to flaky builds.
+Instead, use the model to access those file system location.
+You will also benefit from implicit task dependencies for each of those file system locations, thanks to the Provider API.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sec:building-jni-appendix-avoid-named-dependencies"><a class="anchor" href="#sec:building-jni-appendix-avoid-named-dependencies"></a><a class="link" href="#sec:building-jni-appendix-avoid-named-dependencies">Avoid depending on the named of model elements</a></h3>
+<div class="paragraph">
+<p>Historically, we would configure Gradle by referencing model elements by name.
+For a single dimension model like the one used for Java compilation, it offers a lot of conveniences.
+With the multiple dimension required to execute a native build, it quickly becomes a problem.
+Nokee strives to ensure the complexity grows parallel to the complexity of the project.
+Simple projects should always stay pure.
+For this reason, Nokee recommends configuring model elements by their specification instead of by name.</p>
+</div>
+<div class="paragraph">
+<p>We still need to create unique names for configurations and tasks.
+To achieve this, we compose names based on the ambiguous dimension values.
+A dimension value is ambiguous when the dimension has multiple values across all variants.
+For example, building components for only the Windows (value) operating system family (dimension) doesn&#8217;t create ambiguity.
+We will not include this dimension value in the composed name.
+On the other hand, building components for the Windows (value) and Linux (another value) operating system families (dimension) creates ambiguity.
+We now need to differentiate the component targeting Windows and Linux.
+We will include the dimension values in the composed name.
+The order in which the dimensions are composed to create the name is an implementation detail.</p>
+</div>
+<div class="paragraph">
+<p>Even if we would include all dimension values in the composed names, referencing elements by names is hard in a multi-dimension context.
+For example, you will often ask yourself, was it <code>windowsX86</code> or <code>x86Windows</code>?
+Both are semantically the same.
+A simple static name cannot express the semantic, but the model can.
+We saw a lot of confusion from native users over the years.
+With the Nokee plugins, we decided to limit user&#8217;s exposure to the names as much as possible.</p>
+</div>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+		<aside class="secondary-navigation"></aside>
+	</main>
+
+	<div id="push"></div>
+	<div id="footer">
+		<div class="container">
+			<p class="muted credit">&copy; 2020</p>
+		</div>
+	</div>
+
+	<gdpr-banner></gdpr-banner>
+<script src="/js/gdpr-banner.js" type="module"></script>
+
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/js/prettify.js"></script>
+	<script src="/js/multi-language-sample.js"></script>
+	<script src="/js/active-link.js"></script>
+
+</body>
+</html>
