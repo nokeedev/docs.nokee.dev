@@ -10,11 +10,15 @@ include::versions/latest.adoc[]
 
 == Current
 
+[%header, cols="2,5a"]
 |===
 | Version | Format
 
-| main
-| link:main/manual/user-manual.html[HTML]
+|main
+|
+- link:main/manual/user-manual.html[User manual]
+- link:main/samples[Samples]
+- link:main/manual/plugin-references.html[Plugin references]
 |===
 
 == Archived

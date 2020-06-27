@@ -150,6 +150,7 @@ def versionTask = tasks.register('versions', GenerateVersionIndex) {
 	destinationDirectory = layout.buildDirectory.dir("tmp/${name}")
 }
 tasks.named('stage', Sync) { from(versionTask.flatMap { it.destinationDirectory }) { into('content/versions')} }
+tasks.named('bake', JBakeTask) { it.configuration.put('template.documentation_index.file', 'documentation_index.gsp') }
 
 def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })

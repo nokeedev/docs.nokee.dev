@@ -34,21 +34,29 @@ public abstract class GenerateVersionIndex extends DefaultTask {
 		val latest = it.next();
 
 		try (PrintWriter out = new PrintWriter(getDestinationDirectory().file("latest.adoc").get().getAsFile())) {
+			out.println("[%header, cols=\"2,5a\"]");
 			out.println("|===");
 			out.println("| Version | Format");
 			out.println("");
 			out.println("| v" + latest);
-			out.println("| link:" + latest + "/manual/user-manual.html[HTML]");
+			out.println("|");
+			out.println("- link:" + latest + "/manual/user-manual.html[User manual]");
+			out.println("- link:" + latest + "/samples[Samples]");
+			out.println("- link:" + latest + "/manual/plugin-references.html[Plugin references]");
 			out.println("|===");
 		}
 
 		try (PrintWriter out = new PrintWriter(getDestinationDirectory().file("archived.adoc").get().getAsFile())) {
+			out.println("[%header, cols=\"2,5a\"]");
 			out.println("|===");
 			out.println("| Version | Format");
 			it.forEachRemaining(version -> {
 				out.println("");
 				out.println("| v" + version);
-				out.println("| link:" + version + "/manual/user-manual.html[HTML]");
+				out.println("|");
+				out.println("- link:" + version + "/manual/user-manual.html[User manual]");
+				out.println("- link:" + version + "/samples[Samples]");
+				out.println("- link:" + version + "/manual/plugin-references.html[Plugin references]");
 			});
 			out.println("|===");
 		}
