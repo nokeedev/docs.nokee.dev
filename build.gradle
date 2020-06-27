@@ -51,6 +51,8 @@ GroovyCollections.transpose(allprojects.drop(1).asList(), allprojects as List).e
 subprojects {
 	pluginManager.withPlugin('dev.nokee.documentation.javadoc') {
 		tasks.named('javadoc', Javadoc) {
+			title = "Nokee v${project.name}"
+
 			StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
 			options.setEncoding("utf-8")
 			options.setDocEncoding("utf-8")
