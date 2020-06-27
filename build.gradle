@@ -156,6 +156,12 @@ def siteTask = tasks.named('site', Sync) {
 	from(sitemapTask.flatMap { it.generatedSitemapFile })
 	from(robotsTask.flatMap { it.generatedRobotsFile })
 
+	doFirst {
+		new File(destinationDir, 'current').delete()
+		new File(destinationDir, 'main').delete()
+		new File(destinationDir, 'nightly').delete()
+	}
+
 	doLast {
 		Files.createSymbolicLink(new File(destinationDir, 'current').toPath(), Paths.get('0.3.0'))
 		Files.createSymbolicLink(new File(destinationDir, 'main').toPath(), Paths.get('docs/nightly'))
