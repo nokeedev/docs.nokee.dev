@@ -173,7 +173,13 @@
 		<h3 id="native-types">Native types</h3>
 		<ul>
 			
+			<li><a href="dev.nokee.platform.nativebase.BundleBinary.html">BundleBinary</a></li>
+			
 			<li><a href="dev.nokee.platform.nativebase.tasks.CreateStaticLibrary.html">CreateStaticLibrary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.ExecutableBinary.html">ExecutableBinary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.tasks.LinkBundle.html">LinkBundle</a></li>
 			
 			<li><a href="dev.nokee.platform.nativebase.tasks.LinkExecutable.html">LinkExecutable</a></li>
 			
@@ -181,11 +187,17 @@
 			
 			<li><a href="dev.nokee.runtime.nativebase.MachineArchitecture.html">MachineArchitecture</a></li>
 			
+			<li><a href="dev.nokee.platform.nativebase.NativeBinary.html">NativeBinary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.NativeLibrary.html">NativeLibrary</a></li>
+			
 			<li><a href="dev.nokee.language.nativebase.tasks.NativeSourceCompile.html">NativeSourceCompile</a></li>
 			
 			<li><a href="dev.nokee.runtime.nativebase.OperatingSystemFamily.html">OperatingSystemFamily</a></li>
 			
 			<li><a href="dev.nokee.platform.nativebase.SharedLibraryBinary.html" class="active">SharedLibraryBinary</a></li>
+			
+			<li><a href="dev.nokee.language.base.tasks.SourceCompile.html">SourceCompile</a></li>
 			
 			<li><a href="dev.nokee.runtime.nativebase.TargetMachine.html">TargetMachine</a></li>
 			
@@ -317,6 +329,10 @@
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#dev.nokee.platform.nativebase.SharedLibraryBinary:buildable">buildable</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether or not this binary can be built in the current environment.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#dev.nokee.platform.nativebase.SharedLibraryBinary:compileTasks">compileTasks</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Returns a view of all the compile tasks that participate to compiling all the object files for this binary.</p></td>
 </tr>
@@ -339,6 +355,12 @@
 <div class="sect1">
 <h2 id="property_details"><a class="anchor" href="#property_details"></a><a class="link" href="#property_details">Property Details</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="dev.nokee.platform.nativebase.SharedLibraryBinary:buildable"><a class="anchor" href="#dev.nokee.platform.nativebase.SharedLibraryBinary:buildable"></a><a class="link" href="#dev.nokee.platform.nativebase.SharedLibraryBinary:buildable">boolean buildable (read-only)</a></h3>
+<div class="paragraph">
+<p>Whether or not this binary can be built in the current environment.</p>
+</div>
+</div>
 <div class="sect2">
 <h3 id="dev.nokee.platform.nativebase.SharedLibraryBinary:compileTasks"><a class="anchor" href="#dev.nokee.platform.nativebase.SharedLibraryBinary:compileTasks"></a><a class="link" href="#dev.nokee.platform.nativebase.SharedLibraryBinary:compileTasks"><a href="../javadoc/dev/nokee/platform/base/TaskView.html">TaskView</a>&lt;<a href="../javadoc/dev/nokee/language/base/tasks/SourceCompile.html">SourceCompile</a>&gt; compileTasks (read-only)</a></h3>
 <div class="paragraph">

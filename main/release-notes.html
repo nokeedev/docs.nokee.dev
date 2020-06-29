@@ -4,9 +4,9 @@
 	<title>Nokee Release Notes</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="See what version 0.4.0-0c2b997a of the Gradle Nokee plugins has to offer!">
+<meta name="description" content="See what version 0.4.0-6d497ec3 of the Gradle Nokee plugins has to offer!">
 <meta name="author" content="@nokeedev">
-<meta name="keywords" content="0.4.0-0c2b997a, jvm, jni, objective c, objective cpp, c, swift">
+<meta name="keywords" content="0.4.0-6d497ec3, jvm, jni, objective c, objective cpp, c, swift">
 
 <link rel="canonical" href="https://nokee.dev/docs/nightly/release-notes.html">
 <meta property="og:url" content="https://nokee.dev/docs/nightly/release-notes.html">
@@ -33,7 +33,7 @@
 
 <meta property="og:site_name" content="Nokee">
 <meta property="og:title" content="Nokee Release Notes">
-<meta name="og:description" content="See what version 0.4.0-0c2b997a of the Gradle Nokee plugins has to offer!">
+<meta name="og:description" content="See what version 0.4.0-6d497ec3 of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -41,7 +41,7 @@
 <meta name="twitter:creator" content="@nokeedev">
 <meta name="twitter:title" content="Nokee Release Notes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:description" content="See what version 0.4.0-0c2b997a of the Gradle Nokee plugins has to offer!">
+<meta name="twitter:description" content="See what version 0.4.0-6d497ec3 of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -177,11 +177,10 @@
 The <a href="#sec:swift-ios-application-plugin">experimental iOS application building plugin implemented in Swift</a> joins the Nokee plugin family.
 The <a href="#sec:xcode-ide">Xcode IDE plugin supports all the new native plugins</a>.
 <a href="#sec:jni-library-improvements">Additional conveniences made its way into the Java Native Interface (JNI) Library plugin</a>.
-Finally, we released the <a href="#sec:gradle-toolbox">first version of the Gradle Toolbox plugins</a>, allowing Nokee to develop high-quality Gradle plugins.</p>
+Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox plugins became available</a>, allowing Nokee to develop high-quality Gradle plugins.</p>
 </div>
 <div class="paragraph">
-<p>As part of this version, the Nokee plugins could free themselves from its software model strand.
-Read the <a href="../../blog/release-0.4-announcement/">announcement blog</a> to learn more.</p>
+<p>Read the <a href="../../blog/release-0.4-announcement/">announcement blog</a> to learn more about the changes around the configuration model of Nokee.</p>
 </div>
 </div>
 </div>
@@ -206,7 +205,7 @@ Read the <a href="../../blog/release-0.4-announcement/">announcement blog</a> to
          url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
       }
    }
-   def nokeeVersion = '0.4.0-0c2b997a'
+   def nokeeVersion = '0.4.0-6d497ec3'
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith('dev.nokee.')) {
@@ -231,7 +230,7 @@ Read the <a href="../../blog/release-0.4-announcement/">announcement blog</a> to
          url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
       }
    }
-   val nokeeVersion = "0.4.0-0c2b997a"
+   val nokeeVersion = "0.4.0-6d497ec3"
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith("dev.nokee.")) {
@@ -253,7 +252,7 @@ Read the <a href="../../blog/release-0.4-announcement/">announcement blog</a> to
 <div class="sectionbody">
 <div class="paragraph">
 <p><a href="manual/plugin-references.html#sec:plugin-reference-native-development">Ten new native plugins</a> join the Nokee distribution to support building native application and native library implemented in C, C&#43;&#43;, Objective-C, Objective-C&#43;&#43;, and Swift.
-These new plugins are similar in features, and we will improve them over the next releases.</p>
+These new plugins are similar in features and will improve them over the next releases.</p>
 </div>
 </div>
 </div>
@@ -264,7 +263,7 @@ These new plugins are similar in features, and we will improve them over the nex
 <p>Support for <a href="manual/swift-ios-application-plugin.html">building iOS application implemented in Swift</a> is available as an experimental plugin.
 It offers the same feature as its counter-part for building iOS applications implemented in Objective-C.
 The iOS plugins are still severely limited in features due to the strategic goal for this release.
-The following releases will start addressing some of the production features needed by iOS developers.</p>
+The following releases will start addressing some production features needed by iOS developers.</p>
 </div>
 </div>
 </div>
@@ -272,7 +271,7 @@ The following releases will start addressing some of the production features nee
 <h2 id="sec:xcode-ide"><a class="anchor" href="#sec:xcode-ide"></a><a class="link" href="#sec:xcode-ide">Xcode IDE support for all new plugins</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>With these new plugins, we made sure our Xcode IDE plugin support each one of them.
+<p>Xcode IDE plugin supports each of the new plugins.
 Code editing, compilation, debugging, code completion, and jump to symbol features are available when applying the Xcode IDE plugin with any native plugins.</p>
 </div>
 </div>
@@ -285,7 +284,7 @@ Code editing, compilation, debugging, code completion, and jump to symbol featur
 This improves the user experience for all use cases and can potentially break your build.</p>
 </div>
 <div class="paragraph">
-<p>We introduced new APIs for handling pre-built native binaries scenarios.
+<p>New APIs introduced for handling pre-built native binaries scenarios.
 It is now possible to <a href="samples/jni-library-composing-from-pre-built-binaries">always use pre-built binaries</a>, <a href="samples/jni-library-with-pre-built-binaries">conditionally build from the source when pre-built binaries are not available</a>, or even <a href="https://github.com/weisJ/darklaf/blob/9e59b6254781a534f2d7ded1dec80c9c5dfc0f67/buildSrc/src/main/groovy/UsePrebuiltBinariesWhenUnbuildablePlugin.groovy#L38-L63">download pre-built binaries when the native source isn&#8217;t buildable on the local machine</a>.</p>
 </div>
 </div>
@@ -294,7 +293,7 @@ It is now possible to <a href="samples/jni-library-composing-from-pre-built-bina
 <h2 id="sec:gradle-toolbox"><a class="anchor" href="#sec:gradle-toolbox"></a><a class="link" href="#sec:gradle-toolbox">Gradle Toolbox plugins</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We <a href="/blog/introducing-gradle-toolbox">released five plugins to enhance the Gradle plugin development process</a>:</p>
+<p>The Nokee team <a href="/blog/introducing-gradle-toolbox">released five plugins to enhance the Gradle plugin development process</a>:</p>
 </div>
 <div class="dlist">
 <dl>
@@ -321,7 +320,7 @@ It is now possible to <a href="samples/jni-library-composing-from-pre-built-bina
 </dl>
 </div>
 <div class="paragraph">
-<p>As a companion to the plugins, we wrote a <a href="manual/gradle-plugin-development.html">dedicated chapter</a>, <a href="samples/#sec:samples-gradle-dev">samples</a>, and <a href="manual/plugin-references.html#sec:plugin-reference-gradledev">plugin references</a> to help plugin authors get started.</p>
+<p>As a companion to the plugins, a <a href="manual/gradle-plugin-development.html">dedicated chapter</a>, <a href="samples/#sec:samples-gradle-dev">samples</a>, and <a href="manual/plugin-references.html#sec:plugin-reference-gradledev">plugin references</a> are available to help plugin authors to get started.</p>
 </div>
 </div>
 </div>
@@ -329,11 +328,11 @@ It is now possible to <a href="samples/jni-library-composing-from-pre-built-bina
 <h2 id="sec:reporting-problems"><a class="anchor" href="#sec:reporting-problems"></a><a class="link" href="#sec:reporting-problems">Reporting Problems</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If you find a problem with any of the plugins, please file a bug on <a href="https://github.com/nokeedev/gradle-native">GitHub Issues</a> adhering to our issue guidelines.
-If you&#8217;re not sure you&#8217;re encountering a bug, please <a href="https://discuss.gradle.org/tags/c/help-discuss/14/native">use the Gradle user forum</a> or the <a href="https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R">[Gradle Community Slack</a>.</p>
+<p>If you find a problem with any of the plugins, <a href="https://github.com/nokeedev/gradle-native">please open an issue on GitHub</a>.
+If you&#8217;re not sure you&#8217;re encountering a bug, please <a href="https://discuss.gradle.org/tags/c/help-discuss/14/native">use the Gradle user forum</a> or the <a href="https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R">Gradle Community Slack</a>.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s build happiness with Gradle, and I&#8217;m looking forward to your feedback via <a href="https://twitter.com/nokeedev">Twitter</a> or on <a href="https://github.com/nokeedev">GitHub</a>.</p>
+<p>Let&#8217;s build happiness with Gradle, and looking forward to your feedback via <a href="https://twitter.com/nokeedev">Twitter</a> or on <a href="https://github.com/nokeedev">GitHub</a>.</p>
 </div>
 </div>
 </div>

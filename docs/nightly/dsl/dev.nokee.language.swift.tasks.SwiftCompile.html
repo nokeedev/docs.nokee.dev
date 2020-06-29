@@ -173,7 +173,13 @@
 		<h3 id="native-types">Native types</h3>
 		<ul>
 			
+			<li><a href="dev.nokee.platform.nativebase.BundleBinary.html">BundleBinary</a></li>
+			
 			<li><a href="dev.nokee.platform.nativebase.tasks.CreateStaticLibrary.html">CreateStaticLibrary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.ExecutableBinary.html">ExecutableBinary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.tasks.LinkBundle.html">LinkBundle</a></li>
 			
 			<li><a href="dev.nokee.platform.nativebase.tasks.LinkExecutable.html">LinkExecutable</a></li>
 			
@@ -181,11 +187,17 @@
 			
 			<li><a href="dev.nokee.runtime.nativebase.MachineArchitecture.html">MachineArchitecture</a></li>
 			
+			<li><a href="dev.nokee.platform.nativebase.NativeBinary.html">NativeBinary</a></li>
+			
+			<li><a href="dev.nokee.platform.nativebase.NativeLibrary.html">NativeLibrary</a></li>
+			
 			<li><a href="dev.nokee.language.nativebase.tasks.NativeSourceCompile.html">NativeSourceCompile</a></li>
 			
 			<li><a href="dev.nokee.runtime.nativebase.OperatingSystemFamily.html">OperatingSystemFamily</a></li>
 			
 			<li><a href="dev.nokee.platform.nativebase.SharedLibraryBinary.html">SharedLibraryBinary</a></li>
+			
+			<li><a href="dev.nokee.language.base.tasks.SourceCompile.html">SourceCompile</a></li>
 			
 			<li><a href="dev.nokee.runtime.nativebase.TargetMachine.html">TargetMachine</a></li>
 			
@@ -288,6 +300,7 @@
 <ul class="sectlevel1">
 <li><a href="#properties">Properties</a></li>
 <li><a href="#methods">Methods</a></li>
+<li><a href="#property_details">Property Details</a></li>
 </ul>
 </div>
 <div id="preamble">
@@ -303,9 +316,30 @@
 <div class="sect1">
 <h2 id="properties"><a class="anchor" href="#properties"></a><a class="link" href="#properties">Properties</a></h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>No properties.</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#dev.nokee.language.swift.tasks.SwiftCompile:compilerArgs">compilerArgs</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Additional arguments to provide to the compiler.</p>
+<p class="tableblock">It act as an escape hatch to the current model.
+Please open an issue on <a href="https://github.com/nokeedev/gradle-native" class="bare">https://github.com/nokeedev/gradle-native</a> with your reason for using this hatch so we can improve the model.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#dev.nokee.language.swift.tasks.SwiftCompile:toolChain">toolChain</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The tool chain used for the compilation.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="sect1">
@@ -313,6 +347,27 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>No methods.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="property_details"><a class="anchor" href="#property_details"></a><a class="link" href="#property_details">Property Details</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="dev.nokee.language.swift.tasks.SwiftCompile:compilerArgs"><a class="anchor" href="#dev.nokee.language.swift.tasks.SwiftCompile:compilerArgs"></a><a class="link" href="#dev.nokee.language.swift.tasks.SwiftCompile:compilerArgs"><a href="https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/ListProperty.html">ListProperty</a>&lt;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html">String</a>&gt; compilerArgs</a></h3>
+<div class="paragraph">
+<p><strong>Additional</strong> arguments to provide to the compiler.</p>
+</div>
+<div class="paragraph">
+<p>It act as an escape hatch to the current model.
+Please open an issue on <a href="https://github.com/nokeedev/gradle-native" class="bare">https://github.com/nokeedev/gradle-native</a> with your reason for using this hatch so we can improve the model.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="dev.nokee.language.swift.tasks.SwiftCompile:toolChain"><a class="anchor" href="#dev.nokee.language.swift.tasks.SwiftCompile:toolChain"></a><a class="link" href="#dev.nokee.language.swift.tasks.SwiftCompile:toolChain"><a href="https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html">Provider</a>&lt;? extends <a href="https://docs.gradle.org/6.2.1/javadoc/org/gradle/platform/base/ToolChain.html">ToolChain</a>&gt; toolChain (read-only)</a></h3>
+<div class="paragraph">
+<p>The tool chain used for the compilation.</p>
+</div>
 </div>
 </div>
 </div>
