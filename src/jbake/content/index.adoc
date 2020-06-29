@@ -4,17 +4,17 @@
 :jbake-tags: user manual, nokee, gradle, gradle plugin
 :jbake-description: Learn the concept behind Nokee plugins for Gradle.
 
-== Latest Release
+== Latest Released
 
 include::versions/latest.adoc[]
 
-== Current
+== Upcoming Release
 
 [%header, cols="2,5a"]
 |===
 | Version | Format
 
-|main
+|SNAPSHOT
 |
 - link:main/manual/user-manual.html[User manual]
 - link:main/samples[Samples]
