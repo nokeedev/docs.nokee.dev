@@ -4,7 +4,7 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath 'dev.nokee:docs-gradle-plugin:latest.integration'
+		classpath 'dev.nokee.docs:docs-gradle-plugins:latest.integration'
 	}
 }
 plugins {

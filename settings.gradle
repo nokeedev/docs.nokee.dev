@@ -1,6 +1,15 @@
 rootProject.name = 'docs.nokee.dev'
 
-includeBuild 'gradle/plugins/docs-gradle-plugin'
+// Use local repository if available
+if (file('../docs-gradle-plugins')) {
+	includeBuild '../docs-gradle-plugins'
+} else {
+	sourceControl {
+		gitRepository(uri('https://github.com/nokeedev/docs-gradle-plugins')) {
+			producesModule('dev.nokee.docs:docs-gradle-plugins')
+		}
+	}
+}
 
 include '0.1.0'
 include '0.2.0'
