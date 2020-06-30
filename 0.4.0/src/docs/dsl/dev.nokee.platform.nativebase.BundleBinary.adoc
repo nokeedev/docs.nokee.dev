@@ -1,0 +1,64 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= BundleBinary
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, BundleBinary
+:jbake-description: Learn about the build language of the BundleBinary type.
+:jbake-category: Native types
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/BundleBinary.html[BundleBinary]
+
+A bundle built from 1 or more native language.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.nativebase.BundleBinary:linkTask[linkTask]
+|Returns a provider for the task that links the object files into this binary.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.nativebase.BundleBinary:linkTask]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/tasks/TaskProvider.html[TaskProvider]<link:../javadoc/dev/nokee/platform/nativebase/tasks/LinkBundle.html[LinkBundle]> linkTask (read-only)
+
+Returns a provider for the task that links the object files into this binary.
+
+
+
+
+
+
+
+
+

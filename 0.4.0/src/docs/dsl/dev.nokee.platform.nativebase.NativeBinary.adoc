@@ -1,0 +1,39 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= NativeBinary
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, NativeBinary
+:jbake-description: Learn about the build language of the NativeBinary type.
+:jbake-category: Native types
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/NativeBinary.html[NativeBinary]
+
+
+
+== Properties
+
+
+No properties.
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+
+
+
+

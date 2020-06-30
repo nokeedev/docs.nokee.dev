@@ -1,0 +1,193 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= JniLibraryDependencies
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, JniLibraryDependencies
+:jbake-description: Learn about the build language of the JniLibraryDependencies type.
+:jbake-category: JNI types
+
+API Documentation: link:../javadoc/dev/nokee/platform/jni/JniLibraryDependencies.html[JniLibraryDependencies]
+
+Allows the API and JVM implementation and native implementation dependencies of a JNI library to be specified.
+It also allows JVM runtime only as well as native link only and runtime only dependencies of a JNI library to be specified.
+
+
+
+== Properties
+
+
+No properties.
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:api-java.lang.Object-[api](notation)`
+|Adds an JVM API dependency to this library. An API dependency is made visible to consumers that are compiled against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:api-java.lang.Object-org.gradle.api.Action-[api](notation, action)`
+|Adds an JVM API dependency to this library. An API dependency is made visible to consumers that are compiled against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:jvmImplementation-java.lang.Object-[jvmImplementation](notation)`
+|Adds an JVM implementation dependency to this library. An implementation dependency is not visible to consumers that are compiled against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:jvmImplementation-java.lang.Object-org.gradle.api.Action-[jvmImplementation](notation, action)`
+|Adds an JVM implementation dependency to this library.
+An implementation dependency is not visible to consumers that are compiled against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:jvmRuntimeOnly-java.lang.Object-[jvmRuntimeOnly](notation)`
+|Adds an JVM runtime only dependency to this library.
+An implementation dependency is only visible to consumers that are running against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:jvmRuntimeOnly-java.lang.Object-org.gradle.api.Action-[jvmRuntimeOnly](notation, action)`
+|Adds an JVM runtime only dependency to this library.
+An implementation dependency is only visible to consumers that are running against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeImplementation-java.lang.Object-org.gradle.api.Action-[nativeImplementation](notation, action)`
+|Adds an native implementation dependency to this component.
+An implementation dependency is not visible to consumers that are compiled or linked against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeImplementation-java.lang.Object-[nativeImplementation](notation)`
+|Adds an native implementation dependency to this component.
+An implementation dependency is not visible to consumers that are compiled or linked against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeLinkOnly-java.lang.Object-[nativeLinkOnly](notation)`
+|Adds an native link only dependency to this component.
+An link only dependency is not visible to consumers that are compiled or linked against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeLinkOnly-java.lang.Object-org.gradle.api.Action-[nativeLinkOnly](notation, action)`
+|Adds an native link only dependency to this component.
+An link only dependency is not visible to consumers that are compiled or linked against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeRuntimeOnly-java.lang.Object-[nativeRuntimeOnly](notation)`
+|Adds an native runtime only dependency to this component.
+An runtime only dependency is not visible to consumers that are running against this component.
+
+|`link:#dev.nokee.platform.jni.JniLibraryDependencies:nativeRuntimeOnly-java.lang.Object-org.gradle.api.Action-[nativeRuntimeOnly](notation, action)`
+|Adds an native runtime only dependency to this component.
+An runtime only dependency is visible only to consumers that are running against this component.
+
+|===
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:api-java.lang.Object-]]
+=== void api(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an JVM API dependency to this library. An API dependency is made visible to consumers that are compiled against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:api-java.lang.Object-org.gradle.api.Action-]]
+=== void api(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an JVM API dependency to this library. An API dependency is made visible to consumers that are compiled against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:jvmImplementation-java.lang.Object-]]
+=== void jvmImplementation(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an JVM implementation dependency to this library. An implementation dependency is not visible to consumers that are compiled against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:jvmImplementation-java.lang.Object-org.gradle.api.Action-]]
+=== void jvmImplementation(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an JVM implementation dependency to this library.
+An implementation dependency is not visible to consumers that are compiled against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:jvmRuntimeOnly-java.lang.Object-]]
+=== void jvmRuntimeOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an JVM runtime only dependency to this library.
+An implementation dependency is only visible to consumers that are running against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:jvmRuntimeOnly-java.lang.Object-org.gradle.api.Action-]]
+=== void jvmRuntimeOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an JVM runtime only dependency to this library.
+An implementation dependency is only visible to consumers that are running against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeImplementation-java.lang.Object-org.gradle.api.Action-]]
+=== void nativeImplementation(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an native implementation dependency to this component.
+An implementation dependency is not visible to consumers that are compiled or linked against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeImplementation-java.lang.Object-]]
+=== void nativeImplementation(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an native implementation dependency to this component.
+An implementation dependency is not visible to consumers that are compiled or linked against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeLinkOnly-java.lang.Object-]]
+=== void nativeLinkOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an native link only dependency to this component.
+An link only dependency is not visible to consumers that are compiled or linked against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeLinkOnly-java.lang.Object-org.gradle.api.Action-]]
+=== void nativeLinkOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an native link only dependency to this component.
+An link only dependency is not visible to consumers that are compiled or linked against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeRuntimeOnly-java.lang.Object-]]
+=== void nativeRuntimeOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation)
+
+Adds an native runtime only dependency to this component.
+An runtime only dependency is not visible to consumers that are running against this component.
+
+
+
+[[dev.nokee.platform.jni.JniLibraryDependencies:nativeRuntimeOnly-java.lang.Object-org.gradle.api.Action-]]
+=== void nativeRuntimeOnly(link:https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html[Object] notation, link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/artifacts/ModuleDependency.html[ModuleDependency]> action)
+
+Adds an native runtime only dependency to this component.
+An runtime only dependency is visible only to consumers that are running against this component.
+
+
+
+
+
+

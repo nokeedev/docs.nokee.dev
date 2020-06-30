@@ -1,0 +1,64 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= BinaryAwareComponent
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, BinaryAwareComponent
+:jbake-description: Learn about the build language of the BinaryAwareComponent type.
+:jbake-category: Core types
+
+API Documentation: link:../javadoc/dev/nokee/platform/base/BinaryAwareComponent.html[BinaryAwareComponent]
+
+A component with binaries.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.base.BinaryAwareComponent:binaries[binaries]
+|The binaries for this component.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.base.BinaryAwareComponent:binaries]]
+=== link:../javadoc/dev/nokee/platform/base/BinaryView.html[BinaryView]<link:../javadoc/dev/nokee/platform/base/Binary.html[Binary]> binaries (read-only)
+
+The binaries for this component.
+
+
+
+
+
+
+
+
+

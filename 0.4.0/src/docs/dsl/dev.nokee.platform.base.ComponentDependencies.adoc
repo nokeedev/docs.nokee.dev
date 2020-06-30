@@ -1,0 +1,41 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= ComponentDependencies
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, ComponentDependencies
+:jbake-description: Learn about the build language of the ComponentDependencies type.
+:jbake-category: Core types
+
+API Documentation: link:../javadoc/dev/nokee/platform/base/ComponentDependencies.html[ComponentDependencies]
+
+The dependency buckets for a component.
+
+
+
+== Properties
+
+
+No properties.
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+
+
+
+

@@ -1,0 +1,84 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= ExecutableBinary
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, ExecutableBinary
+:jbake-description: Learn about the build language of the ExecutableBinary type.
+:jbake-category: Native types
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/ExecutableBinary.html[ExecutableBinary]
+
+A executable built from 1 or more native language.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.nativebase.ExecutableBinary:buildable[buildable]
+|Whether or not this binary can be built in the current environment.
+
+|link:#dev.nokee.platform.nativebase.ExecutableBinary:compileTasks[compileTasks]
+|Returns a view of all the compile tasks that participate to compiling all the object files for this binary.
+
+|link:#dev.nokee.platform.nativebase.ExecutableBinary:linkTask[linkTask]
+|Returns a provider for the task that links the object files into this binary.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.nativebase.ExecutableBinary:buildable]]
+=== boolean buildable (read-only)
+
+Whether or not this binary can be built in the current environment.
+
+
+
+[[dev.nokee.platform.nativebase.ExecutableBinary:compileTasks]]
+=== link:../javadoc/dev/nokee/platform/base/TaskView.html[TaskView]<link:../javadoc/dev/nokee/language/base/tasks/SourceCompile.html[SourceCompile]> compileTasks (read-only)
+
+Returns a view of all the compile tasks that participate to compiling all the object files for this binary.
+
+
+
+[[dev.nokee.platform.nativebase.ExecutableBinary:linkTask]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/tasks/TaskProvider.html[TaskProvider]<link:../javadoc/dev/nokee/platform/nativebase/tasks/LinkExecutable.html[LinkExecutable]> linkTask (read-only)
+
+Returns a provider for the task that links the object files into this binary.
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+:jbake-version: 0.4.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:jbake-permalink: java-c-jni-library
+:jbake-archivebasename: JavaCJniLibrary
+:includedir: .
+= Java/C JNI Library
+:jbake-summary: JNI library implemented in Java and C.
+:jbake-type: sample_chapter
+:jbake-tags: sample, jni, java, jvm, library, native, c, gradle
+:jbake-category: Java Native Interface (JNI)
+:jbake-description: See how the Nokee Gradle plugins can build a Java Native Interface (JNI) library implemented in Java and C.
+
+NOTE: You can open this sample inside an IDE using the https://www.jetbrains.com/help/idea/gradle.html#gradle_import_project_start[IntelliJ native importer] or https://projects.eclipse.org/projects/tools.buildship[Eclipse Buildship].
+
+This sample shows how a JNI library implemented in Java and C can be built with Gradle.
+The library has no dependencies, and the build has a minimal configuration.
+
+====
+[.multi-language-sample]
+=====
+.build.gradle
+[source,groovy]
+----
+include::{includedir}/groovy-dsl/build.gradle[]
+----
+=====
+[.multi-language-sample]
+=====
+.build.gradle.kts
+[source,kotlin]
+----
+include::{includedir}/kotlin-dsl/build.gradle.kts[]
+----
+=====
+====
+
+To build the library:
+
+[listing.terminal]
+----
+$ ./gradlew assemble
+
+BUILD SUCCESSFUL
+4 actionable tasks: 4 executed
+----
+
+The JNI library produced inside `./build/libs` directory:
+
+[listing.terminal]
+----
+$ ls ./build/libs/*.jar
+./build/libs/java-c-jni-library.jar
+----
+
+Since there is only one variant, the native component is included inside the main JAR:
+
+[listing.terminal,only-if='macos']
+----
+$ jar tf ./build/libs/java-c-jni-library.jar
+META-INF/
+META-INF/MANIFEST.MF
+com/
+com/example/
+com/example/greeter/
+com/example/greeter/NativeLoader.class
+com/example/greeter/Greeter.class
+libjava-c-jni-library.dylib
+----
+
+
+For more information, see <<../../manual/jni-library-plugin.adoc#,JNI Library Plugin>> and <<../../manual/c-language-plugin.adoc#,C Language Plugin>> reference chapters.

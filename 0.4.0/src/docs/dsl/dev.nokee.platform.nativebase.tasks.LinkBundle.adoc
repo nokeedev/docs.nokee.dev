@@ -1,0 +1,90 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= LinkBundle
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, LinkBundle
+:jbake-description: Learn about the build language of the LinkBundle type.
+:jbake-category: Native types
+
+API Documentation: link:../javadoc/dev/nokee/platform/nativebase/tasks/LinkBundle.html[LinkBundle]
+
+Links a bundle binary from object files and imported libraries.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.nativebase.tasks.LinkBundle:linkedFile[linkedFile]
+|The location of the linked binary.
+
+|link:#dev.nokee.platform.nativebase.tasks.LinkBundle:linkerArgs[linkerArgs]
+|Additional arguments to provide to the linker.
+
+It act as an escape hatch to the current model.
+Please open an issue on https://github.com/nokeedev/gradle-native with your reason for using this hatch so we can improve the model.
+
+|link:#dev.nokee.platform.nativebase.tasks.LinkBundle:toolChain[toolChain]
+|The tool chain used for the compilation.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.nativebase.tasks.LinkBundle:linkedFile]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/file/RegularFile.html[RegularFile]> linkedFile (read-only)
+
+The location of the linked binary.
+
+
+
+[[dev.nokee.platform.nativebase.tasks.LinkBundle:linkerArgs]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/ListProperty.html[ListProperty]<link:https://docs.oracle.com/javase/8/docs/api/java/lang/String.html[String]> linkerArgs 
+
+*Additional* arguments to provide to the linker.
+
+It act as an escape hatch to the current model.
+Please open an issue on https://github.com/nokeedev/gradle-native with your reason for using this hatch so we can improve the model.
+
+
+
+[[dev.nokee.platform.nativebase.tasks.LinkBundle:toolChain]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/nativeplatform/toolchain/NativeToolChain.html[NativeToolChain]> toolChain (read-only)
+
+The tool chain used for the compilation.
+
+
+
+
+
+
+
+
+

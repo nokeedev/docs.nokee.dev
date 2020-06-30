@@ -1,0 +1,140 @@
+:jbake-version: 0.4.0
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+:gradle-user-manual: https://docs.gradle.org/6.2.1/userguide
+:gradle-language-reference: https://docs.gradle.org/6.2.1/dsl
+:gradle-api-reference: https://docs.gradle.org/6.2.1/javadoc
+:gradle-guides: https://guides.gradle.org/
+:includedir: .
+= Nokee Release Notes
+:jbake-type: release_notes
+:jbake-tags: {jbake-version}, jvm, jni, objective c, objective cpp, c, swift
+:jbake-description: See what version {jbake-version} of the Gradle Nokee plugins has to offer!
+
+The Nokee team is pleased to announce an important milestone in native development with Gradle.
+
+This release focuses on link:#sec:native-plugins[adding plugins for building applications and libraries in C, {cpp}, Objective-C, Objective-{cpp}, and Swift].
+The link:#sec:swift-ios-application-plugin[experimental iOS application building plugin implemented in Swift] joins the Nokee plugin family.
+The link:#sec:xcode-ide[Xcode IDE plugin supports all the new native plugins].
+link:#sec:jni-library-improvements[Additional conveniences made its way into the Java Native Interface (JNI) Library plugin].
+Finally, link:#sec:gradle-toolbox[the first version of the Gradle Toolbox plugins became available], allowing Nokee to develop high-quality Gradle plugins.
+
+Read the link:../../blog/release-0.4-announcement/[announcement blog] to learn more about the changes around the configuration model of Nokee.
+
+[[sec:getting-started]]
+== Getting Started
+
+To use the Nokee plugins in Gradle, copy the following code to the settings script of your project, then apply any of the <<manual/plugin-references.adoc#,Nokee plugins>> to your build using the link:{gradle-user-manual}/plugins.html#sec:plugins_block[plugins DSL block]:
+
+.Configuring Gradle plugin resolution
+====
+[.multi-language-sample]
+=====
+.settings.gradle
+[source,groovy,subs=attributes+]
+----
+pluginManagement {
+   repositories {
+      gradlePluginPortal()
+      maven {
+         url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
+      }
+   }
+   def nokeeVersion = '{jbake-version}'
+   resolutionStrategy {
+      eachPlugin {
+         if (requested.id.id.startsWith('dev.nokee.')) {
+            useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:${nokeeVersion}")
+         }
+      }
+   }
+}
+----
+=====
+[.multi-language-sample]
+=====
+.settings.gradle.kts
+[source,kotlin,subs=attributes+]
+----
+pluginManagement {
+   repositories {
+      gradlePluginPortal()
+      maven {
+         url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
+      }
+   }
+   val nokeeVersion = "{jbake-version}"
+   resolutionStrategy {
+      eachPlugin {
+         if (requested.id.id.startsWith("dev.nokee.")) {
+            useModule("${requested.id.id}:${requested.id.id}.gradle.plugin:${nokeeVersion}")
+         }
+      }
+   }
+}
+----
+=====
+====
+
+[[sec:native-plugins]]
+== Building native applications/libraries plugins
+
+<<manual/plugin-references.adoc#sec:plugin-reference-native-development,Ten new native plugins>> join the Nokee distribution to support building native application and native library implemented in C, {cpp}, Objective-C, Objective-{cpp}, and Swift.
+These new plugins are similar in features and will improve them over the next releases.
+
+[[sec:swift-ios-application-plugin]]
+== Experimental iOS application plugin for Swift
+
+Support for <<manual/swift-ios-application-plugin.adoc#,building iOS application implemented in Swift>> is available as an experimental plugin.
+It offers the same feature as its counter-part for building iOS applications implemented in Objective-C.
+The iOS plugins are still severely limited in features due to the strategic goal for this release.
+The following releases will start addressing some production features needed by iOS developers.
+
+[[sec:xcode-ide]]
+== Xcode IDE support for all new plugins
+
+Xcode IDE plugin supports each of the new plugins.
+Code editing, compilation, debugging, code completion, and jump to symbol features are available when applying the Xcode IDE plugin with any native plugins.
+
+[[sec:jni-library-improvements]]
+== New APIs for JNI library
+
+Starting with this release, the plugin registers all JNI library variants regardless of whether they are buildable.
+This improves the user experience for all use cases and can potentially break your build.
+
+New APIs introduced for handling pre-built native binaries scenarios.
+It is now possible to link:samples/jni-library-composing-from-pre-built-binaries[always use pre-built binaries], link:samples/jni-library-with-pre-built-binaries[conditionally build from the source when pre-built binaries are not available], or even link:https://github.com/weisJ/darklaf/blob/9e59b6254781a534f2d7ded1dec80c9c5dfc0f67/buildSrc/src/main/groovy/UsePrebuiltBinariesWhenUnbuildablePlugin.groovy#L38-L63[download pre-built binaries when the native source isn't buildable on the local machine].
+
+[[sec:gradle-toolbox]]
+== Gradle Toolbox plugins
+
+The Nokee team link:/blog/introducing-gradle-toolbox[released five plugins to enhance the Gradle plugin development process]:
+
+<<manual/java-gradle-plugin-plugin.adoc#,`dev.gradleplugins.java-gradle-plugin`>>::
+Provides support for developing Gradle plugin implemented in Java.
+<<manual/groovy-gradle-plugin-plugin.adoc#,`dev.gradleplugins.groovy-gradle-plugin`>>::
+Provides support for developing Gradle plugin implemented in Groovy.
+<<manual/gradle-plugin-development-plugin.adoc#,`dev.gradleplugins.gradle-plugin-development`>>::
+Provides additional support for developing Gradle plugin-related projects.
+<<manual/gradle-plugin-unit-test-plugin.adoc#,`dev.gradleplugins.gradle-plugin-unit-test`>>::
+Provides support for unit testing Gradle plugins.
+<<manual/gradle-plugin-functional-test-plugin.adoc#,`dev.gradleplugins.gradle-plugin-functional-test`>>::
+Provides support for functional testing Gradle plugins.
+
+As a companion to the plugins, a <<manual/gradle-plugin-development.adoc#,dedicated chapter>>, link:samples/#sec:samples-gradle-dev[samples], and <<manual/plugin-references.adoc#sec:plugin-reference-gradledev,plugin references>> are available to help plugin authors to get started.
+
+[[sec:reporting-problems]]
+== Reporting Problems
+If you find a problem with any of the plugins, https://github.com/nokeedev/gradle-native[please open an issue on GitHub].
+If you're not sure you're encountering a bug, please https://discuss.gradle.org/tags/c/help-discuss/14/native[use the Gradle user forum] or the https://app.slack.com/client/TA7ULVA9K/CDDGUSJ7R[Gradle Community Slack].
+
+Let's build happiness with Gradle, and looking forward to your feedback via https://twitter.com/nokeedev[Twitter] or on https://github.com/nokeedev[GitHub].

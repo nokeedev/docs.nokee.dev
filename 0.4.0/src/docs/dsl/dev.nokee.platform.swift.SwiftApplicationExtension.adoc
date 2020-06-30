@@ -1,0 +1,105 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= SwiftApplicationExtension
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, SwiftApplicationExtension
+:jbake-description: Learn about the build language of the SwiftApplicationExtension type.
+:jbake-category: Swift types
+
+API Documentation: link:../javadoc/dev/nokee/platform/swift/SwiftApplicationExtension.html[SwiftApplicationExtension]
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.platform.swift.SwiftApplicationExtension:binaries[binaries]
+|The binaries for this component.
+
+|link:#dev.nokee.platform.swift.SwiftApplicationExtension:dependencies[dependencies]
+|The dependencies of this component.
+
+|link:#dev.nokee.platform.swift.SwiftApplicationExtension:variants[variants]
+|Configure the variants of this component.
+
+|===
+
+
+
+
+== Methods
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Method
+|Description
+
+
+|`link:#dev.nokee.platform.base.DependencyAwareComponent:dependencies-org.gradle.api.Action-[dependencies](action)`
+|Configure the dependencies of this component.
+
+|===
+
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.platform.swift.SwiftApplicationExtension:binaries]]
+=== link:../javadoc/dev/nokee/platform/base/BinaryView.html[BinaryView]<link:../javadoc/dev/nokee/platform/base/Binary.html[Binary]> binaries (read-only)
+
+The binaries for this component.
+
+
+
+[[dev.nokee.platform.swift.SwiftApplicationExtension:dependencies]]
+=== T dependencies (read-only)
+
+The dependencies of this component.
+
+
+
+[[dev.nokee.platform.swift.SwiftApplicationExtension:variants]]
+=== link:../javadoc/dev/nokee/platform/base/VariantView.html[VariantView]<T> variants (read-only)
+
+Configure the variants of this component.
+
+
+
+
+
+
+
+
+== Method Details
+
+
+[[dev.nokee.platform.base.DependencyAwareComponent:dependencies-org.gradle.api.Action-]]
+=== void dependencies(link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/Action.html[Action]<? super T> action)
+
+Configure the dependencies of this component.
+
+
+
+
+
+

@@ -1,0 +1,93 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= XcodeIdeWorkspace
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, XcodeIdeWorkspace
+:jbake-description: Learn about the build language of the XcodeIdeWorkspace type.
+:jbake-category: Xcode IDE types
+
+API Documentation: link:../javadoc/dev/nokee/ide/xcode/XcodeIdeWorkspace.html[XcodeIdeWorkspace]
+
+Represents the generated Xcode IDE workspace.
+
+
+
+> A workspace is an Xcode document that groups projects and other documents so you can work on them together.
+>         A workspace can contain any number of Xcode projects, plus any other files you want to include.
+>         In addition to organizing all the files in each Xcode project, a workspace provides implicit and explicit relationships among the included projects and their targets.
+>     
+> 
+> 
+> 	   —Xcode Workspace Concept
+> 
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.ide.xcode.XcodeIdeWorkspace:location[location]
+|The location of the generated workspace.
+It defaults to 
+
+|link:#dev.nokee.ide.xcode.XcodeIdeWorkspace:projects[projects]
+|Returns Xcode projects to include in the workspace.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeWorkspace:location]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Provider.html[Provider]<link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/file/FileSystemLocation.html[FileSystemLocation]> location (read-only)
+
+The location of the generated workspace.
+It defaults to 
+
+[.listing]
+----
+${project.projectDir}/${project.name}.xcworkspace
+----
+.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeWorkspace:projects]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/SetProperty.html[SetProperty]<link:../javadoc/dev/nokee/ide/xcode/XcodeIdeProject.html[XcodeIdeProject]> projects 
+
+Returns Xcode projects to include in the workspace.
+
+
+
+
+
+
+
+
+

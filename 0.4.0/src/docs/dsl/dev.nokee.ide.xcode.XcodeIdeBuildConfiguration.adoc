@@ -1,0 +1,74 @@
+:toc:
+:toclevels: 1
+:toc-title: Contents
+:icons: font
+:idprefix:
+:jbake-status: published
+:encoding: utf-8
+:lang: en-US
+:sectanchors: true
+:sectlinks: true
+:linkattrs: true
+= XcodeIdeBuildConfiguration
+:jbake-type: dsl_chapter
+:jbake-tags: user manual, gradle plugin dsl, XcodeIdeBuildConfiguration
+:jbake-description: Learn about the build language of the XcodeIdeBuildConfiguration type.
+:jbake-category: Xcode IDE types
+
+API Documentation: link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildConfiguration.html[XcodeIdeBuildConfiguration]
+
+Represent a build configuration of a target.
+
+
+
+== Properties
+
+
+
+[cols="1,2", options="header", width=100%]
+|===
+|Property
+|Description
+
+
+|link:#dev.nokee.ide.xcode.XcodeIdeBuildConfiguration:buildSettings[buildSettings]
+|The build settings for this build configuration.
+
+|link:#dev.nokee.ide.xcode.XcodeIdeBuildConfiguration:productLocation[productLocation]
+|The product location built by Gradle.
+
+|===
+
+
+
+
+== Methods
+
+No methods.
+
+
+
+
+== Property Details
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildConfiguration:buildSettings]]
+=== link:../javadoc/dev/nokee/ide/xcode/XcodeIdeBuildSettings.html[XcodeIdeBuildSettings] buildSettings (read-only)
+
+The build settings for this build configuration.
+
+
+
+[[dev.nokee.ide.xcode.XcodeIdeBuildConfiguration:productLocation]]
+=== link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/provider/Property.html[Property]<link:https://docs.gradle.org/6.2.1/javadoc/org/gradle/api/file/FileSystemLocation.html[FileSystemLocation]> productLocation 
+
+The product location built by Gradle.
+
+
+
+
+
+
+
+
+

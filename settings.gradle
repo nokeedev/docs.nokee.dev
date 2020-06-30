@@ -14,6 +14,7 @@ if (file('../docs-gradle-plugins')) {
 include '0.1.0'
 include '0.2.0'
 include '0.3.0'
+include '0.4.0'
 
 plugins.withId('com.gradle.enterprise') {
 	gradleEnterprise {
