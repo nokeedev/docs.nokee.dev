@@ -13,6 +13,7 @@ plugins {
 apply plugin: 'dev.nokee.documentation.jbake-ingredients'
 
 import dev.nokee.docs.SecretValue
+import dev.nokee.docs.jbake.plugins.JBakeStaleOutputCleanupPlugin
 import dev.nokee.docs.tasks.GenerateRedirection
 import dev.nokee.docs.tasks.GenerateRobots
 import dev.nokee.docs.tasks.GenerateSitemap
@@ -99,14 +100,7 @@ allprojects {
 // Delete baked output before baking
 // See https://github.com/jbake-org/jbake-gradle-plugin/issues/55
 allprojects {
-	pluginManager.withPlugin('org.jbake.site') {
-		tasks.named('bake', JBakeTask) {
-			doFirst {
-				output.deleteDir()
-				output.mkdirs()
-			}
-		}
-	}
+	pluginManager.apply(JBakeStaleOutputCleanupPlugin)
 }
 
 // Generate documentation site
@@ -121,7 +115,7 @@ dependencies {
 def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
 	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
 	sitemapUrls.addAll(configurations.baked.incoming.files.elements
-			.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(it))))) })
+			.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(toFiles(it)))))) })
 }
 
 def robotsTask = tasks.register('robots', GenerateRobots) {
