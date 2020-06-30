@@ -9,8 +9,8 @@ buildscript {
 }
 plugins {
 	id 'org.jbake.site' version '5.2.0'
-	id 'dev.nokee.documentation.jbake-ingredients'
 }
+apply plugin: 'dev.nokee.documentation.jbake-ingredients'
 
 import dev.nokee.docs.SecretValue
 import dev.nokee.docs.tasks.GenerateRedirection
