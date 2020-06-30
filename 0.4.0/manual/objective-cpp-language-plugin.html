@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+	<title>Objective-C&#43;&#43; Language</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Learn what the Nokee's Objective-C&#43;&#43; language plugin (i.e. dev.nokee.objective-cpp-language) has to offer for your Gradle build.">
+<meta name="author" content="@nokeedev">
+<meta name="keywords" content="user manual, gradle plugin reference, objective c\+\+, native, gradle">
+
+<link rel="canonical" href="https://nokee.dev/0.4.0/manual/objective-cpp-language-plugin.html">
+<meta property="og:url" content="https://nokee.dev/0.4.0/manual/objective-cpp-language-plugin.html">
+
+
+
+
+
+<script type="application/ld+json">
+    [{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+  "@type": "ListItem",
+  "position": 1,
+  "name": "User Manual",
+  "item": "https://nokee.dev/docs/current/manual/user-manual.html"
+},{
+  "@type": "ListItem",
+  "position": 2,
+  "name": "Reference Plugins",
+  "item": "https://nokee.dev/docs/current/manual/plugin-references.html"
+},{
+  "@type": "ListItem",
+  "position": 3,
+  "name": "Objective-C&#43;&#43; Language",
+  "item": "https://nokee.dev/0.4.0/manual/objective-cpp-language-plugin.html"
+}]
+    }]
+</script>
+
+
+
+
+<meta property="og:site_name" content="Nokee">
+<meta property="og:title" content="Objective-C&#43;&#43; Language">
+<meta name="og:description" content="Learn what the Nokee's Objective-C&#43;&#43; language plugin (i.e. dev.nokee.objective-cpp-language) has to offer for your Gradle build.">
+
+
+
+<meta name="twitter:site" content="@nokeedev">
+<meta name="twitter:creator" content="@nokeedev">
+<meta name="twitter:title" content="Objective-C&#43;&#43; Language">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Learn what the Nokee's Objective-C&#43;&#43; language plugin (i.e. dev.nokee.objective-cpp-language) has to offer for your Gradle build.">
+
+
+
+<!-- Le styles -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Rajdhani" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/css/normalize-8.0.1.css" rel="stylesheet">
+<link href="/css/prettify.css" rel="stylesheet">
+<link href="/css/menu.css" rel="stylesheet">
+
+<link href="/css/colorscheme-light.css" rel="stylesheet">
+
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="/js/html5shiv.min.js"></script>
+<![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#001824">
+<meta name="msapplication-TileColor" content="#00a300">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-157599764-1"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-157599764-1');
+</script>
+
+
+<!-- Le styles -->
+<link href="/css/docs-asciidoctor.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-docs-layout.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-override.css" rel="stylesheet">
+<link href="/css/docs-asciidoctor-color-override.css" rel="stylesheet">
+<link href="/css/docs-base.css" rel="stylesheet">
+<link href="/css/multi-language-sample.css" rel="stylesheet">
+
+</head>
+<body onload="prettyPrint()">
+
+	
+<nav class="navigation" aria-labelledby="primary-navigation">
+	<a href="/" class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 49.96"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><g id="full-dark"><g id="nokee"><path d="M180.38,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25H193.8A5.92,5.92,0,0,1,198.17,14a6,6,0,0,1,1.83,4.4V28.88H180.49s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H180.49Z"/><path d="M51.3,40.13v-28H71A6,6,0,0,1,75.34,14a6,6,0,0,1,1.83,4.4V40.13H70.88l-.07-21.65H57.65l-.06,21.65Z"/><path d="M88.94,40.13a6.32,6.32,0,0,1-6.25-6.25V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,106.74,14a6.07,6.07,0,0,1,1.82,4.4V33.88a6.05,6.05,0,0,1-1.82,4.4,5.92,5.92,0,0,1-4.38,1.85Zm13.26-6.36s0-15.29,0-15.29H89.05s0,15.25,0,15.29S102.16,33.82,102.2,33.77Z"/><path d="M114.13,40.13V6.26h6.29V23.38h4l8.84-11.28h8.19L129.92,26.54l11.49,13.59h-8.19l-8.84-10.42h-4V40.13Z"/><path d="M149.25,40.13A6.32,6.32,0,0,1,143,33.88V18.37a6.32,6.32,0,0,1,6.25-6.25h13.42A6,6,0,0,1,167.05,14a6.07,6.07,0,0,1,1.82,4.4V28.88H149.36s-.05,4.85,0,4.89,19.51.07,19.51.07v6.29Zm.11-16.84h13.15V18.48H149.36Z"/></g><g id="bird"><path d="M41.82,10.21,25.58.83a6.24,6.24,0,0,0-6.23,0L3.11,10.21A6.24,6.24,0,0,0,0,15.6V34.35a6.25,6.25,0,0,0,3.11,5.4l16.24,9.37a6.24,6.24,0,0,0,6.23,0l16.24-9.37a6.25,6.25,0,0,0,3.11-5.4V15.6A6.24,6.24,0,0,0,41.82,10.21Zm-6,10.92c0,12.59-7.92,17.46-21.73,17.46A16.46,16.46,0,0,1,5,36c8.22-5.58,10.56-9.95,12.4-17.5,1.11-4.54,4.25-8.06,9.22-8.06,3.6,0,6.62,1.28,8.14,4.7h6.5l-5.49,4.39C35.82,20,35.84,20.57,35.84,21.13Z"/><path d="M28.94,13.72a3.35,3.35,0,0,0-3,1.76.83.83,0,0,0,1.46.79,1.7,1.7,0,0,1,3,0,.83.83,0,0,0,1.13.33.82.82,0,0,0,.33-1.12A3.36,3.36,0,0,0,28.94,13.72Z"/></g></g></g></g></svg></a>
+	<input class="navigation-hamburger" type="checkbox" id="navigation-hamburger" />
+	<label class="menu-icon" for="navigation-hamburger"><span class="navicon"></span></label>
+	<ul class="navigation-items">
+		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
+		<li><a href="/blog">Blog</a></li>
+		<li>
+			<ul class="navigation-socials">
+				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
+				<li class="navigation-github"><a href="https://github.com/nokeedev" title="Nokee on GitHub"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.578 9.578 0 0 1 10 4.836c.85.004 1.705.114 2.504.337 1.909-1.294 2.747-1.026 2.747-1.026.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C17.137 18.163 20 14.418 20 10c0-5.523-4.478-10-10-10" fill-rule="evenodd"></path></svg></a></li>
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+	<main class="main-content">
+		
+<nav class="docs-navigation">
+	<div class="breadcrumbs"><ul><li><a href="../manual/user-manual.html">User Manual</a></li><li><a href="../manual/plugin-references.html">Reference Plugins</a></li><li><a href="/0.4.0/manual/objective-cpp-language-plugin.html">Objective-C&#43;&#43; Language</a></li></ul></div>
+	<input class="docs-navigation-hamburger" type="checkbox" id="docs-navigation-hamburger" />
+	<label class="menu-icon" for="docs-navigation-hamburger"><span class="fa navicon"></span></label>
+	<div class="navigation-items">
+		<ul>
+			<li><a href="../manual/user-manual.html">Docs Home</a></li>
+			<li><a href="../samples/">Samples</a></li>
+			<li><a href="../release-notes.html">Release Notes</a></li>
+			<li><a href="../javadoc/index.html">Nokee Javadoc API</a></li>
+			<li><a href="../dsl/index.html">Nokee DSL Reference</a></li>
+		</ul>
+		<h3 id="user-manual">User Manual </h3>
+		<ul>
+			<li><a href="../manual/getting-started.html">Getting Started</a></li>
+			<li><a href="../manual/plugin-anatomy.html">Anatomy of a Nokee Plugin</a></li>
+			<li><a href="../manual/building-jni-projects.html">Building JNI Projects</a></li>
+			<li><a href="../manual/building-native-projects.html">Building Native Projects</a></li>
+			<li><a href="../manual/developing-with-xcode-ide.html">Developing with Xcode IDE</a></li>
+			<li><a href="../manual/gradle-plugin-development.html">Gradle Plugin Development</a></li>
+			<li><a href="../manual/terminology.html">Terminology</a></li>
+		</ul>
+		<h3 id="reference">Reference</h3>
+		<ul>
+			<li><a href="../manual/plugin-references.html">Nokee Plugins</a></li>
+			<ul>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-native-development">Native Development</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-ios">iOS Development</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-jvm">JNI Development</a></li>
+				<li><a href="../manual/xcode-ide-plugin.html">Xcode IDE</a></li>
+				<li><a href="../manual/plugin-references.html#sec:plugin-reference-gradledev">Gradle Plugin Development</a></li>
+			</ul>
+		</ul>
+	</div>
+</nav>
+
+
+		<div class="chapter">
+			<div id="header">
+				<h1>Objective-C&#43;&#43; Language</h1>
+			</div>
+
+			<div id="content">
+				<div id="toc" class="toc">
+<div id="toctitle">Contents</div>
+<ul class="sectlevel1">
+<li><a href="#usage">Usage</a></li>
+<li><a href="#conventions">Conventions</a></li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Objective-C&#43;&#43; Language Plugin provides the tasks, configurations and conventions for compiling Objective-C&#43;&#43; source files.
+It&#8217;s an implementation language plugin and works in tandem with plugins providing a runtime and/or entry point.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="usage"><a class="anchor" href="#usage"></a><a class="link" href="#usage">Usage</a></h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="title">Example 1. Applying the Objective-C&#43;&#43; Language Plugin</div>
+<div class="content">
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+   id 'dev.nokee.objective-cpp-language'
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock multi-language-sample">
+<div class="content">
+<div class="listingblock">
+<div class="title">build.gradle.kts</div>
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
+   id("dev.nokee.objective-cpp-language")
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This plugin provides the Objective-C&#43;&#43; implementation language capability to a project already providing a runtime and/or entry point, such as the <a href="jni-library-plugin.html">JNI Library Plugin</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="conventions"><a class="anchor" href="#conventions"></a><a class="link" href="#conventions">Conventions</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Objective-C&#43;&#43; Language Plugin adds conventions for sources, shown below.</p>
+</div>
+<div class="sect2">
+<h3 id="project_layout"><a class="anchor" href="#project_layout"></a><a class="link" href="#project_layout">Project layout</a></h3>
+<div class="paragraph">
+<p>The plugin assumes the project layout shown below.
+None of these directories needs to exist or have anything in them.
+The compile tasks will compile whatever it finds and ignore anything missing.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>src/main/objcpp</code></dt>
+<dd>
+<p>Objective-C&#43;&#43; source with extension of <code>.mm</code></p>
+</dd>
+<dt class="hdlist1"><code>src/main/headers</code></dt>
+<dd>
+<p>Headers - headers needed to compile the library</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+			</div>
+		</div>
+		<aside class="secondary-navigation"></aside>
+	</main>
+
+	<div id="push"></div>
+	<div id="footer">
+		<div class="container">
+			<p class="muted credit">&copy; 2020</p>
+		</div>
+	</div>
+
+	<gdpr-banner></gdpr-banner>
+<script src="/js/gdpr-banner.js" type="module"></script>
+
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="/js/prettify.js"></script>
+	<script src="/js/multi-language-sample.js"></script>
+	<script src="/js/active-link.js"></script>
+
+</body>
+</html>
