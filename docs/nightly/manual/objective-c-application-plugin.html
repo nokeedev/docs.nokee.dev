@@ -394,7 +394,7 @@ The following graph describes the configurations added by the Objective-C Applic
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="img/{plugin-configuration-style}-application-configurations.png" alt="{plugin configuration style} application configurations">
+<img src="img/native-application-configurations.png" alt="native application configurations">
 </div>
 <div class="title">Figure 3. Objective-C Application Plugin configurations</div>
 </div>
@@ -445,6 +445,11 @@ This configuration is meant to be used by consumers, to retrieve all the element
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1"><code><em>variant</em>HeaderSearchPaths</code> (e.g. <code>windowsHeaderSearchPaths</code> and <code>linuxHeaderSearchPaths</code>) extends <code><em>variant</em>Implementation</code></dt>
+<dd>
+<p>Used for compiling the application.
+This configuration contains the compile include roots of the application and is therefore used when invoking the Objective-C compiler to compile it.</p>
+</dd>
 <dt class="hdlist1"><code><em>variant</em>LinkLibraries</code> (e.g. <code>windowsLinkLibraries</code> and <code>linuxLinkLibraries</code>) extends <code><em>variant</em>Implementation</code></dt>
 <dd>
 <p>Used for linking the application.
