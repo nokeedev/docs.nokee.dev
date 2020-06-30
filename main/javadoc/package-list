@@ -18,5 +18,4 @@ dev.nokee.platform.nativebase.tasks
 dev.nokee.platform.objectivec
 dev.nokee.platform.objectivecpp
 dev.nokee.platform.swift
-dev.nokee.runtime.darwin.internal.parsers
 dev.nokee.runtime.nativebase

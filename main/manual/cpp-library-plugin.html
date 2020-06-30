@@ -193,7 +193,7 @@
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
    id 'dev.nokee.cpp-library'
 }</code></pre>
 </div>
@@ -205,7 +205,7 @@
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
    id("dev.nokee.cpp-library")
 }</code></pre>
 </div>
@@ -256,7 +256,7 @@ Nokee uses the target machine to decide which toolchain to choose based on avail
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
     targetMachines = [
         machines.linux.x86_64,
         machines.windows.x86, machines.windows.x86_64,
@@ -272,7 +272,7 @@ Nokee uses the target machine to decide which toolchain to choose based on avail
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
     targetMachines.set(listOf(machines.linux.x86_64,
         machines.windows.x86, machines.windows.x86_64,
         machines.macOS.x86_64))
@@ -314,35 +314,27 @@ The following diagram shows the relationship between variant-dependent tasks.</p
 <dl>
 <dt class="hdlist1"><code>compile<em>Variant</em>Cpp</code> (e.g. <code>compileWindowsCpp</code> and <code>compileLinuxCpp</code>)  - <a href="../dsl/dev.nokee.language.cpp.tasks.CppCompile.html">CppCompile</a></dt>
 <dd>
-<p>Depends on: All tasks that contribute source files to the compilation</p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Compiles Cpp source files using the selected compiler.</p>
+<p>Depends on: All tasks that contribute source files to the compilation
+::
+Compiles Cpp source files using the selected compiler.</p>
 </dd>
 <dt class="hdlist1"><code>objects<em>Variant</em></code> (e.g. <code>objectsWindows</code> and <code>objectsLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>compile<em>Variant</em>Cpp</code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregates tasks that compile the source files to object files for the specific variant of this library.</p>
+<p>Depends on: <code>compile<em>Variant</em>Cpp</code>
+::
+Aggregates tasks that compile the source files to object files for the specific variant of this library.</p>
 </dd>
 <dt class="hdlist1"><code>link<em>Variant</em></code> (e.g. <code>linkWindows</code> and <code>linkLinux</code>) - <a href="../dsl/dev.nokee.platform.nativebase.tasks.LinkSharedLibrary.html">LinkSharedLibrary</a> (shared linkage)</dt>
 <dd>
-<p>Depends on: All tasks which contribute to the link libraries, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies</p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Links shared library from compiled object files using the selected linker.</p>
+<p>Depends on: All tasks which contribute to the link libraries, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies
+::
+Links shared library from compiled object files using the selected linker.</p>
 </dd>
 <dt class="hdlist1"><code>sharedLibrary<em>Variant</em></code> (e.g. <code>sharedLibraryWindows</code> and <code>sharedLibraryLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>sharedLibrary<em>Variant</em></code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregates tasks that creates the shared library binary for the specific variant of this library.</p>
+<p>Depends on: <code>sharedLibrary<em>Variant</em></code>
+::
+Aggregates tasks that creates the shared library binary for the specific variant of this library.</p>
 </dd>
 <dt class="hdlist1"><code>create<em>Variant</em></code> (e.g. <code>createDebug</code> and <code>createRelease</code>) - <a href="../dsl/dev.nokee.platform.nativebase.tasks.CreateStaticLibrary.html">CreateStaticLibrary</a> (static linkage)</dt>
 <dd>
@@ -350,11 +342,9 @@ The following diagram shows the relationship between variant-dependent tasks.</p
 </dd>
 <dt class="hdlist1"><code>staticLibrary<em>Variant</em></code> (e.g. <code>staticLibraryWindows</code> and <code>staticLibraryLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>create<em>Variant</em></code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregates tasks that creates the static library binary for the specific variant of this library.</p>
+<p>Depends on: <code>create<em>Variant</em></code>
+::
+Aggregates tasks that creates the static library binary for the specific variant of this library.</p>
 </dd>
 <dt class="hdlist1"><code>assemble<em>Variant</em></code> (e.g. <code>assembleWindows</code> and <code>assembleLinux</code>) - Task (lifecycle)</dt>
 <dd>
@@ -375,11 +365,9 @@ The following diagram shows the relationship between variant-dependent tasks.</p
 <dl>
 <dt class="hdlist1"><code>assemble</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: link task for the current host, if present</p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregate task that assembles the variant of the library for the current host (if present) in the project.
+<p>Depends on: link task for the current host, if present
+::
+Aggregate task that assembles the variant of the library for the current host (if present) in the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>check</code> - Task (lifecycle)</dt>
@@ -390,11 +378,9 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 </dd>
 <dt class="hdlist1"><code>build</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>check</code>, <code>assemble</code></p>
-</dd>
-<dt class="hdlist1"></dt>
-<dd>
-<p>Aggregate tasks that perform a full build of the project.
+<p>Depends on: <code>check</code>, <code>assemble</code>
+::
+Aggregate tasks that perform a full build of the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>clean</code> - <a href="https://docs.gradle.org/6.2.1/dsl/org.gradle.api.tasks.Delete.html">Delete</a></dt>
@@ -415,8 +401,11 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 Read the <a href="building-native-projects.html#sec:introducing-build-variants">introduction to build variants</a> for more information.
 The following graph describes the configurations added by the C&#43;&#43; Library Plugin:</p>
 </div>
-<div class="paragraph">
-<p>image::img/{plugin-configuration-style}-{plugin-entrypoint-id}-configurations.png[]</p>
+<div class="imageblock">
+<div class="content">
+<img src="img/{plugin-configuration-style}-library-configurations.png" alt="{plugin configuration style} library configurations">
+</div>
+<div class="title">Figure 3. C&#43;&#43; Library Plugin configurations</div>
 </div>
 <div class="ulist">
 <ul>

@@ -170,10 +170,10 @@
 			<div class="download">
 				<ul>
 					<li>
-						<p><a href="JniLibraryWithResourcePath-0.4.0-24da3503-groovy-dsl.zip"><span class="icon"><i class="fa fa-download"></i></span> Groovy DSL</a></p>
+						<p><a href="JniLibraryWithResourcePath-0.4.0-75f7729b-groovy-dsl.zip"><span class="icon"><i class="fa fa-download"></i></span> Groovy DSL</a></p>
 					</li>
 					<li>
-						<p><a href="JniLibraryWithResourcePath-0.4.0-24da3503-kotlin-dsl.zip"><span class="icon"><i class="fa fa-download"></i></span> Kotlin DSL</a></p>
+						<p><a href="JniLibraryWithResourcePath-0.4.0-75f7729b-kotlin-dsl.zip"><span class="icon"><i class="fa fa-download"></i></span> Kotlin DSL</a></p>
 					</li>
 				</ul>
 			</div>
@@ -210,7 +210,7 @@ Given the following build script:</p>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
 	id 'java'
 	id 'dev.nokee.jni-library'
 	id 'dev.nokee.cpp-language'
@@ -226,7 +226,7 @@ group = 'com.example.greeter'</code></pre>
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
 	id("java")
 	id("dev.nokee.jni-library")
 	id("dev.nokee.cpp-language")
@@ -273,7 +273,7 @@ com/example/greeter/libjni-library-with-resource-path.dylib</pre>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
 	variants.configureEach {
 		String osName
 		if (targetMachine.operatingSystemFamily.windows) {
@@ -306,7 +306,7 @@ com/example/greeter/libjni-library-with-resource-path.dylib</pre>
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
 	variants.configureEach {
 		val osName = when {
 			targetMachine.operatingSystemFamily.isWindows -&gt; "windows"

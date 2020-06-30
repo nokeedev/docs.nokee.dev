@@ -4,9 +4,9 @@
 	<title>Nokee Release Notes</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="See what version 0.4.0-24da3503 of the Gradle Nokee plugins has to offer!">
+<meta name="description" content="See what version 0.4.0-75f7729b of the Gradle Nokee plugins has to offer!">
 <meta name="author" content="@nokeedev">
-<meta name="keywords" content="0.4.0-24da3503, jvm, jni, objective c, objective cpp, c, swift">
+<meta name="keywords" content="0.4.0-75f7729b, jvm, jni, objective c, objective cpp, c, swift">
 
 <link rel="canonical" href="https://nokee.dev/docs/nightly/release-notes.html">
 <meta property="og:url" content="https://nokee.dev/docs/nightly/release-notes.html">
@@ -33,7 +33,7 @@
 
 <meta property="og:site_name" content="Nokee">
 <meta property="og:title" content="Nokee Release Notes">
-<meta name="og:description" content="See what version 0.4.0-24da3503 of the Gradle Nokee plugins has to offer!">
+<meta name="og:description" content="See what version 0.4.0-75f7729b of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -41,7 +41,7 @@
 <meta name="twitter:creator" content="@nokeedev">
 <meta name="twitter:title" content="Nokee Release Notes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:description" content="See what version 0.4.0-24da3503 of the Gradle Nokee plugins has to offer!">
+<meta name="twitter:description" content="See what version 0.4.0-75f7729b of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -198,14 +198,14 @@ Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox p
 <div class="listingblock">
 <div class="title">settings.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">pluginManagement {
+<pre class="prettyprint highlight"><code data-lang="groovy">pluginManagement {
    repositories {
       gradlePluginPortal()
       maven {
          url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
       }
    }
-   def nokeeVersion = '0.4.0-24da3503'
+   def nokeeVersion = '0.4.0-75f7729b'
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith('dev.nokee.')) {
@@ -223,14 +223,14 @@ Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox p
 <div class="listingblock">
 <div class="title">settings.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">pluginManagement {
+<pre class="prettyprint highlight"><code data-lang="kotlin">pluginManagement {
    repositories {
       gradlePluginPortal()
       maven {
          url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
       }
    }
-   val nokeeVersion = "0.4.0-24da3503"
+   val nokeeVersion = "0.4.0-75f7729b"
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith("dev.nokee.")) {

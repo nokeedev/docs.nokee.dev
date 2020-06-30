@@ -701,42 +701,6 @@
     <lastmod>2020-06-30</lastmod>
   </url>
   <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/package-frame.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksBaseListener.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/package-tree.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksParser.SdkIdentifierContext.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksLexer.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksParser.OutputContext.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksListener.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/package-summary.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
-    <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/runtime/darwin/internal/parsers/XcodebuildSdksParser.html</loc>
-    <lastmod>2020-06-30</lastmod>
-  </url>
-  <url>
     <loc>https://docs.nokee.dev/docs/nightly/javadoc/dev/nokee/ide/xcode/XcodeIdeTarget.html</loc>
     <lastmod>2020-06-30</lastmod>
   </url>

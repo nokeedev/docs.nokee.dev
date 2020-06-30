@@ -305,7 +305,7 @@ Jetbrains distributes the plugin on the <a href="https://plugins.gradle.org/">pl
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
     id 'dev.nokee.jni-library'
     id 'dev.nokee.cpp-language'
     id 'java'
@@ -319,7 +319,7 @@ Jetbrains distributes the plugin on the <a href="https://plugins.gradle.org/">pl
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
     id("dev.nokee.jni-library")
     id("dev.nokee.cpp-language")
     id("java")
@@ -440,7 +440,7 @@ There are two important aspects:</p>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
     targetMachines = [machines.windows.x86, machines.macOS, machines.linux.x86_64]
 }</code></pre>
 </div>
@@ -452,7 +452,7 @@ There are two important aspects:</p>
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
     targetMachines.set(listOf(machines.windows.x86, machines.macOS, machines.linux.x86_64))
 }</code></pre>
 </div>
@@ -476,7 +476,7 @@ There are three buckets of dependencies to choose from:</p>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
     dependencies {
         api project(':jni-bindings')                            <i class="conum" data-value="1"></i><b>(1)</b>
         jvmImplementation project(':native-loader')             <i class="conum" data-value="2"></i><b>(2)</b>
@@ -493,7 +493,7 @@ There are three buckets of dependencies to choose from:</p>
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
     dependencies {
         api(project(":jni-bindings"))                            <i class="conum" data-value="1"></i><b>(1)</b>
         jvmImplementation(project(":native-loader"))             <i class="conum" data-value="2"></i><b>(2)</b>
@@ -611,7 +611,7 @@ For example, the following build script would produce three variants, one for ea
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">library {
+<pre class="prettyprint highlight"><code data-lang="groovy">library {
     targetMachines = [machines.windows, machines.macOS, machines.linux]
 }</code></pre>
 </div>
@@ -623,7 +623,7 @@ For example, the following build script would produce three variants, one for ea
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">library {
+<pre class="prettyprint highlight"><code data-lang="kotlin">library {
     targetMachines.set(listOf(machines.windows, machines.macOS, machines.linux))
 }</code></pre>
 </div>

@@ -202,7 +202,7 @@ The project is a simple Java library targeting, in this example, Gradle runtime 
 <div class="listingblock">
 <div class="title">settings.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
 	id 'dev.gradleplugins.gradle-plugin-development' version '1.1'
 }
 
@@ -212,7 +212,7 @@ rootProject.name = 'gradle-plugin-development-runtime-compatibilities'</code></p
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
 	id 'java-library'
 	id 'groovy-base'
 }
@@ -255,7 +255,7 @@ tasks.register('gradleCompatibility') {
 <div class="listingblock">
 <div class="title">settings.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
 	id("dev.gradleplugins.gradle-plugin-development") version("1.1")
 }
 
@@ -265,7 +265,7 @@ rootProject.name = "gradle-plugin-development-runtime-compatibilities"</code></p
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
 	id("java-library")
 	id("groovy-base")
 }
