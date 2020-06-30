@@ -2,7 +2,7 @@
 = Documentation
 :jbake-type: documentation_index
 :jbake-tags: user manual, nokee, gradle, gradle plugin
-:jbake-description: Learn the concept behind Nokee plugins for Gradle.
+:jbake-description: Access any of the high-quality documentation for Nokee plugins.
 
 == Latest Released
 
@@ -16,9 +16,10 @@ include::versions/latest.adoc[]
 
 |SNAPSHOT
 |
-- link:main/manual/user-manual.html[User manual]
+- link:main/manual/user-manual.html[User Manual]
 - link:main/samples[Samples]
-- link:main/manual/plugin-references.html[Plugin references]
+- link:main/manual/plugin-references.html[Plugin Reference]
+- link:main/release-notes.html[Release Notes]
 |===
 
 == Archived
