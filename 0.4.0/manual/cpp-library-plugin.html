@@ -403,7 +403,7 @@ The following graph describes the configurations added by the C&#43;&#43; Librar
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="img/{plugin-configuration-style}-library-configurations.png" alt="{plugin configuration style} library configurations">
+<img src="img/native-library-configurations.png" alt="native library configurations">
 </div>
 <div class="title">Figure 3. C&#43;&#43; Library Plugin configurations</div>
 </div>
@@ -469,6 +469,11 @@ This configuration is meant to be used by consumers, to retrieve all the element
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1"><code><em>variant</em>HeaderSearchPaths</code> (e.g. <code>windowsHeaderSearchPaths</code> and <code>linuxHeaderSearchPaths</code>) extends <code><em>variant</em>Implementation</code></dt>
+<dd>
+<p>Used for compiling the library.
+This configuration contains the compile include roots of the library and is therefore used when invoking the Cpp compiler to compile it.</p>
+</dd>
 <dt class="hdlist1"><code><em>variant</em>LinkLibraries</code> (e.g. <code>windowsLinkLibraries</code> and <code>linuxLinkLibraries</code>) extends <code><em>variant</em>Implementation</code></dt>
 <dd>
 <p>Used for linking the library.
