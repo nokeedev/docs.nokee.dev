@@ -1,8 +1,8 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		maven { url = 'https://dl.bintray.com/nokeedev/distributions' }
-		maven { url = 'https://dl.bintray.com/nokeedev/distributions-snapshots' }
+		maven { url = 'https://repo.nokeedev.net/release' }
+		maven { url = 'https://repo.nokeedev.net/snapshot' }
 	}
 	def nokeeVersion = "0.1.0"
 	resolutionStrategy {

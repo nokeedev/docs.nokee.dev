@@ -75,10 +75,10 @@
       <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
     <repository>
-      <url>https://dl.bintray.com/gradle-plugins/distributions</url>
+      <url>https://repo.nokeedev.net/release</url>
     </repository>
     <repository>
-      <url>https://dl.bintray.com/nokeedev/distributions/</url>
+      <url>https://repo.nokeedev.net/release/</url>
     </repository>
   </repositories>
 </javadoc-locking>

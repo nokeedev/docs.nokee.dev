@@ -44,7 +44,7 @@
   </dependencies>
   <repositories>
 	<repository>
-      <url>https://dl.bintray.com/gradle-plugins/distributions</url>
+      <url>https://repo.nokeedev.net/release</url>
 	</repository>
   </repositories>
 </javadoc-locking>

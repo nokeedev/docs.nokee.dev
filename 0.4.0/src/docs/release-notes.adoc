@@ -46,7 +46,7 @@ pluginManagement {
    repositories {
       gradlePluginPortal()
       maven {
-         url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
+         url = uri('https://repo.nokeedev.net/snapshot')
       }
    }
    def nokeeVersion = '{jbake-version}'
@@ -69,7 +69,7 @@ pluginManagement {
    repositories {
       gradlePluginPortal()
       maven {
-         url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
+         url = uri("https://repo.nokeedev.net/snapshot")
       }
    }
    val nokeeVersion = "{jbake-version}"
