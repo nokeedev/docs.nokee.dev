@@ -106,6 +106,7 @@
 	<ul class="navigation-items">
 		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
 		<li><a href="/blog">Blog</a></li>
+		<li><a href="/services/consulting.html">Services</a></li>
 		<li>
 			<ul class="navigation-socials">
 				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
@@ -190,13 +191,13 @@ First, copy the following <code>pluginManagement</code> block to your settings s
 <div class="listingblock">
 <div class="title">settings.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">pluginManagement {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven { url = uri('https://dl.bintray.com/nokeedev/distributions') }
-      maven { url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots') }
+      maven { url = uri('https://repo.nokeedev.net/release') }
+      maven { url = uri('https://repo.nokeedev.net/snapshot') }
    }
-   def nokeeVersion = '0.4.0-c0a518b4'
+   def nokeeVersion = '0.5.0-8fcf91e3'
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith('dev.nokee.')) {
@@ -214,13 +215,13 @@ First, copy the following <code>pluginManagement</code> block to your settings s
 <div class="listingblock">
 <div class="title">settings.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">pluginManagement {
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven { url = uri("https://dl.bintray.com/nokeedev/distributions") }
-      maven { url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots") }
+      maven { url = uri("https://repo.nokeedev.net/release") }
+      maven { url = uri("https://repo.nokeedev.net/snapshot") }
    }
-   val nokeeVersion = "0.4.0-c0a518b4"
+   val nokeeVersion = "0.5.0-8fcf91e3"
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith("dev.nokee.")) {
@@ -246,7 +247,7 @@ First, copy the following <code>pluginManagement</code> block to your settings s
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
    id 'dev.nokee.jni-library'
 }</code></pre>
 </div>
@@ -258,7 +259,7 @@ First, copy the following <code>pluginManagement</code> block to your settings s
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
    id("dev.nokee.jni-library")
 }</code></pre>
 </div>
@@ -284,8 +285,8 @@ Because of the <a href="https://docs.gradle.org/6.2.1/userguide/plugins.html#plu
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
-   id 'dev.nokee.jni-library' version '0.4.0-c0a518b4'
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
+   id 'dev.nokee.jni-library' version '0.5.0-8fcf91e3'
 }</code></pre>
 </div>
 </div>
@@ -296,8 +297,8 @@ Because of the <a href="https://docs.gradle.org/6.2.1/userguide/plugins.html#plu
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
-   id("dev.nokee.jni-library") version '0.4.0-c0a518b4'
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
+   id("dev.nokee.jni-library") version '0.5.0-8fcf91e3'
 }</code></pre>
 </div>
 </div>

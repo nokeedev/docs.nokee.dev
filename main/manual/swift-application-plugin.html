@@ -111,6 +111,7 @@
 	<ul class="navigation-items">
 		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
 		<li><a href="/blog">Blog</a></li>
+		<li><a href="/services/consulting.html">Services</a></li>
 		<li>
 			<ul class="navigation-socials">
 				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
@@ -193,7 +194,7 @@
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">plugins {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
    id 'dev.nokee.swift-application'
 }</code></pre>
 </div>
@@ -205,7 +206,7 @@
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">plugins {
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
    id("dev.nokee.swift-application")
 }</code></pre>
 </div>
@@ -257,7 +258,7 @@ Nokee uses the target machine to decide which toolchain to choose based on avail
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">application {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">application {
     targetMachines = [
         machines.linux.x86_64,
         machines.windows.x86, machines.windows.x86_64,
@@ -273,7 +274,7 @@ Nokee uses the target machine to decide which toolchain to choose based on avail
 <div class="listingblock">
 <div class="title">build.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">application {
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">application {
     targetMachines.set(listOf(machines.linux.x86_64,
         machines.windows.x86, machines.windows.x86_64,
         machines.macOS.x86_64))
@@ -315,27 +316,35 @@ The following diagram shows the relationship between variant-dependent tasks.</p
 <dl>
 <dt class="hdlist1"><code>compile<em>Variant</em>Swift</code> (e.g. <code>compileWindowsSwift</code> and <code>compileLinuxSwift</code>)  - <a href="../dsl/dev.nokee.language.swift.tasks.SwiftCompile.html">SwiftCompile</a></dt>
 <dd>
-<p>Depends on: All tasks that contribute source files to the compilation
-::
-Compiles Swift source files using the selected compiler.</p>
+<p>Depends on: All tasks that contribute source files to the compilation</p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Compiles Swift source files using the selected compiler.</p>
 </dd>
 <dt class="hdlist1"><code>objects<em>Variant</em></code> (e.g. <code>objectsWindows</code> and <code>objectsLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>compile<em>Variant</em>Swift</code>
-::
-Aggregates tasks that compile the source files to object files for the specific variant of this application.</p>
+<p>Depends on: <code>compile<em>Variant</em>Swift</code></p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Aggregates tasks that compile the source files to object files for the specific variant of this application.</p>
 </dd>
 <dt class="hdlist1"><code>link<em>Variant</em></code> (e.g. <code>linkWindows</code> and <code>linkLinux</code>) - <a href="../dsl/dev.nokee.platform.nativebase.tasks.LinkExecutable.html">LinkExecutable</a></dt>
 <dd>
-<p>Depends on: All tasks which contribute to the link executable, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies
-::
-Links executable from compiled object files using the selected linker.</p>
+<p>Depends on: All tasks which contribute to the link executable, including <code>link<em>Variant</em></code> and <code>create<em>Variant</em></code> tasks from projects that are resolved via project dependencies</p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Links executable from compiled object files using the selected linker.</p>
 </dd>
 <dt class="hdlist1"><code>executable<em>Variant</em></code> (e.g. <code>executableWindows</code> and <code>executableLinux</code>) - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>link<em>Variant</em></code>
-::
-Aggregates tasks that creates the executable binary for the specific variant of this application.</p>
+<p>Depends on: <code>link<em>Variant</em></code></p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Aggregates tasks that creates the executable binary for the specific variant of this application.</p>
 </dd>
 <dt class="hdlist1"><code>assemble<em>Variant</em></code> (e.g. <code>assembleWindows</code> and <code>assembleLinux</code>) - Task (lifecycle)</dt>
 <dd>
@@ -356,9 +365,11 @@ Aggregates tasks that creates the executable binary for the specific variant of 
 <dl>
 <dt class="hdlist1"><code>assemble</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: link task for the current host, if present
-::
-Aggregate task that assembles the variant of the application for the current host (if present) in the project.
+<p>Depends on: link task for the current host, if present</p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Aggregate task that assembles the variant of the application for the current host (if present) in the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>check</code> - Task (lifecycle)</dt>
@@ -369,9 +380,11 @@ This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_
 </dd>
 <dt class="hdlist1"><code>build</code> - Task (lifecycle)</dt>
 <dd>
-<p>Depends on: <code>check</code>, <code>assemble</code>
-::
-Aggregate tasks that perform a full build of the project.
+<p>Depends on: <code>check</code>, <code>assemble</code></p>
+</dd>
+<dt class="hdlist1"></dt>
+<dd>
+<p>Aggregate tasks that perform a full build of the project.
 This task is added by the <a href="https://docs.gradle.org/6.2.1/userguide/base_plugin.html">Base Plugin</a>.</p>
 </dd>
 <dt class="hdlist1"><code>clean</code> - <a href="https://docs.gradle.org/6.2.1/dsl/org.gradle.api.tasks.Delete.html">Delete</a></dt>

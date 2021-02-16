@@ -4,9 +4,9 @@
 	<title>Nokee Release Notes</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="See what version 0.4.0-c0a518b4 of the Gradle Nokee plugins has to offer!">
+<meta name="description" content="See what version 0.5.0-8fcf91e3 of the Gradle Nokee plugins has to offer!">
 <meta name="author" content="@nokeedev">
-<meta name="keywords" content="0.4.0-c0a518b4, jvm, jni, objective c, objective cpp, c, swift">
+<meta name="keywords" content="0.5.0-8fcf91e3, jvm, jni, objective c, objective cpp, c, swift">
 
 <link rel="canonical" href="https://nokee.dev/docs/nightly/release-notes.html">
 <meta property="og:url" content="https://nokee.dev/docs/nightly/release-notes.html">
@@ -33,7 +33,7 @@
 
 <meta property="og:site_name" content="Nokee">
 <meta property="og:title" content="Nokee Release Notes">
-<meta name="og:description" content="See what version 0.4.0-c0a518b4 of the Gradle Nokee plugins has to offer!">
+<meta name="og:description" content="See what version 0.5.0-8fcf91e3 of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -41,7 +41,7 @@
 <meta name="twitter:creator" content="@nokeedev">
 <meta name="twitter:title" content="Nokee Release Notes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:description" content="See what version 0.4.0-c0a518b4 of the Gradle Nokee plugins has to offer!">
+<meta name="twitter:description" content="See what version 0.5.0-8fcf91e3 of the Gradle Nokee plugins has to offer!">
 
 
 
@@ -101,6 +101,7 @@
 	<ul class="navigation-items">
 		<li><a href="/docs/current/manual/user-manual.html">Docs</a></li>
 		<li><a href="/blog">Blog</a></li>
+		<li><a href="/services/consulting.html">Services</a></li>
 		<li>
 			<ul class="navigation-socials">
 				<li class="navigation-twitter"><a href="https://twitter.com/nokeedev" title="Nokee on Twitter"><svg width="24" height="24" viewBox="0 0 56.693 56.693" xmlns="http://www.w3.org/2000/svg"><path d="M28.348,5.157c-13.6,0-24.625,11.027-24.625,24.625c0,13.6,11.025,24.623,24.625,24.623c13.6,0,24.623-11.023,24.623-24.623  C52.971,16.184,41.947,5.157,28.348,5.157z M40.752,24.817c0.013,0.266,0.018,0.533,0.018,0.803c0,8.201-6.242,17.656-17.656,17.656  c-3.504,0-6.767-1.027-9.513-2.787c0.486,0.057,0.979,0.086,1.48,0.086c2.908,0,5.584-0.992,7.707-2.656  c-2.715-0.051-5.006-1.846-5.796-4.311c0.378,0.074,0.767,0.111,1.167,0.111c0.566,0,1.114-0.074,1.635-0.217  c-2.84-0.57-4.979-3.08-4.979-6.084c0-0.027,0-0.053,0.001-0.08c0.836,0.465,1.793,0.744,2.811,0.777  c-1.666-1.115-2.761-3.012-2.761-5.166c0-1.137,0.306-2.204,0.84-3.12c3.061,3.754,7.634,6.225,12.792,6.483  c-0.106-0.453-0.161-0.928-0.161-1.414c0-3.426,2.778-6.205,6.206-6.205c1.785,0,3.397,0.754,4.529,1.959  c1.414-0.277,2.742-0.795,3.941-1.506c-0.465,1.45-1.448,2.666-2.73,3.433c1.257-0.15,2.453-0.484,3.565-0.977  C43.018,22.849,41.965,23.942,40.752,24.817z"/></svg></a></li>
@@ -159,11 +160,6 @@
 <div id="toctitle">Contents</div>
 <ul class="sectlevel1">
 <li><a href="#sec:getting-started">Getting Started</a></li>
-<li><a href="#sec:native-plugins">Building native applications/libraries plugins</a></li>
-<li><a href="#sec:swift-ios-application-plugin">Experimental iOS application plugin for Swift</a></li>
-<li><a href="#sec:xcode-ide">Xcode IDE support for all new plugins</a></li>
-<li><a href="#sec:jni-library-improvements">New APIs for JNI library</a></li>
-<li><a href="#sec:gradle-toolbox">Gradle Toolbox plugins</a></li>
 <li><a href="#sec:reporting-problems">Reporting Problems</a></li>
 </ul>
 </div>
@@ -198,14 +194,13 @@ Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox p
 <div class="listingblock">
 <div class="title">settings.gradle</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">pluginManagement {
+<pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven {
-         url = uri('https://dl.bintray.com/nokeedev/distributions-snapshots')
-      }
+      maven { url = uri('https://repo.nokeedev.net/release') }
+      maven { url = uri('https://repo.nokeedev.net/snapshot') }
    }
-   def nokeeVersion = '0.4.0-c0a518b4'
+   def nokeeVersion = '0.5.0-8fcf91e3'
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith('dev.nokee.')) {
@@ -223,14 +218,13 @@ Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox p
 <div class="listingblock">
 <div class="title">settings.gradle.kts</div>
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="kotlin">pluginManagement {
+<pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">pluginManagement {
    repositories {
       gradlePluginPortal()
-      maven {
-         url = uri("https://dl.bintray.com/nokeedev/distributions-snapshots")
-      }
+      maven { url = uri("https://repo.nokeedev.net/release") }
+      maven { url = uri("https://repo.nokeedev.net/snapshot") }
    }
-   val nokeeVersion = "0.4.0-c0a518b4"
+   val nokeeVersion = "0.5.0-8fcf91e3"
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith("dev.nokee.")) {
@@ -244,83 +238,6 @@ Finally, <a href="#sec:gradle-toolbox">the first version of the Gradle Toolbox p
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec:native-plugins"><a class="anchor" href="#sec:native-plugins"></a><a class="link" href="#sec:native-plugins">Building native applications/libraries plugins</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="manual/plugin-references.html#sec:plugin-reference-native-development">Ten new native plugins</a> join the Nokee distribution to support building native application and native library implemented in C, C&#43;&#43;, Objective-C, Objective-C&#43;&#43;, and Swift.
-These new plugins are similar in features and will improve them over the next releases.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec:swift-ios-application-plugin"><a class="anchor" href="#sec:swift-ios-application-plugin"></a><a class="link" href="#sec:swift-ios-application-plugin">Experimental iOS application plugin for Swift</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Support for <a href="manual/swift-ios-application-plugin.html">building iOS application implemented in Swift</a> is available as an experimental plugin.
-It offers the same feature as its counter-part for building iOS applications implemented in Objective-C.
-The iOS plugins are still severely limited in features due to the strategic goal for this release.
-The following releases will start addressing some production features needed by iOS developers.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec:xcode-ide"><a class="anchor" href="#sec:xcode-ide"></a><a class="link" href="#sec:xcode-ide">Xcode IDE support for all new plugins</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Xcode IDE plugin supports each of the new plugins.
-Code editing, compilation, debugging, code completion, and jump to symbol features are available when applying the Xcode IDE plugin with any native plugins.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec:jni-library-improvements"><a class="anchor" href="#sec:jni-library-improvements"></a><a class="link" href="#sec:jni-library-improvements">New APIs for JNI library</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Starting with this release, the plugin registers all JNI library variants regardless of whether they are buildable.
-This improves the user experience for all use cases and can potentially break your build.</p>
-</div>
-<div class="paragraph">
-<p>New APIs introduced for handling pre-built native binaries scenarios.
-It is now possible to <a href="samples/jni-library-composing-from-pre-built-binaries">always use pre-built binaries</a>, <a href="samples/jni-library-with-pre-built-binaries">conditionally build from the source when pre-built binaries are not available</a>, or even <a href="https://github.com/weisJ/darklaf/blob/9e59b6254781a534f2d7ded1dec80c9c5dfc0f67/buildSrc/src/main/groovy/UsePrebuiltBinariesWhenUnbuildablePlugin.groovy#L38-L63">download pre-built binaries when the native source isn&#8217;t buildable on the local machine</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sec:gradle-toolbox"><a class="anchor" href="#sec:gradle-toolbox"></a><a class="link" href="#sec:gradle-toolbox">Gradle Toolbox plugins</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The Nokee team <a href="/blog/introducing-gradle-toolbox">released five plugins to enhance the Gradle plugin development process</a>:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><a href="manual/java-gradle-plugin-plugin.html"><code>dev.gradleplugins.java-gradle-plugin</code></a></dt>
-<dd>
-<p>Provides support for developing Gradle plugin implemented in Java.</p>
-</dd>
-<dt class="hdlist1"><a href="manual/groovy-gradle-plugin-plugin.html"><code>dev.gradleplugins.groovy-gradle-plugin</code></a></dt>
-<dd>
-<p>Provides support for developing Gradle plugin implemented in Groovy.</p>
-</dd>
-<dt class="hdlist1"><a href="manual/gradle-plugin-development-plugin.html"><code>dev.gradleplugins.gradle-plugin-development</code></a></dt>
-<dd>
-<p>Provides additional support for developing Gradle plugin-related projects.</p>
-</dd>
-<dt class="hdlist1"><a href="manual/gradle-plugin-unit-test-plugin.html"><code>dev.gradleplugins.gradle-plugin-unit-test</code></a></dt>
-<dd>
-<p>Provides support for unit testing Gradle plugins.</p>
-</dd>
-<dt class="hdlist1"><a href="manual/gradle-plugin-functional-test-plugin.html"><code>dev.gradleplugins.gradle-plugin-functional-test</code></a></dt>
-<dd>
-<p>Provides support for functional testing Gradle plugins.</p>
-</dd>
-</dl>
-</div>
-<div class="paragraph">
-<p>As a companion to the plugins, a <a href="manual/gradle-plugin-development.html">dedicated chapter</a>, <a href="samples/#sec:samples-gradle-dev">samples</a>, and <a href="manual/plugin-references.html#sec:plugin-reference-gradledev">plugin references</a> are available to help plugin authors to get started.</p>
 </div>
 </div>
 </div>
