@@ -75,10 +75,10 @@
       <url>https://repo.maven.apache.org/maven2/</url>
     </repository>
     <repository>
-      <url>https://repo.nokeedev.net/release</url>
+      <url>https://repo.nokee.dev/release</url>
     </repository>
     <repository>
-      <url>https://repo.nokeedev.net/release/</url>
+      <url>https://repo.nokee.dev/release/</url>
     </repository>
   </repositories>
 </javadoc-locking>

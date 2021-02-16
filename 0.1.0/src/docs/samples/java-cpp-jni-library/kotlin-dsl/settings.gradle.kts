@@ -1,8 +1,8 @@
 pluginManagement {
 	repositories {
 		gradlePluginPortal()
-		maven { url = uri("https://repo.nokeedev.net/release") }
-		maven { url = uri("https://repo.nokeedev.net/snapshot") }
+		maven { url = uri("https://repo.nokee.dev/release") }
+		maven { url = uri("https://repo.nokee.dev/snapshot") }
 	}
 	val nokeeVersion = "0.1.0"
 	resolutionStrategy {

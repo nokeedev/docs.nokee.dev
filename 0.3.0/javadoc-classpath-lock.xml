@@ -59,7 +59,7 @@
   </dependencies>
   <repositories>
     <repository>
-      <url>https://repo.nokeedev.net/release</url>
+      <url>https://repo.nokee.dev/release</url>
 	</repository>
   </repositories>
 </javadoc-locking>
