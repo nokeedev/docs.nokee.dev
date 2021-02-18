@@ -1,0 +1,3 @@
+:jbake-type: redirection
+:jbake-redirecturl: ../manual/building-jni-projects.html#sec:building-jni-application
+:jbake-status: published

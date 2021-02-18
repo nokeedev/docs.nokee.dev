@@ -1,0 +1,3 @@
+:jbake-type: redirection
+:jbake-redirecturl: ../manual/gradle-plugin-development.html
+:jbake-status: published

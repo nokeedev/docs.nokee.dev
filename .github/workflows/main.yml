@@ -4,14 +4,11 @@ on: push
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Publish to GitHub Pages
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-      run: ./gradlew publish --stacktrace --scan
+      run: ./gradlew publishToGitHubPages --stacktrace --scan "-PdocsNokeeDevAccessKey=${{ secrets.AWS_ACCESS_KEY }}" "-PdocsNokeeDevSecretKey=${{ secrets.AWS_SECRET_KEY }}" -PpublishToGitHubPagesUsername=nokeedevbot "-PpublishToGitHubPagesPassword=${{ secrets.GITHUB_TOKEN }}"
 

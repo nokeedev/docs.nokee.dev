@@ -1,182 +1,37 @@
-buildscript {
-	repositories {
-		maven { url = 'https://repo.eclipse.org/content/groups/releases/' }
-		mavenCentral()
-	}
-	dependencies {
-		classpath 'dev.nokee.docs:docs-gradle-plugins:latest.integration'
-	}
-}
 plugins {
-	id 'org.jbake.site' version '5.2.0'
-}
-apply plugin: 'dev.nokee.documentation.jbake-ingredients'
-
-import dev.nokee.docs.SecretValue
-import dev.nokee.docs.jbake.plugins.JBakeStaleOutputCleanupPlugin
-import dev.nokee.docs.tasks.GenerateRedirection
-import dev.nokee.docs.tasks.GenerateRobots
-import dev.nokee.docs.tasks.GenerateSitemap
-import dev.nokee.docs.tasks.GenerateVersionIndex
-import dev.nokee.docs.tasks.PublishToGitHubPages
-import org.jbake.gradle.JBakeTask
-
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.text.SimpleDateFormat
-import java.util.concurrent.TimeUnit
-
-import static dev.nokee.docs.Filters.*
-import static dev.nokee.docs.RepositoryUtils.nokeeDocumentation
-
-def v = new SimpleDateFormat("yyyyMMddHHmm").format(new Date())
-allprojects {
-	group = 'dev.nokee.docs'
-	version = v
+	id 'dev.gradleplugins.documentation.github-pages-site' version '1.0.4'
+	id 'dev.gradleplugins.documentation.jbake-render' version '1.0.4'
 }
 
-// Ensure the `bake` tasks aren't ran in parallel, there is a bug in the JBake site plugin that cause random crashes
-// See https://github.com/jbake-org/jbake-gradle-plugin/issues/53
-GroovyCollections.transpose(allprojects.drop(1).asList(), allprojects as List).each {
-	def downstream = it[0]
-	def upstream = it[1]
-	upstream.afterEvaluate { proj ->
-		proj.evaluationDependsOn(downstream.path)
-		proj.tasks.named('bake') {
-			it.mustRunAfter(downstream.tasks.named('bake'))
-		}
+repositories {
+	mavenCentral()
+	maven {
+		name 'docsNokeeDev'
+		url = 's3://docs.nokee.dev'
+		credentials(AwsCredentials)
 	}
 }
 
-// Configure each javadoc tasks
-subprojects {
-	pluginManager.withPlugin('dev.nokee.documentation.javadoc') {
-		tasks.named('javadoc', Javadoc) {
-			title = "Nokee v${project.name}"
-
-			StandardJavadocDocletOptions options = it.options as StandardJavadocDocletOptions
-			options.setEncoding("utf-8")
-			options.setDocEncoding("utf-8")
-			options.setCharSet("utf-8")
-			options.links("https://docs.oracle.com/javase/${project.ext.minimumJavaVersion}/docs/api", "https://docs.gradle.org/${project.ext.minimumGradleVersion}/javadoc/")
-		}
-	}
-}
-
-// Configure AWS repository containing all documentation artifacts
-allprojects {
-	repositories {
-		maven(nokeeDocumentation())
-	}
-}
-
-// Publish baked elements to Nokee documentation
-subprojects {
-	pluginManager.withPlugin('maven-publish') {
-		publishing {
-			repositories {
-				maven(nokeeDocumentation())
-			}
-			publications {
-				baked(MavenPublication) {
-					components.matching({ it.name == 'baked' }).all {
-						from it
-					}
-				}
+configurations {
+	docs { Configuration c ->
+		c.incoming.afterResolve { ResolvableDependencies r ->
+			// TODO: We could attach the version to the build scan so we known which one is deployed.
+			r.files.each {
+				println it
 			}
 		}
 	}
 }
 
-// Disable caching for all configuration - so we always pull the latest regardless
-allprojects {
-	configurations.all {
-		resolutionStrategy { ResolutionStrategy r ->
-			r.cacheDynamicVersionsFor(0, TimeUnit.SECONDS)
-		}
-	}
-}
-
-// Delete baked output before baking
-// See https://github.com/jbake-org/jbake-gradle-plugin/issues/55
-allprojects {
-	pluginManager.apply(JBakeStaleOutputCleanupPlugin)
-}
-
-// Generate documentation site
 dependencies {
-	baked('dev.nokee.docs:nightly:latest.integration') { changing = true }
-	assets 'dev.nokee.docs:jbake:latest.integration' // nothing is deployed here :-( everything is in nightly
-
+	docs 'dev.nokee.docs:docs:latest.integration'
 	templates 'dev.nokee.docs:jbake:latest.integration'
 	configuration 'dev.nokee.docs:jbake:latest.integration'
 }
 
-def sitemapTask = tasks.register('sitemap', GenerateSitemap) {
-	generatedSitemapFile = file('build/tmp/sitemap/sitemap.xml')
-	sitemapUrls.addAll(configurations.baked.incoming.files.elements
-			.map { toSitemapUrl(withHost('docs.nokee.dev').transform(asCanonicalPaths(withoutRedirectionPages(findAllHtmlFiles(toFiles(it)))))) })
-}
-
-def robotsTask = tasks.register('robots', GenerateRobots) {
-	host = 'docs.nokee.dev'
-	generatedRobotsFile = file('build/tmp/robots/robots.txt')
-}
-
-def redirectionTask = tasks.register('redirection', GenerateRedirection) {
-	redirect('building-jni-application', 'current/manual/building-jni-projects.html#sec:building-jni-application')
-	redirect('c-language-plugin', 'current/manual/c-language-plugin.html')
-	redirect('cpp-language-plugin', 'current/manual/cpp-language-plugin.html')
-	redirect('incompatible-plugins', 'current/manual/incompatible-plugins.html')
-	redirect('jni-library-plugin', 'current/manual/jni-library-plugin.html')
-	redirect('migration-from-core-plugins', 'current/manual/migrating-from-core-plugins.html')
-	redirect('migrating-from-software-model', 'current/manual/migrating-from-software-model.html')
-	redirect('objective-c-language-plugin', 'current/manual/objective-c-language-plugin.html')
-	redirect('objective-cpp-language-plugin', 'current/manual/objective-cpp-language-plugin.html')
-	redirect('project-entry-points', 'current/manual/plugin-anatomy.html#sec:plugin-anatomy-triplet-entry-point')
-	redirect('toolbox', 'nightly/manual/gradle-plugin-development.html')
-	destinationDirectory = layout.buildDirectory.dir("tmp/${name}")
-}
-tasks.named('stage', Sync) { from(redirectionTask.flatMap { it.destinationDirectory }) }
-
-def versionTask = tasks.register('versions', GenerateVersionIndex) {
-	versions = subprojects*.name
-	destinationDirectory = layout.buildDirectory.dir("tmp/${name}")
-}
-tasks.named('stage', Sync) { from(versionTask.flatMap { it.destinationDirectory }) { into('content/versions')} }
-tasks.named('bake', JBakeTask) { it.configuration.put('template.documentation_index.file', 'documentation_index.gsp') }
-
-def siteTask = tasks.named('site', Sync) {
-	from(sitemapTask.flatMap { it.generatedSitemapFile })
-	from(robotsTask.flatMap { it.generatedRobotsFile })
-
-	doFirst {
-		new File(destinationDir, 'current').delete()
-		new File(destinationDir, 'main').delete()
-		new File(destinationDir, 'nightly').delete()
-	}
-
-	doLast {
-		Files.createSymbolicLink(new File(destinationDir, 'current').toPath(), Paths.get('0.3.0'))
-		Files.createSymbolicLink(new File(destinationDir, 'main').toPath(), Paths.get('docs/nightly'))
-		Files.createSymbolicLink(new File(destinationDir, 'nightly').toPath(), Paths.get('docs/nightly'))
-		new File(destinationDir, '.nojekyll').createNewFile()
-		new File(destinationDir, 'CNAME').text = 'docs.nokee.dev\n'
-	}
-}
-subprojects.each { Project proj ->
-	dependencies {
-		baked proj
-	}
-}
-
-tasks.register('deploy') {
-	dependsOn(siteTask)
-}
-
-tasks.register('publish', PublishToGitHubPages) {
-	publishDirectory.fileProvider(siteTask.map { it.destinationDir })
-	uri = uri("https://github.com/nokeedev/docs.nokee.dev.git")
-	gitHubKey = providers.of(SecretValue) { it.parameters.from('GITHUB_KEY').or('dev.nokee.github.key').orDefault('nokeedevbot') }
-	gitHubSecret = providers.of(SecretValue) { it.parameters.from('GITHUB_TOKEN').or('dev.nokee.github.secret') }
+site {
+	customDomain = subdomain('docs.nokee.dev')
+	repositorySlug = 'nokeedev/docs.nokee.dev'
+	sources.from(configurations.docs.incoming.files.elements.map { it.collect { zipTree(it) } })
+	sources.from(jbake.destinationDirectory)
 }

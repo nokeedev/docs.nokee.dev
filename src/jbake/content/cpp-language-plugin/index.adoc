@@ -1,0 +1,3 @@
+:jbake-type: redirection
+:jbake-redirecturl: ../manual/cpp-language-plugin.html
+:jbake-status: published
