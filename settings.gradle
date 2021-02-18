@@ -1,21 +1,5 @@
 rootProject.name = 'docs.nokee.dev'
 
-// Use local repository if available
-if (file('../docs-gradle-plugins').exists()) {
-	includeBuild '../docs-gradle-plugins'
-} else {
-	sourceControl {
-		gitRepository(uri('https://github.com/nokeedev/docs-gradle-plugins')) {
-			producesModule('dev.nokee.docs:docs-gradle-plugins')
-		}
-	}
-}
-
-include '0.1.0'
-include '0.2.0'
-include '0.3.0'
-include '0.4.0'
-
 plugins.withId('com.gradle.enterprise') {
 	gradleEnterprise {
 		buildScan {
@@ -24,8 +8,6 @@ plugins.withId('com.gradle.enterprise') {
 
 			if (System.getenv('CI')) {
 				tag 'CI'
-				value('Git Commit SHA', System.getenv('CI_COMMIT_SHA'))
-				value('GitLab Runner', System.getenv('CI_RUNNER_DESCRIPTION'))
 			} else {
 				tag 'LOCAL'
 			}
