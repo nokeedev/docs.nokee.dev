@@ -13,7 +13,14 @@ repositories {
 }
 
 configurations {
-	docs
+	docs { Configuration c ->
+		c.incoming.afterResolve { ResolvableDependencies r ->
+			// TODO: We could attach the version to the build scan so we known which one is deployed.
+			r.files.each {
+				println it
+			}
+		}
+	}
 }
 
 dependencies {
