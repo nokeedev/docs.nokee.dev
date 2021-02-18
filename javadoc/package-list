@@ -29,10 +29,6 @@ dev.nokee.platform.nativebase.tasks
 dev.nokee.platform.objectivec
 dev.nokee.platform.objectivecpp
 dev.nokee.platform.swift
-dev.nokee.runtime.darwin.internal
-dev.nokee.runtime.darwin.internal.locators
-dev.nokee.runtime.darwin.internal.parsers
-dev.nokee.runtime.darwin.internal.plugins
 dev.nokee.runtime.nativebase
 dev.nokee.scripts
 dev.nokee.testing.base

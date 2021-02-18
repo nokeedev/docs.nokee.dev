@@ -197,7 +197,7 @@ First, copy the following <code>pluginManagement</code> block to your settings s
       maven { url = uri('https://repo.nokee.dev/release') }
       maven { url = uri('https://repo.nokee.dev/snapshot') }
    }
-   def nokeeVersion = '0.5.0-12c22234'
+   def nokeeVersion = '0.5.0-930919a0'
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith('dev.nokee.')) {
@@ -221,7 +221,7 @@ First, copy the following <code>pluginManagement</code> block to your settings s
       maven { url = uri("https://repo.nokee.dev/release") }
       maven { url = uri("https://repo.nokee.dev/snapshot") }
    }
-   val nokeeVersion = "0.5.0-12c22234"
+   val nokeeVersion = "0.5.0-930919a0"
    resolutionStrategy {
       eachPlugin {
          if (requested.id.id.startsWith("dev.nokee.")) {
@@ -286,7 +286,7 @@ Because of the <a href="https://docs.gradle.org/6.2.1/userguide/plugins.html#plu
 <div class="title">build.gradle</div>
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-groovy" data-lang="groovy">plugins {
-   id 'dev.nokee.jni-library' version '0.5.0-12c22234'
+   id 'dev.nokee.jni-library' version '0.5.0-930919a0'
 }</code></pre>
 </div>
 </div>
@@ -298,7 +298,7 @@ Because of the <a href="https://docs.gradle.org/6.2.1/userguide/plugins.html#plu
 <div class="title">build.gradle.kts</div>
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-kotlin" data-lang="kotlin">plugins {
-   id("dev.nokee.jni-library") version '0.5.0-12c22234'
+   id("dev.nokee.jni-library") version '0.5.0-930919a0'
 }</code></pre>
 </div>
 </div>
