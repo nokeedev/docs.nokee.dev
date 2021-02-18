@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"dev.nokee.ide.xcode"},{"l":"dev.nokee.language.nativebase"},{"l":"dev.nokee.language.nativebase.tasks"},{"l":"dev.nokee.platform.base"},{"l":"dev.nokee.platform.jni"},{"l":"dev.nokee.platform.nativebase"},{"l":"dev.nokee.platform.nativebase.tasks"}]
