@@ -1,0 +1,3 @@
+:jbake-type: redirection
+:jbake-redirecturl: ../manual/migrating-from-core-plugins.html
+:jbake-status: published

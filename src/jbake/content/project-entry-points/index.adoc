@@ -1,0 +1,3 @@
+:jbake-type: redirection
+:jbake-redirecturl: ../manual/plugin-anatomy.html#sec:plugin-anatomy-triplet-entry-point
+:jbake-status: published
